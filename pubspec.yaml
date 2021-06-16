@@ -1,0 +1,46 @@
+name: whatsappy
+description: A new Flutter project.
+
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons:
+  shared_preferences:
+  flutter_native_splash:
+  get:
+  intro_slider:
+
+flutter_native_splash:
+  color: "#2f477a"
+  image: "assets/images/logo_light.png"
+  android: true
+  ios: true
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/logo_dark.png
+    - assets/images/logo_light.png
+    - assets/images/logo_primary.png
+    - assets/images/logo_primary_dark.png
+    - assets/images/logo_secondary.png
+  fonts:
+    - family: FontAwesome
+      fonts:
+        - asset: assets/fonts/FontAwesome.ttf
+

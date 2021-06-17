@@ -9,8 +9,8 @@ class MySharedPreferences {
     return _prefs;
   }
 
-  setIsLogin(bool value) async {
-    await _prefs.setBool(isIntroDisplayedKey, value);
+  Future setIsIntroDisplayed() async {
+    return await _prefs.setBool(isIntroDisplayedKey, true);
   }
 
   bool get isIntroDisplayed => _prefs.getBool(isIntroDisplayedKey) ?? false;

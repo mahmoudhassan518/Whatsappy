@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:whatsappy/data/datasource/locale/MySharedPreferences.dart';
+import 'package:whatsappy/presentation/utils/resources/Colors.dart';
+import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 
 import 'SplashController.dart';
 
@@ -9,7 +11,6 @@ class SplashActivity extends StatelessWidget {
   Widget build(BuildContext context) {
     MySharedPreferences.initializeApp();
 
-    // final provider = Provider.of<SplashController>(context);
     final SplashController controller = Get.find();
 
     return FutureBuilder(
@@ -32,8 +33,27 @@ class Splash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Image.asset('assets/images/logo_dark.png'),
+      backgroundColor: colorPrimary,
+      body: Padding(
+        padding: EdgeInsets.all(generalPadding),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/logo_light.png',
+                height: 100,
+                width: 100,
+                fit: BoxFit.fitWidth,
+              ),
+              SizedBox(height: generalPadding,),
+              Text(
+                "Yaser Mohammed INC.",
+                style: TextStyle(color: Colors.white, fontSize: h4),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intro_slider/intro_slider.dart';
-import 'package:whatsappy/domain/SliderData.dart';
+import 'package:whatsappy/domain/models/SliderData.dart';
 import 'package:whatsappy/presentation/utils/widgets/Slider.dart';
+
+import 'IntroController.dart';
 
 class IntroActivity extends StatelessWidget {
   const IntroActivity({Key? key}) : super(key: key);
@@ -22,12 +26,18 @@ class IntroScreen extends StatefulWidget {
 }
 
 class IntroScreenState extends State<IntroScreen> {
+
+  final IntroController controller = Get.find();
+
+
   @override
   void initState() {
     super.initState();
   }
 
   void onDonePress() {
+
+    controller.onDonePress();
     // Do what you want
     // Navigator.push(
     //   context,
@@ -56,9 +66,9 @@ class IntroScreenState extends State<IntroScreen> {
       // highlightColorDoneBtn: Color(0xff000000),
 
       // Dot indicator
-      colorDot: Colors.grey[500],
+      colorDot: CupertinoColors.systemGrey,
       colorActiveDot: Colors.white,
-      sizeDot: 13.0,
+      sizeDot: 12.0,
 
       // Show or hide status bar
       hideStatusBar: true,

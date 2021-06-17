@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intro_slider/slide_object.dart';
+import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 
 Slide customSlider(
@@ -17,15 +18,15 @@ Slide customSlider(
     description: description,
     styleDescription: TextStyle(
         color: Colors.white,
-        fontSize: h5,
+        fontSize: h4,
         fontStyle: FontStyle.normal,
         fontFamily: 'Raleway'),
     pathImage: imagePath,
-    backgroundColor: backgroundColor,
-    // colorBegin: Color(0xffFFFACD),
-    // colorEnd: Color(0xffFF6347),
-    // directionColorBegin: Alignment.topRight,
-    // directionColorEnd: Alignment.bottomLeft,
+    // backgroundColor: backgroundColor,
+    colorBegin: colorGoogleYellow,
+    colorEnd: backgroundColor,
+    directionColorBegin: Alignment.topRight,
+    directionColorEnd: Alignment.bottomLeft,
   );
 }
 

@@ -7,7 +7,10 @@ const Color colorSecondary = Color(0xFFd9c69d);
 const Color colorAccent = Color(0xFFffffff);
 
 const Color colorBackground = Color(0xFFffffff);
+const Color colorGrey = Color(0xffeeeeee);
 const Color colorGreyLight = Color(0xffe9ece5);
+
+const Color onPrimary = Color(0xffffffff);
 
 
 const Color colorFacebook = Color(0xFF3b5998);

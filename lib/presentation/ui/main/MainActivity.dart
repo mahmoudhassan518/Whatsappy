@@ -17,6 +17,7 @@ class MainActivity extends StatelessWidget {
     _controller = PersistentTabController(initialIndex: 0);
 
     return Scaffold(
+        // resizeToAvoidBottomInset:  true,
         appBar: titleActionBar(title: "Whatsappy", actions: [
           IconButton(
             icon: const Icon(Icons.share),

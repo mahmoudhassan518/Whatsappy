@@ -12,7 +12,7 @@ Row bottomAreaOptions(Function() onDeletePressed) {
       ),
     ),
     InkWell(
-      onTap: onDeletePressed,
+      onTap:() => onDeletePressed.call(),
       child: Icon(
         Icons.delete_forever,
         color: colorGoogleRed,

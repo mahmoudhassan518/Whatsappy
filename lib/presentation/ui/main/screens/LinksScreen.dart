@@ -3,7 +3,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:whatsappy/domain/models/ChatsHistoryItem.dart';
+import 'package:whatsappy/domain/models/ChatsHistory.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 import 'package:whatsappy/presentation/utils/widgets/ButtonsHelper.dart';
@@ -162,18 +162,11 @@ class _Bottom extends StatelessWidget {
     );
   }
 
-  final List<ChatsHistoryItem> items = [
-    ChatsHistoryItem(),
-    ChatsHistoryItem(),
-    ChatsHistoryItem(),
-    ChatsHistoryItem(),
-    ChatsHistoryItem(),
-    ChatsHistoryItem(),
-  ];
+  final List<ChatsHistory> items = [];
 }
 
 class HistoryListItem extends StatelessWidget {
-  ChatsHistoryItem item;
+  ChatsHistory item;
 
   HistoryListItem(this.item);
 

@@ -1,66 +1,55 @@
-import 'package:flutter/material.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:get/get.dart';
-import 'package:phone_number/phone_number.dart';
 import 'package:whatsappy/core/BaseController.dart';
+import 'package:whatsappy/data/repositories/ChatsRepositoryImpl.dart';
+import 'package:whatsappy/domain/models/ChatsHistory.dart';
+import 'package:whatsappy/domain/repositories/ChatsRepository.dart';
 
 class ChatsController extends GetxController {
   final BaseController controller = Get.find();
+  final ChatsRepository _repository = ChatsRepositoryImpl();
 
-  test() {
+  ChatsHistory item = ChatsHistory();
 
-    controller.runBlocking(data, onSuccess);
+  void onCodeChange(CountryCode value) {
+    print(value);
 
+    item.countryCode = value.code ?? item.countryCode;
+    item.countryName = value.name ?? item.countryName;
+    item.countryFlagUri = value.flagUri ?? item.countryFlagUri;
+    item.countryDialCode = value.dialCode ?? item.countryDialCode;
+
+    print("data item is  ${item.toJson()}");
   }
 
-
-  onSuccess(int data) {
-
-    print("data is $data");
-
+  validateForm(String number) {
+    item.number = number;
+    item.fullNumber = item.countryDialCode + number;
+    item.dateTime = item.getCurrentTime() ?? "";
+    validateIsRealNumber(item);
   }
 
-  Future<int> data() async {
-    await Future.delayed(Duration(seconds: 2), () {
-      // 5s over, navigate to a new page
-    });
+  validateIsRealNumber(ChatsHistory item) => controller.runBlocking(
+      () => _repository.validateIsRealNumber(item), _validateAndOpen);
 
-    // throw Exception("df");
-
-    return Future.value(100);
-  }
-
-  validateForm(GlobalKey<FormState> formKey) {
-    final FormState? form = formKey.currentState;
-    if (form!.validate()) {
-      validateIsRealNumber("+201093518238", "EG")
-          .then((value) => _validateAndSave(value));
-    } else {
-      _onValidateFailed();
-    }
-  }
-
-  _onValidateFailed() {
-    _onValidateFailed();
-  }
-
-  _validateAndSave(bool value) {
+  _validateAndOpen(bool value) {
     if (value) {
       //navigate to whatsapp
-      //todo
-    } else {
-      _onValidateFailed();
+      _launchWhatsApp();
     }
   }
 
-  Future validateIsRealNumber(String number, String code) async {
-    try {
-      PhoneNumberUtil plugin = PhoneNumberUtil();
-      PhoneNumber phoneNumber = await PhoneNumberUtil().parse(number);
-      return await plugin.validate(phoneNumber.international, code);
-    } catch (e) {
-      return false;
-    }
+  _launchWhatsApp() {
+    controller.runBlocking(
+        () => _repository.openWhatsApp(item), (data) => _insertDataToDB);
   }
 
+  _insertDataToDB() {
+    controller.runBlocking(() => _repository.addChat(item), (data) {});
+  }
 
+  Stream<List<ChatsHistory>> watchChatList() => _repository.watchChat();
+
+  clearData() => controller.runBlocking(
+      () => _repository.clearData(), (data) => print("data deleted"));
 }

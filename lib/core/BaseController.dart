@@ -19,32 +19,11 @@ class BaseController extends GetxController {
     _response.value = DataResponse.onError(error);
   }
 
-  // onSuccess<T>(T res) {
-  //   _response.value = DataResponse.onSuccess(res);
-  // }
-  //
-  // runBlocking<T>(
-  //     Future<T> Function() function, Function(T data) onSuccess) async {
-  //   onLoading();
-  //   function.call().catchError((e) {
-  //     print("Got error: $e"); // Finally, callback fires.
-  //     onError(e); // Future completes with 42.
-  //   }).then((value) {
-  //     print("success $value");
-  //     onSuccess.call(value);
-  //   }).whenComplete(() => idle());
-  // }
-  //
-  //
-
-
-
-  runBlocking<T>(
-      Future<T> Function() function, Function(T data) onSuccessCallback) async {
+  runBlocking<T>(Future<T> Function() block, Function(T data) onSuccessCallback) async {
     onLoading();
     try {
-      var r =  await function.call().whenComplete(() => idle());
-      onSuccessCallback.call(r);
+      var result =  await block.call().whenComplete(() => idle());
+      onSuccessCallback(result);
 
     } on Exception catch (e) {
       print("Got error: $e"); // Finally, callback fires.

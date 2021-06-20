@@ -26,6 +26,12 @@ dependencies:
   intl:
   settings_ui:
   phone_number:
+  moor:
+  sqlite3_flutter_libs:
+  moor_generator:
+  path_provider:
+  url_launcher:
+
 
 flutter_native_splash:
   color: "#2f477a"
@@ -34,6 +40,7 @@ flutter_native_splash:
   ios: true
 
 dev_dependencies:
+  build_runner:
   flutter_test:
     sdk: flutter
 

@@ -1,11 +1,24 @@
 import 'package:intl/intl.dart';
 
-class TemplatesHistoryItem {
-  String message = "My account information to transfer the amount agreed upon is:count number:  xxxxxxxxxIBAN: xxxxxxxxxxxxxxxxxxxxxxxThank you";
-  String firstLine = "";
-  String remainsLines = "";
-  String dateTime =  DateFormat('dd/MM/yyyy kk:mm:a').format(DateTime.now());
+class TemplatesHistory {
+  String message = "";
+  String dateTime = "";
+  int id;
+  bool isNewTemplate;
 
+  TemplatesHistory(
+      {this.message = "",
+      this.dateTime = "",
+      this.id = 0,
+      this.isNewTemplate = true});
 
+  Map<String, dynamic> toJson() {
+    return {
+      "message": this.message,
+      "dateTime": this.dateTime,
+    };
+  }
 
+  String getCurrentTime() =>
+      DateFormat('dd/MM/yyyy hh:mm:a').format(DateTime.now());
 }

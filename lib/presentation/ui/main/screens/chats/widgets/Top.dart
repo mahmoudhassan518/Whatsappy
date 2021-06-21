@@ -1,8 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
-import 'package:whatsappy/presentation/utils/helper/helper.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 import 'package:whatsappy/presentation/utils/widgets/ButtonsHelper.dart';
@@ -15,12 +13,16 @@ class Top extends StatelessWidget {
   final _numberText = TextEditingController();
 
   ChatsController controller;
-
+  FocusNode _phoneFocusNode = new FocusNode();
 
   Top(this.controller);
 
   @override
   Widget build(BuildContext context) {
+
+
+    _phoneFocusNode.addListener(() { print(_phoneFocusNode.hasFocus); });
+
     return Container(
       padding: EdgeInsets.all(generalPadding),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -43,7 +45,6 @@ class Top extends StatelessWidget {
         Row(
           children: [
             Container(
-              height: 48,
               decoration: boxDecoration(shapeColor: colorPrimaryDark),
               child: CountryCodePicker(
                 onChanged: controller.onCodeChange,
@@ -65,16 +66,40 @@ class Top extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                height: 48,
                 decoration: boxDecoration(shapeColor: colorPrimaryDark),
-                child: TextFormField(
-                  controller: _numberText,
-                  style: TextStyle(color: onPrimary, fontSize: h3),
-                  maxLines: 1,
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(15),
-                  ],
-                  decoration: inputDecorationWithoutAnimation(label: ""),
+                child: GestureDetector(
+                  onTap: () {
+                    _phoneFocusNode.requestFocus();
+                  },
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    controller: _numberText,
+                    focusNode: _phoneFocusNode,
+                    // autofocus: true,
+                    style: TextStyle(color: onPrimary, fontSize: h3),
+                    maxLines: 1,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(15),
+                    ],
+                    textInputAction: TextInputAction.send,
+                    onSubmitted: (value) {
+                      _onSubmitClicked(context);
+                    },
+                    decoration: inputDecorationWithoutAnimation(
+                      label: "",
+                      suffixIcon: _phoneFocusNode.hasFocus
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.clear,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                _numberText.clear();
+                              })
+                          // use a SizedBox widget instead
+                          : SizedBox.shrink(),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -93,11 +118,16 @@ class Top extends StatelessWidget {
             ),
             onPressed: () {
               // controller.validateForm(_formKey);
-              controller.validateForm(_numberText.text);
+              _onSubmitClicked(context);
             },
           ),
         ),
       ]),
     );
+  }
+
+  void _onSubmitClicked(BuildContext context) async{
+    controller.validateForm(_numberText.value.text);
+
   }
 }

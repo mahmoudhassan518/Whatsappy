@@ -19,17 +19,16 @@ class BaseController extends GetxController {
     _response.value = DataResponse.onError(error);
   }
 
-  runBlocking<T>(Future<T> Function() block, Function(T data) onSuccessCallback) async {
+  runBlocking<T>(Future<T> block, Function(T data) onSuccessCallback) async {
     onLoading();
     try {
-      var result =  await block.call().whenComplete(() => idle());
+      T result = await block.whenComplete(() => idle());
       onSuccessCallback(result);
 
+      print("result is $result");
     } on Exception catch (e) {
       print("Got error: $e"); // Finally, callback fires.
       onError(e);
     }
   }
-
-
 }

@@ -16,7 +16,7 @@ startMainActivity() {
 startIntroActivity() {
   Get.off(() => IntroActivity());
 }
-startTemplatesDetails(TemplatesHistoryItem item) {
+startTemplatesDetails(TemplatesHistory item) {
   Get.to(() => TemplatesDetailsActivity(item));
 }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:whatsappy/data/datasource/locale/MySharedPreferences.dart';
+import 'package:whatsappy/data/datasource/locale/db/MyDatabase.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 
@@ -37,21 +38,11 @@ class Splash extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(generalPadding),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/logo_light.png',
-                height: 100,
-                width: 100,
-                fit: BoxFit.fitWidth,
-              ),
-              SizedBox(height: generalPadding,),
-              Text(
-                "Yaser Mohammed INC.",
-                style: TextStyle(color: Colors.white, fontSize: h4),
-              ),
-            ],
+          child: Image.asset(
+            'assets/images/logo_light.png',
+            height: 100,
+            width: 100,
+            fit: BoxFit.fitWidth,
           ),
         ),
       ),

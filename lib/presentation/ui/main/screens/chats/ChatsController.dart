@@ -1,13 +1,33 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:get/get.dart';
 import 'package:whatsappy/core/BaseController.dart';
-import 'package:whatsappy/data/repositories/ChatsRepositoryImpl.dart';
+import 'package:whatsappy/data/model/others/NoParams.dart';
+import 'package:whatsappy/di/Injector.dart';
 import 'package:whatsappy/domain/models/ChatsHistory.dart';
-import 'package:whatsappy/domain/repositories/ChatsRepository.dart';
+import 'package:whatsappy/domain/usecases/ClearChatHistoryFromDBUseCase.dart';
+import 'package:whatsappy/domain/usecases/InsertChatHistoryToDBUseCase.dart';
+import 'package:whatsappy/domain/usecases/OpenWhatsAppWithSingleNumberUseCase.dart';
+import 'package:whatsappy/domain/usecases/ValidateIsRealNumberUseCase.dart';
+import 'package:whatsappy/domain/usecases/WatchChatHistoryUseCase.dart';
 
 class ChatsController extends GetxController {
   final BaseController controller = Get.find();
-  final ChatsRepository _repository = ChatsRepositoryImpl();
+
+  ValidateIsRealNumberUseCase validateIsRealNumberUseCase =
+      getIt<ValidateIsRealNumberUseCase>();
+
+  OpenWhatsAppWithSingleNumberUseCase
+      openWhatsAppWithSingleNumberNumberUseCase =
+      getIt<OpenWhatsAppWithSingleNumberUseCase>();
+
+  InsertChatHistoryToDBUseCase insertChatHistoryToDBUseCase =
+      getIt<InsertChatHistoryToDBUseCase>();
+
+  WatchChatHistoryUseCase watchChatHistoryUseCase =
+      getIt<WatchChatHistoryUseCase>();
+
+  ClearChatHistoryFromDBUseCase clearChatHistoryFromDBUseCase =
+      getIt<ClearChatHistoryFromDBUseCase>();
 
   ChatsHistory item = ChatsHistory();
 
@@ -29,27 +49,30 @@ class ChatsController extends GetxController {
     validateIsRealNumber(item);
   }
 
-  validateIsRealNumber(ChatsHistory item) => controller.runBlocking(
-      () => _repository.validateIsRealNumber(item), _validateAndOpen);
+  validateIsRealNumber<bool>(ChatsHistory item) => controller.runBlocking(
+      validateIsRealNumberUseCase(item), _validateAndOpen);
 
   _validateAndOpen(bool value) {
     if (value) {
       //navigate to whatsapp
-      _launchWhatsApp();
+      launchWhatsApp(item);
     }
   }
 
-  _launchWhatsApp() {
-    controller.runBlocking(
-        () => _repository.openWhatsApp(item), (data) => _insertDataToDB);
+  launchWhatsApp(ChatsHistory item ) {
+    controller.runBlocking<bool>(
+        openWhatsAppWithSingleNumberNumberUseCase(item),
+        (data) => _insertDataToDB(data));
   }
 
-  _insertDataToDB() {
-    controller.runBlocking(() => _repository.addChat(item), (data) {});
+  _insertDataToDB(bool data) {
+    controller.runBlocking<int>(insertChatHistoryToDBUseCase(item), (data) {});
   }
 
-  Stream<List<ChatsHistory>> watchChatList() => _repository.watchChat();
+  Stream<List<ChatsHistory>> watchChatList() =>
+      watchChatHistoryUseCase(NoParams());
 
   clearData() => controller.runBlocking(
-      () => _repository.clearData(), (data) => print("data deleted"));
+      clearChatHistoryFromDBUseCase(NoParams()),
+      (data) => print("data deleted"));
 }

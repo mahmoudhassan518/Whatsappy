@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:whatsappy/domain/models/NavBarData.dart';
 import 'package:whatsappy/presentation/ui/main/screens/chats/ChatsScreen.dart';
-import 'package:whatsappy/presentation/ui/main/screens/LinksScreen.dart';
-import 'package:whatsappy/presentation/ui/main/screens/SettingsScreen.dart';
-import 'package:whatsappy/presentation/ui/main/screens/TemplatesScreen.dart';
+import 'package:whatsappy/presentation/ui/main/screens/links/LinksScreen.dart';
+import 'package:whatsappy/presentation/ui/main/screens/settings/SettingsScreen.dart';
+import 'package:whatsappy/presentation/ui/main/screens/templates/TemplatesScreen.dart';
 import 'package:whatsappy/presentation/utils/widgets/ActionBarsHelper.dart';
 
 class MainActivity extends StatelessWidget {

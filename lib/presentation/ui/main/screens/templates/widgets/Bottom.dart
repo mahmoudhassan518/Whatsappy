@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
+import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
+import 'package:whatsappy/presentation/ui/main/screens/templates/TemplatesController.dart';
+import 'package:whatsappy/presentation/ui/main/screens/templates/widgets/TemplatesHistoryListItem.dart';
 import 'package:whatsappy/presentation/utils/helper/helper.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 import 'package:whatsappy/presentation/utils/widgets/ContainersHelper.dart';
 import 'package:whatsappy/presentation/utils/widgets/others.dart';
 
-import '../ChatsController.dart';
-import 'ChatsHistoryListItem.dart';
-
 class Bottom extends StatelessWidget {
-  ChatsController _controller;
+  TemplatesController _controller;
 
   Bottom(this._controller);
 
@@ -23,16 +22,16 @@ class Bottom extends StatelessWidget {
         children: [
           bottomAreaOptions(() => showMyDialog(context,
               onPositiveClicked: () => _controller.clearData(),
-              title: "Delete recent chats",
+              title: "Delete recent templates",
               content: "Are you sure you want to delete?")),
           SizedBox(
             height: generalPadding,
           ),
-          StreamBuilder<List<ChatsHistory>>(
-              stream: _controller.watchChatList(),
+          StreamBuilder<List<TemplatesHistory>>(
+              stream: _controller.watchTemplatesList(),
               builder: (context, snapshot) {
                 if (snapshot.data != null) {
-                  List<ChatsHistory> data = snapshot.data!;
+                  List<TemplatesHistory> data = snapshot.data!;
 
                   return ListView.separated(
                     shrinkWrap: true,
@@ -41,10 +40,7 @@ class Bottom extends StatelessWidget {
                     itemCount: data.length,
                     // <- this is better
                     itemBuilder: (context, index) {
-                      // print("data changed ${data[index].toJson()}\n");
-
-                      return ChatsHistoryListItem(
-                          data[index], _controller);
+                      return TemplatesHistoryListItem(data[index], _controller);
                     },
                     separatorBuilder: (context, index) {
                       return Divider();
@@ -57,7 +53,4 @@ class Bottom extends StatelessWidget {
       ),
     );
   }
-
-
-
 }

@@ -45,6 +45,7 @@ class Top extends StatelessWidget {
         Row(
           children: [
             Container(
+              height: 48,
               decoration: boxDecoration(shapeColor: colorPrimaryDark),
               child: CountryCodePicker(
                 onChanged: controller.onCodeChange,
@@ -66,6 +67,7 @@ class Top extends StatelessWidget {
             ),
             Expanded(
               child: Container(
+                height: 48,
                 decoration: boxDecoration(shapeColor: colorPrimaryDark),
                 child: GestureDetector(
                   onTap: () {

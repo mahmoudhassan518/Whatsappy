@@ -59,11 +59,17 @@ class ChatsController extends GetxController {
     }
   }
 
-  launchWhatsApp(ChatsHistory item ) {
+  launchWhatsApp(ChatsHistory item ) =>
     controller.runBlocking<bool>(
         openWhatsAppWithSingleNumberNumberUseCase(item),
         (data) => _insertDataToDB(data));
-  }
+
+
+  launchWhatsAppThenSaveNumber(ChatsHistory item ) =>
+      controller.runBlocking<bool>(
+          openWhatsAppWithSingleNumberNumberUseCase(item),
+              (data) {});
+
 
   _insertDataToDB(bool data) {
     controller.runBlocking<int>(insertChatHistoryToDBUseCase(item), (data) {});

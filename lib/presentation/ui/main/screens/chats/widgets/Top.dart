@@ -13,15 +13,12 @@ class Top extends StatelessWidget {
   final _numberText = TextEditingController();
 
   ChatsController controller;
-  FocusNode _phoneFocusNode = new FocusNode();
 
   Top(this.controller);
 
   @override
   Widget build(BuildContext context) {
 
-
-    _phoneFocusNode.addListener(() { print(_phoneFocusNode.hasFocus); });
 
     return Container(
       padding: EdgeInsets.all(generalPadding),
@@ -71,12 +68,10 @@ class Top extends StatelessWidget {
                 decoration: boxDecoration(shapeColor: colorPrimaryDark),
                 child: GestureDetector(
                   onTap: () {
-                    _phoneFocusNode.requestFocus();
                   },
                   child: TextField(
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.phone,
                     controller: _numberText,
-                    focusNode: _phoneFocusNode,
                     // autofocus: true,
                     style: TextStyle(color: onPrimary, fontSize: h3),
                     maxLines: 1,
@@ -89,17 +84,6 @@ class Top extends StatelessWidget {
                     },
                     decoration: inputDecorationWithoutAnimation(
                       label: "",
-                      suffixIcon: _phoneFocusNode.hasFocus
-                          ? IconButton(
-                              icon: Icon(
-                                Icons.clear,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                _numberText.clear();
-                              })
-                          // use a SizedBox widget instead
-                          : SizedBox.shrink(),
                     ),
                   ),
                 ),

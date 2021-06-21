@@ -712,12 +712,444 @@ class $TemplatesTable extends Templates
   }
 }
 
+class Link extends DataClass implements Insertable<Link> {
+  final String countryFlagUri;
+  final String countryName;
+  final String countryCode;
+  final String countryDialCode;
+  final String dateTimes;
+  final String number;
+  final String fullNumber;
+  Link(
+      {required this.countryFlagUri,
+      required this.countryName,
+      required this.countryCode,
+      required this.countryDialCode,
+      required this.dateTimes,
+      required this.number,
+      required this.fullNumber});
+  factory Link.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return Link(
+      countryFlagUri: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}country_flag_uri'])!,
+      countryName: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}country_name'])!,
+      countryCode: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}country_code'])!,
+      countryDialCode: const StringType().mapFromDatabaseResponse(
+          data['${effectivePrefix}country_dial_code'])!,
+      dateTimes: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}date_times'])!,
+      number: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}number'])!,
+      fullNumber: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}full_number'])!,
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['country_flag_uri'] = Variable<String>(countryFlagUri);
+    map['country_name'] = Variable<String>(countryName);
+    map['country_code'] = Variable<String>(countryCode);
+    map['country_dial_code'] = Variable<String>(countryDialCode);
+    map['date_times'] = Variable<String>(dateTimes);
+    map['number'] = Variable<String>(number);
+    map['full_number'] = Variable<String>(fullNumber);
+    return map;
+  }
+
+  LinksCompanion toCompanion(bool nullToAbsent) {
+    return LinksCompanion(
+      countryFlagUri: Value(countryFlagUri),
+      countryName: Value(countryName),
+      countryCode: Value(countryCode),
+      countryDialCode: Value(countryDialCode),
+      dateTimes: Value(dateTimes),
+      number: Value(number),
+      fullNumber: Value(fullNumber),
+    );
+  }
+
+  factory Link.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return Link(
+      countryFlagUri: serializer.fromJson<String>(json['countryFlagUri']),
+      countryName: serializer.fromJson<String>(json['countryName']),
+      countryCode: serializer.fromJson<String>(json['countryCode']),
+      countryDialCode: serializer.fromJson<String>(json['countryDialCode']),
+      dateTimes: serializer.fromJson<String>(json['dateTimes']),
+      number: serializer.fromJson<String>(json['number']),
+      fullNumber: serializer.fromJson<String>(json['fullNumber']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'countryFlagUri': serializer.toJson<String>(countryFlagUri),
+      'countryName': serializer.toJson<String>(countryName),
+      'countryCode': serializer.toJson<String>(countryCode),
+      'countryDialCode': serializer.toJson<String>(countryDialCode),
+      'dateTimes': serializer.toJson<String>(dateTimes),
+      'number': serializer.toJson<String>(number),
+      'fullNumber': serializer.toJson<String>(fullNumber),
+    };
+  }
+
+  Link copyWith(
+          {String? countryFlagUri,
+          String? countryName,
+          String? countryCode,
+          String? countryDialCode,
+          String? dateTimes,
+          String? number,
+          String? fullNumber}) =>
+      Link(
+        countryFlagUri: countryFlagUri ?? this.countryFlagUri,
+        countryName: countryName ?? this.countryName,
+        countryCode: countryCode ?? this.countryCode,
+        countryDialCode: countryDialCode ?? this.countryDialCode,
+        dateTimes: dateTimes ?? this.dateTimes,
+        number: number ?? this.number,
+        fullNumber: fullNumber ?? this.fullNumber,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Link(')
+          ..write('countryFlagUri: $countryFlagUri, ')
+          ..write('countryName: $countryName, ')
+          ..write('countryCode: $countryCode, ')
+          ..write('countryDialCode: $countryDialCode, ')
+          ..write('dateTimes: $dateTimes, ')
+          ..write('number: $number, ')
+          ..write('fullNumber: $fullNumber')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      countryFlagUri.hashCode,
+      $mrjc(
+          countryName.hashCode,
+          $mrjc(
+              countryCode.hashCode,
+              $mrjc(
+                  countryDialCode.hashCode,
+                  $mrjc(dateTimes.hashCode,
+                      $mrjc(number.hashCode, fullNumber.hashCode)))))));
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Link &&
+          other.countryFlagUri == this.countryFlagUri &&
+          other.countryName == this.countryName &&
+          other.countryCode == this.countryCode &&
+          other.countryDialCode == this.countryDialCode &&
+          other.dateTimes == this.dateTimes &&
+          other.number == this.number &&
+          other.fullNumber == this.fullNumber);
+}
+
+class LinksCompanion extends UpdateCompanion<Link> {
+  final Value<String> countryFlagUri;
+  final Value<String> countryName;
+  final Value<String> countryCode;
+  final Value<String> countryDialCode;
+  final Value<String> dateTimes;
+  final Value<String> number;
+  final Value<String> fullNumber;
+  const LinksCompanion({
+    this.countryFlagUri = const Value.absent(),
+    this.countryName = const Value.absent(),
+    this.countryCode = const Value.absent(),
+    this.countryDialCode = const Value.absent(),
+    this.dateTimes = const Value.absent(),
+    this.number = const Value.absent(),
+    this.fullNumber = const Value.absent(),
+  });
+  LinksCompanion.insert({
+    required String countryFlagUri,
+    required String countryName,
+    required String countryCode,
+    required String countryDialCode,
+    required String dateTimes,
+    required String number,
+    required String fullNumber,
+  })  : countryFlagUri = Value(countryFlagUri),
+        countryName = Value(countryName),
+        countryCode = Value(countryCode),
+        countryDialCode = Value(countryDialCode),
+        dateTimes = Value(dateTimes),
+        number = Value(number),
+        fullNumber = Value(fullNumber);
+  static Insertable<Link> custom({
+    Expression<String>? countryFlagUri,
+    Expression<String>? countryName,
+    Expression<String>? countryCode,
+    Expression<String>? countryDialCode,
+    Expression<String>? dateTimes,
+    Expression<String>? number,
+    Expression<String>? fullNumber,
+  }) {
+    return RawValuesInsertable({
+      if (countryFlagUri != null) 'country_flag_uri': countryFlagUri,
+      if (countryName != null) 'country_name': countryName,
+      if (countryCode != null) 'country_code': countryCode,
+      if (countryDialCode != null) 'country_dial_code': countryDialCode,
+      if (dateTimes != null) 'date_times': dateTimes,
+      if (number != null) 'number': number,
+      if (fullNumber != null) 'full_number': fullNumber,
+    });
+  }
+
+  LinksCompanion copyWith(
+      {Value<String>? countryFlagUri,
+      Value<String>? countryName,
+      Value<String>? countryCode,
+      Value<String>? countryDialCode,
+      Value<String>? dateTimes,
+      Value<String>? number,
+      Value<String>? fullNumber}) {
+    return LinksCompanion(
+      countryFlagUri: countryFlagUri ?? this.countryFlagUri,
+      countryName: countryName ?? this.countryName,
+      countryCode: countryCode ?? this.countryCode,
+      countryDialCode: countryDialCode ?? this.countryDialCode,
+      dateTimes: dateTimes ?? this.dateTimes,
+      number: number ?? this.number,
+      fullNumber: fullNumber ?? this.fullNumber,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (countryFlagUri.present) {
+      map['country_flag_uri'] = Variable<String>(countryFlagUri.value);
+    }
+    if (countryName.present) {
+      map['country_name'] = Variable<String>(countryName.value);
+    }
+    if (countryCode.present) {
+      map['country_code'] = Variable<String>(countryCode.value);
+    }
+    if (countryDialCode.present) {
+      map['country_dial_code'] = Variable<String>(countryDialCode.value);
+    }
+    if (dateTimes.present) {
+      map['date_times'] = Variable<String>(dateTimes.value);
+    }
+    if (number.present) {
+      map['number'] = Variable<String>(number.value);
+    }
+    if (fullNumber.present) {
+      map['full_number'] = Variable<String>(fullNumber.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LinksCompanion(')
+          ..write('countryFlagUri: $countryFlagUri, ')
+          ..write('countryName: $countryName, ')
+          ..write('countryCode: $countryCode, ')
+          ..write('countryDialCode: $countryDialCode, ')
+          ..write('dateTimes: $dateTimes, ')
+          ..write('number: $number, ')
+          ..write('fullNumber: $fullNumber')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LinksTable extends Links with TableInfo<$LinksTable, Link> {
+  final GeneratedDatabase _db;
+  final String? _alias;
+  $LinksTable(this._db, [this._alias]);
+  final VerificationMeta _countryFlagUriMeta =
+      const VerificationMeta('countryFlagUri');
+  @override
+  late final GeneratedTextColumn countryFlagUri = _constructCountryFlagUri();
+  GeneratedTextColumn _constructCountryFlagUri() {
+    return GeneratedTextColumn(
+      'country_flag_uri',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _countryNameMeta =
+      const VerificationMeta('countryName');
+  @override
+  late final GeneratedTextColumn countryName = _constructCountryName();
+  GeneratedTextColumn _constructCountryName() {
+    return GeneratedTextColumn(
+      'country_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _countryCodeMeta =
+      const VerificationMeta('countryCode');
+  @override
+  late final GeneratedTextColumn countryCode = _constructCountryCode();
+  GeneratedTextColumn _constructCountryCode() {
+    return GeneratedTextColumn(
+      'country_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _countryDialCodeMeta =
+      const VerificationMeta('countryDialCode');
+  @override
+  late final GeneratedTextColumn countryDialCode = _constructCountryDialCode();
+  GeneratedTextColumn _constructCountryDialCode() {
+    return GeneratedTextColumn(
+      'country_dial_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _dateTimesMeta = const VerificationMeta('dateTimes');
+  @override
+  late final GeneratedTextColumn dateTimes = _constructDateTimes();
+  GeneratedTextColumn _constructDateTimes() {
+    return GeneratedTextColumn(
+      'date_times',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _numberMeta = const VerificationMeta('number');
+  @override
+  late final GeneratedTextColumn number = _constructNumber();
+  GeneratedTextColumn _constructNumber() {
+    return GeneratedTextColumn(
+      'number',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _fullNumberMeta = const VerificationMeta('fullNumber');
+  @override
+  late final GeneratedTextColumn fullNumber = _constructFullNumber();
+  GeneratedTextColumn _constructFullNumber() {
+    return GeneratedTextColumn(
+      'full_number',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        countryFlagUri,
+        countryName,
+        countryCode,
+        countryDialCode,
+        dateTimes,
+        number,
+        fullNumber
+      ];
+  @override
+  $LinksTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'links';
+  @override
+  final String actualTableName = 'links';
+  @override
+  VerificationContext validateIntegrity(Insertable<Link> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('country_flag_uri')) {
+      context.handle(
+          _countryFlagUriMeta,
+          countryFlagUri.isAcceptableOrUnknown(
+              data['country_flag_uri']!, _countryFlagUriMeta));
+    } else if (isInserting) {
+      context.missing(_countryFlagUriMeta);
+    }
+    if (data.containsKey('country_name')) {
+      context.handle(
+          _countryNameMeta,
+          countryName.isAcceptableOrUnknown(
+              data['country_name']!, _countryNameMeta));
+    } else if (isInserting) {
+      context.missing(_countryNameMeta);
+    }
+    if (data.containsKey('country_code')) {
+      context.handle(
+          _countryCodeMeta,
+          countryCode.isAcceptableOrUnknown(
+              data['country_code']!, _countryCodeMeta));
+    } else if (isInserting) {
+      context.missing(_countryCodeMeta);
+    }
+    if (data.containsKey('country_dial_code')) {
+      context.handle(
+          _countryDialCodeMeta,
+          countryDialCode.isAcceptableOrUnknown(
+              data['country_dial_code']!, _countryDialCodeMeta));
+    } else if (isInserting) {
+      context.missing(_countryDialCodeMeta);
+    }
+    if (data.containsKey('date_times')) {
+      context.handle(_dateTimesMeta,
+          dateTimes.isAcceptableOrUnknown(data['date_times']!, _dateTimesMeta));
+    } else if (isInserting) {
+      context.missing(_dateTimesMeta);
+    }
+    if (data.containsKey('number')) {
+      context.handle(_numberMeta,
+          number.isAcceptableOrUnknown(data['number']!, _numberMeta));
+    } else if (isInserting) {
+      context.missing(_numberMeta);
+    }
+    if (data.containsKey('full_number')) {
+      context.handle(
+          _fullNumberMeta,
+          fullNumber.isAcceptableOrUnknown(
+              data['full_number']!, _fullNumberMeta));
+    } else if (isInserting) {
+      context.missing(_fullNumberMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {fullNumber};
+  @override
+  Link map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return Link.fromData(data, _db,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $LinksTable createAlias(String alias) {
+    return $LinksTable(_db, alias);
+  }
+}
+
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $ChatsTable chats = $ChatsTable(this);
   late final $TemplatesTable templates = $TemplatesTable(this);
+  late final $LinksTable links = $LinksTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [chats, templates];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [chats, templates, links];
 }

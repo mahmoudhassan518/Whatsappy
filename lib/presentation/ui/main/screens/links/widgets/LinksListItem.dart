@@ -1,20 +1,24 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
-import 'package:whatsappy/presentation/ui/main/screens/chats/ChatsController.dart';
+import 'package:whatsappy/domain/models/LinksHistory.dart';
+import 'package:whatsappy/presentation/ui/main/screens/links/LinksController.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 
-class ChatsHistoryListItem extends StatelessWidget {
-  ChatsHistory item;
-  ChatsController _controller;
+class LinksListItem extends StatelessWidget {
+  LinksHistory item;
 
-  ChatsHistoryListItem(this.item, this._controller);
+  LinksController controller;
+
+  LinksListItem(this.item, this.controller);
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return InkWell(
-      onTap: () => _onItemClicked.call(item, _controller),
+      onTap: () => controller.shareLink('https://wa.me/'+item.number),
       child: Row(
         children: [
           CircleFlag(
@@ -46,15 +50,11 @@ class ChatsHistoryListItem extends StatelessWidget {
               child: Align(
                   alignment: Alignment.centerRight,
                   child: Icon(
-                    Icons.arrow_forward_outlined,
+                    Icons.ios_share,
                     color: Colors.black,
                   ))),
         ],
       ),
     );
-  }
-
-  _onItemClicked(ChatsHistory data, ChatsController _controller) async {
-    await _controller.launchWhatsApp(data);
   }
 }

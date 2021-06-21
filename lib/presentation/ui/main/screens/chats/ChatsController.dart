@@ -7,14 +7,14 @@ import 'package:whatsappy/domain/models/ChatsHistory.dart';
 import 'package:whatsappy/domain/usecases/ClearChatHistoryFromDBUseCase.dart';
 import 'package:whatsappy/domain/usecases/InsertChatHistoryToDBUseCase.dart';
 import 'package:whatsappy/domain/usecases/OpenWhatsAppWithSingleNumberUseCase.dart';
-import 'package:whatsappy/domain/usecases/ValidateIsRealNumberUseCase.dart';
+import 'package:whatsappy/domain/usecases/ValidateChatsIsRealNumberUseCase.dart';
 import 'package:whatsappy/domain/usecases/WatchChatHistoryUseCase.dart';
 
 class ChatsController extends GetxController {
   final BaseController controller = Get.find();
 
-  ValidateIsRealNumberUseCase validateIsRealNumberUseCase =
-      getIt<ValidateIsRealNumberUseCase>();
+  ValidateChatsIsRealNumberUseCase validateIsRealNumberUseCase =
+      getIt<ValidateChatsIsRealNumberUseCase>();
 
   OpenWhatsAppWithSingleNumberUseCase
       openWhatsAppWithSingleNumberNumberUseCase =

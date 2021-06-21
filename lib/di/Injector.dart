@@ -7,14 +7,18 @@ import 'package:whatsappy/domain/repositories/ChatsRepository.dart';
 import 'package:whatsappy/domain/repositories/DBRepository.dart';
 import 'package:whatsappy/domain/repositories/WhatsAppRepository.dart';
 import 'package:whatsappy/domain/usecases/ClearChatHistoryFromDBUseCase.dart';
+import 'package:whatsappy/domain/usecases/ClearLinksHistoryFromDBUseCase.dart';
 import 'package:whatsappy/domain/usecases/ClearTemplateHistoryFromDBUseCase.dart';
 import 'package:whatsappy/domain/usecases/InsertChatHistoryToDBUseCase.dart';
+import 'package:whatsappy/domain/usecases/InsertLinksHistoryToDBUseCase.dart';
 import 'package:whatsappy/domain/usecases/InsertTemplateHistoryToDBUseCase.dart';
 import 'package:whatsappy/domain/usecases/OpenWhatsAppWithOnlyMessageUseCase.dart';
 import 'package:whatsappy/domain/usecases/OpenWhatsAppWithSingleNumberUseCase.dart';
 import 'package:whatsappy/domain/usecases/UpdateTemplateHistoryToDBUseCase.dart';
-import 'package:whatsappy/domain/usecases/ValidateIsRealNumberUseCase.dart';
+import 'package:whatsappy/domain/usecases/ValidateChatsIsRealNumberUseCase.dart';
+import 'package:whatsappy/domain/usecases/ValidateLinksIsRealNumberUseCase.dart';
 import 'package:whatsappy/domain/usecases/WatchChatHistoryUseCase.dart';
+import 'package:whatsappy/domain/usecases/WatchLinksHistoryUseCase.dart';
 import 'package:whatsappy/domain/usecases/WatchTemplatesHistoryUseCase.dart';
 
 GetIt getIt = GetIt.instance;
@@ -32,11 +36,11 @@ configureInjector() {
   getIt.registerSingleton<InsertChatHistoryToDBUseCase>(
       InsertChatHistoryToDBUseCase(getIt<DBRepository>()));
 
-  getIt.registerSingleton<OpenWhatsAppWithSingleNumberUseCase>(
-      OpenWhatsAppWithSingleNumberUseCase(getIt<WhatsAppRepository>()));
+  getIt.registerSingleton<ValidateChatsIsRealNumberUseCase>(
+      ValidateChatsIsRealNumberUseCase(getIt<ChatsRepository>()));
 
-  getIt.registerSingleton<ValidateIsRealNumberUseCase>(
-      ValidateIsRealNumberUseCase(getIt<ChatsRepository>()));
+  getIt.registerSingleton<ValidateLinksIsRealNumberUseCase>(
+      ValidateLinksIsRealNumberUseCase(getIt<ChatsRepository>()));
 
   getIt.registerSingleton<WatchChatHistoryUseCase>(
       WatchChatHistoryUseCase(getIt<DBRepository>()));
@@ -55,5 +59,18 @@ configureInjector() {
 
   getIt.registerSingleton<UpdateTemplateHistoryToDBUseCase>(
       UpdateTemplateHistoryToDBUseCase(getIt<DBRepository>()));
+
+  getIt.registerSingleton<OpenWhatsAppWithSingleNumberUseCase>(
+      OpenWhatsAppWithSingleNumberUseCase(getIt<WhatsAppRepository>()));
+
+  getIt.registerSingleton<InsertLinksHistoryToDBUseCase>(
+      InsertLinksHistoryToDBUseCase(getIt<DBRepository>()));
+
+  getIt.registerSingleton<WatchLinksHistoryUseCase>(
+      WatchLinksHistoryUseCase(getIt<DBRepository>()));
+
+
+  getIt.registerSingleton<ClearLinksHistoryFromDBUseCase>(
+      ClearLinksHistoryFromDBUseCase(getIt<DBRepository>()));
 
 }

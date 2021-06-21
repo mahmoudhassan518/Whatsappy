@@ -1,7 +1,9 @@
 import 'package:whatsappy/data/datasource/locale/db/MyDatabase.dart';
 import 'package:whatsappy/data/mapper/ChatsEntityMapper.dart';
+import 'package:whatsappy/data/mapper/LinksEntityMapper.dart';
 import 'package:whatsappy/data/mapper/TemplatesEntityMapper.dart';
 import 'package:whatsappy/domain/models/ChatsHistory.dart';
+import 'package:whatsappy/domain/models/LinksHistory.dart';
 import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
 import 'package:whatsappy/domain/repositories/DBRepository.dart';
 
@@ -12,6 +14,7 @@ class DBRepositoryImpl extends DBRepository {
 
   ChatsEntityMapper chatsEntityMapper = ChatsEntityMapper();
   TemplatesEntityMapper templatesEntityMapper = TemplatesEntityMapper();
+  LinksEntityMapper linksEntityMapper = LinksEntityMapper();
 
   Exception throwValidationException(String msg) => Exception(msg);
 
@@ -34,11 +37,21 @@ class DBRepositoryImpl extends DBRepository {
   Future<int> insertTemplateHistoryToDB(TemplatesHistory item) =>
       db.addTemplate(templatesEntityMapper.mapFromDomainModel(item));
 
-
   @override
   Future clearTemplateHistoryFromDB() => db.clearTemplatesData();
 
   @override
   Future updateTemplateHistory(TemplatesHistory item) =>
       db.updateTemplate(templatesEntityMapper.mapFromDomainModel(item));
+
+  @override
+  Future clearLinksHistoryFromDB() => db.clearLinksData();
+
+  @override
+  Future<int> insertLinksHistoryToDB(LinksHistory item) =>
+      db.addLink(linksEntityMapper.mapFromDomainModel(item));
+
+  @override
+  Stream<List<LinksHistory>> watchLinksHistory() =>
+      db.watchLinksHistory(linksEntityMapper);
 }

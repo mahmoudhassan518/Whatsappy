@@ -32,6 +32,8 @@ dependencies:
   moor_generator:
   path_provider:
   url_launcher:
+  share:
+
 
 
 flutter_native_splash:

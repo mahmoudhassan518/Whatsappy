@@ -24,7 +24,7 @@ class Top extends StatelessWidget {
           height: smallPadding,
         ),
         Text(
-          "Create messages which you send frequently on whatsapp, add more by clicking on ADD",
+          "Create messages which you send frequently on whatsapp, add more by clicking on Add",
           style: TextStyle(color: onPrimary, fontSize: h3),
           textAlign: TextAlign.center,
         ),

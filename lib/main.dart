@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:whatsappy/presentation/ui/intro/IntroController.dart';
 import 'package:whatsappy/presentation/ui/main/MainController.dart';
 import 'package:whatsappy/presentation/ui/main/screens/chats/ChatsController.dart';
+import 'package:whatsappy/presentation/ui/main/screens/links/LinksController.dart';
 import 'package:whatsappy/presentation/ui/main/screens/templates/TemplatesController.dart';
 import 'package:whatsappy/presentation/ui/splash/SplashController.dart';
 import 'package:whatsappy/presentation/ui/template_details/TemplateDetailsController.dart';
@@ -21,6 +22,7 @@ void main() {
   Get.put(ChatsController());
   Get.put(TemplatesController());
   Get.put(TemplateDetailsController());
+  Get.put(LinksController());
   Get.lazyPut(() => IntroController());
 
   SystemChrome.setSystemUIOverlayStyle(

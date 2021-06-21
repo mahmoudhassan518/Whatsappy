@@ -6,15 +6,18 @@ import 'package:moor/moor.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:whatsappy/data/mapper/ChatsEntityMapper.dart';
+import 'package:whatsappy/data/mapper/LinksEntityMapper.dart';
 import 'package:whatsappy/data/mapper/TemplatesEntityMapper.dart';
 import 'package:whatsappy/data/model/entites/ChatsHistoryEntity.dart';
+import 'package:whatsappy/data/model/entites/LinksHistoryEntity.dart';
 import 'package:whatsappy/data/model/entites/TemplatesHistoryEntity.dart';
 import 'package:whatsappy/domain/models/ChatsHistory.dart';
+import 'package:whatsappy/domain/models/LinksHistory.dart';
 import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
 
 part 'MyDatabase.g.dart';
 
-@UseMoor(tables: [Chats, Templates])
+@UseMoor(tables: [Chats, Templates, Links])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 
@@ -67,6 +70,24 @@ class MyDatabase extends _$MyDatabase {
   Future clearTemplatesData() {
     // delete the oldest nine tasks
     return (delete(templates)).go();
+  }
+
+  Stream<List<LinksHistory>> watchLinksHistory(LinksEntityMapper entityMapper) {
+    final query = select(links);
+
+    return query.watch().map((event) {
+      return event.map((e) => entityMapper.mapToDomainModel(e)).toList();
+    });
+  }
+
+  // returns the generated id
+  Future<int> addLink(Link entry) {
+    return into(links).insertOnConflictUpdate(entry);
+  }
+
+  Future clearLinksData() {
+    // delete the oldest nine tasks
+    return (delete(links)).go();
   }
 }
 

@@ -1,16 +1,17 @@
 import 'package:get/get.dart';
 import 'package:whatsappy/core/BaseController.dart';
 import 'package:whatsappy/di/Injector.dart';
-import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 import 'package:whatsappy/domain/usecases/InsertTemplateHistoryToDBUseCase.dart';
 import 'package:whatsappy/domain/usecases/UpdateTemplateHistoryToDBUseCase.dart';
+import 'package:whatsappy/presentation/utils/helper/helper.dart';
 
 class TemplateDetailsController extends GetxController {
   final BaseController controller = Get.find();
 
-  TemplatesHistory item = TemplatesHistory();
+  NumberObject item = NumberObject();
 
-  void setTemplate(TemplatesHistory item) {
+  void setTemplate(NumberObject item) {
     this.item = item;
   }
 
@@ -20,8 +21,11 @@ class TemplateDetailsController extends GetxController {
   UpdateTemplateHistoryToDBUseCase updateTemplateHistoryToDBUseCase =
       getIt<UpdateTemplateHistoryToDBUseCase>();
 
-  void validateForm(String text) {
-    item.message = text;
+  void validateForm() {
+    if (item.message .isEmpty) {
+      showSnackBar(title: 'error'.tr, content: 'required'.tr);
+      return;
+    }
 
     item.dateTime = item.getCurrentTime();
 
@@ -33,10 +37,10 @@ class TemplateDetailsController extends GetxController {
       _update(item);
   }
 
-  _update(TemplatesHistory item) => controller.runBlocking(
+  _update(NumberObject item) => controller.runBlocking(
       updateTemplateHistoryToDBUseCase(item), (data) => _onUpdated());
 
-  _insert(TemplatesHistory item) => controller.runBlocking(
+  _insert(NumberObject item) => controller.runBlocking(
       insertTemplateHistoryToDBUseCase(item), (data) => _onInserted());
 
   _onSubmitDone() {
@@ -45,12 +49,15 @@ class TemplateDetailsController extends GetxController {
   }
 
   _onUpdated() {
-
     _onSubmitDone();
   }
 
   _onInserted() {
-
     _onSubmitDone();
+  }
+
+  void onValueChanged(String value) {
+    item.message = value;
+
   }
 }

@@ -1,12 +1,14 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 import 'package:whatsappy/presentation/ui/main/screens/chats/ChatsController.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 
+
+// ignore: must_be_immutable
 class ChatsHistoryListItem extends StatelessWidget {
-  ChatsHistory item;
+  NumberObject item;
   ChatsController _controller;
 
   ChatsHistoryListItem(this.item, this._controller);
@@ -24,37 +26,39 @@ class ChatsHistoryListItem extends StatelessWidget {
           SizedBox(
             width: generalPadding,
           ),
-          Column(
-            children: [
-              Text(
-                "${item.fullNumber}",
-                style: TextStyle(
-                    fontSize: h4,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal),
-              ),
-              Text(
-                "${item.dateTime}",
-                style: TextStyle(
-                  fontSize: h2,
-                  color: CupertinoColors.systemGrey,
-                ),
-              )
-            ],
-          ),
           Expanded(
-              child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Icon(
-                    Icons.arrow_forward_outlined,
-                    color: Colors.black,
-                  ))),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${item.fullNumber}",
+                  style: TextStyle(
+                      fontSize: h4,
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal),
+                ),
+                Text(
+                  "${item.dateTime}",
+                  style: TextStyle(
+                    fontSize: h2,
+                    color: CupertinoColors.systemGrey,
+                  ),
+                )
+              ],
+            ),
+          ),
+          Align(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Icons.arrow_forward_outlined,
+                color: Colors.black,
+              )),
         ],
       ),
     );
   }
 
-  _onItemClicked(ChatsHistory data, ChatsController _controller) async {
-    await _controller.launchWhatsApp(data);
+  _onItemClicked(NumberObject data, ChatsController _controller) async {
+    await _controller.launchWhatsAppOnly(data);
   }
 }

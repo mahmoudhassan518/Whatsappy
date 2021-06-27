@@ -1,7 +1,5 @@
 import 'package:whatsappy/core/UseCase.dart';
 import 'package:whatsappy/data/model/others/NoParams.dart';
-import 'package:whatsappy/data/repositories/DBRepositoryImpl.dart';
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
 import 'package:whatsappy/domain/repositories/DBRepository.dart';
 
 class ClearTemplateHistoryFromDBUseCase extends UseCase<Future, NoParams> {

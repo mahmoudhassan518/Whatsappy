@@ -6,6 +6,7 @@ import 'package:whatsappy/presentation/utils/widgets/others.dart';
 import 'BaseController.dart';
 import 'DataResponse.dart';
 
+// ignore: must_be_immutable
 class BaseActivity extends StatelessWidget {
   Widget _activity;
 

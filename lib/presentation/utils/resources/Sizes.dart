@@ -11,7 +11,6 @@ const double largePadding = 32;
 const double generalPadding = 16;
 const double smallPadding = 8;
 
-
 const double iconSize = 24;
 const double circularProgressIndicatorSize = 50;
 

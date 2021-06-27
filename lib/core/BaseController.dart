@@ -16,7 +16,7 @@ class BaseController extends GetxController {
   }
 
   onError(Exception error) {
-    _response.value = DataResponse.onError(error);
+    _response.value = DataResponse.onError(error.toString());
   }
 
   runBlocking<T>(Future<T> block, Function(T data) onSuccessCallback) async {

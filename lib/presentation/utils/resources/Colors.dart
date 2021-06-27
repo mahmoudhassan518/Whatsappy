@@ -12,7 +12,6 @@ const Color colorGreyLight = Color(0xffe9ece5);
 
 const Color onPrimary = Color(0xffffffff);
 
-
 const Color colorFacebook = Color(0xFF3b5998);
 const Color colorGoogleBlue = Color(0xFF4285F4);
 const Color colorGoogleRed = Color(0xFFDB4437);

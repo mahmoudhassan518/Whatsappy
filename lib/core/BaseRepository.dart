@@ -1,14 +1,3 @@
 class BaseRepository {
-
-
-  handleRequest() {
-
-
-
-
-
-  }
-
-
-
+  handleRequest() {}
 }

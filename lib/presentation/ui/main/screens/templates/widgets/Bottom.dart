@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 import 'package:whatsappy/presentation/ui/main/screens/templates/TemplatesController.dart';
 import 'package:whatsappy/presentation/ui/main/screens/templates/widgets/TemplatesHistoryListItem.dart';
 import 'package:whatsappy/presentation/utils/helper/helper.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 import 'package:whatsappy/presentation/utils/widgets/ContainersHelper.dart';
 import 'package:whatsappy/presentation/utils/widgets/others.dart';
+import 'package:get/get.dart';
 
+
+// ignore: must_be_immutable
 class Bottom extends StatelessWidget {
   TemplatesController _controller;
 
@@ -22,16 +25,16 @@ class Bottom extends StatelessWidget {
         children: [
           bottomAreaOptions(() => showMyDialog(context,
               onPositiveClicked: () => _controller.clearData(),
-              title: "Delete recent templates",
-              content: "Are you sure you want to delete?")),
+              title: 'deleteTemplatesTitle'.tr,
+              content: 'deleteTemplatesContent'.tr)),
           SizedBox(
             height: generalPadding,
           ),
-          StreamBuilder<List<TemplatesHistory>>(
+          StreamBuilder<List<NumberObject>>(
               stream: _controller.watchTemplatesList(),
               builder: (context, snapshot) {
                 if (snapshot.data != null) {
-                  List<TemplatesHistory> data = snapshot.data!;
+                  List<NumberObject> data = snapshot.data!;
 
                   return ListView.separated(
                     shrinkWrap: true,
@@ -47,7 +50,7 @@ class Bottom extends StatelessWidget {
                     },
                   );
                 } else
-                  return Text("Loading...");
+                  return Text('loading'.tr);
               }),
         ],
       ),

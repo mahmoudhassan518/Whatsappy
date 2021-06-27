@@ -1,8 +1,7 @@
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
-import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 
 abstract class WhatsAppRepository {
-  Future<bool> openWhatsAppWithSingleMessage(ChatsHistory item);
+  Future<bool> openWhatsAppWithSingleMessage(NumberObject item);
 
-  Future<bool> openWhatsAppWithOnlyMessageUseCase(TemplatesHistory item);
+  Future<bool> openWhatsAppWithOnlyMessageUseCase(NumberObject item);
 }

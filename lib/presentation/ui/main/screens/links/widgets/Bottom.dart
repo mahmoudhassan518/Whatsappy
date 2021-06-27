@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:whatsappy/domain/models/LinksHistory.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 import 'package:whatsappy/presentation/ui/main/screens/links/LinksController.dart';
 import 'package:whatsappy/presentation/utils/helper/helper.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 import 'package:whatsappy/presentation/utils/widgets/ContainersHelper.dart';
 import 'package:whatsappy/presentation/utils/widgets/others.dart';
+import 'package:get/get.dart';
+
 
 import 'LinksListItem.dart';
 
+// ignore: must_be_immutable
 class Bottom extends StatelessWidget {
   LinksController _controller;
 
@@ -23,16 +26,16 @@ class Bottom extends StatelessWidget {
         children: [
           bottomAreaOptions(() => showMyDialog(context,
               onPositiveClicked: () => _controller.clearData(),
-              title: "Delete recent links",
-              content: "Are you sure you want to delete?")),
+              title: 'deleteLinksTitle'.tr,
+              content: 'deleteLinksContent'.tr)),
           SizedBox(
             height: generalPadding,
           ),
-          StreamBuilder<List<LinksHistory>>(
+          StreamBuilder<List<NumberObject>>(
               stream: _controller.watchLinkList(),
               builder: (context, snapshot) {
                 if (snapshot.data != null) {
-                  List<LinksHistory> data = snapshot.data!;
+                  List<NumberObject> data = snapshot.data!;
 
                   return ListView.separated(
                     shrinkWrap: true,
@@ -50,7 +53,7 @@ class Bottom extends StatelessWidget {
                     },
                   );
                 } else
-                  return Text("Loading...");
+                  return Text('loading'.tr);
               }),
         ],
       ),

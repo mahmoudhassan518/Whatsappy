@@ -7,7 +7,7 @@ part of 'MyDatabase.dart';
 // **************************************************************************
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
-class Chat extends DataClass implements Insertable<Chat> {
+class ChatsEntityData extends DataClass implements Insertable<ChatsEntityData> {
   final String countryFlagUri;
   final String countryName;
   final String countryCode;
@@ -15,7 +15,8 @@ class Chat extends DataClass implements Insertable<Chat> {
   final String dateTimes;
   final String number;
   final String fullNumber;
-  Chat(
+
+  ChatsEntityData(
       {required this.countryFlagUri,
       required this.countryName,
       required this.countryCode,
@@ -23,10 +24,12 @@ class Chat extends DataClass implements Insertable<Chat> {
       required this.dateTimes,
       required this.number,
       required this.fullNumber});
-  factory Chat.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+
+  factory ChatsEntityData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return Chat(
+    return ChatsEntityData(
       countryFlagUri: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}country_flag_uri'])!,
       countryName: const StringType()
@@ -43,6 +46,7 @@ class Chat extends DataClass implements Insertable<Chat> {
           .mapFromDatabaseResponse(data['${effectivePrefix}full_number'])!,
     );
   }
+
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -56,8 +60,8 @@ class Chat extends DataClass implements Insertable<Chat> {
     return map;
   }
 
-  ChatsCompanion toCompanion(bool nullToAbsent) {
-    return ChatsCompanion(
+  ChatsEntityCompanion toCompanion(bool nullToAbsent) {
+    return ChatsEntityCompanion(
       countryFlagUri: Value(countryFlagUri),
       countryName: Value(countryName),
       countryCode: Value(countryCode),
@@ -68,10 +72,10 @@ class Chat extends DataClass implements Insertable<Chat> {
     );
   }
 
-  factory Chat.fromJson(Map<String, dynamic> json,
+  factory ChatsEntityData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return Chat(
+    return ChatsEntityData(
       countryFlagUri: serializer.fromJson<String>(json['countryFlagUri']),
       countryName: serializer.fromJson<String>(json['countryName']),
       countryCode: serializer.fromJson<String>(json['countryCode']),
@@ -81,6 +85,7 @@ class Chat extends DataClass implements Insertable<Chat> {
       fullNumber: serializer.fromJson<String>(json['fullNumber']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -95,7 +100,7 @@ class Chat extends DataClass implements Insertable<Chat> {
     };
   }
 
-  Chat copyWith(
+  ChatsEntityData copyWith(
           {String? countryFlagUri,
           String? countryName,
           String? countryCode,
@@ -103,7 +108,7 @@ class Chat extends DataClass implements Insertable<Chat> {
           String? dateTimes,
           String? number,
           String? fullNumber}) =>
-      Chat(
+      ChatsEntityData(
         countryFlagUri: countryFlagUri ?? this.countryFlagUri,
         countryName: countryName ?? this.countryName,
         countryCode: countryCode ?? this.countryCode,
@@ -112,9 +117,10 @@ class Chat extends DataClass implements Insertable<Chat> {
         number: number ?? this.number,
         fullNumber: fullNumber ?? this.fullNumber,
       );
+
   @override
   String toString() {
-    return (StringBuffer('Chat(')
+    return (StringBuffer('ChatsEntityData(')
           ..write('countryFlagUri: $countryFlagUri, ')
           ..write('countryName: $countryName, ')
           ..write('countryCode: $countryCode, ')
@@ -137,10 +143,11 @@ class Chat extends DataClass implements Insertable<Chat> {
                   countryDialCode.hashCode,
                   $mrjc(dateTimes.hashCode,
                       $mrjc(number.hashCode, fullNumber.hashCode)))))));
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Chat &&
+      (other is ChatsEntityData &&
           other.countryFlagUri == this.countryFlagUri &&
           other.countryName == this.countryName &&
           other.countryCode == this.countryCode &&
@@ -150,7 +157,7 @@ class Chat extends DataClass implements Insertable<Chat> {
           other.fullNumber == this.fullNumber);
 }
 
-class ChatsCompanion extends UpdateCompanion<Chat> {
+class ChatsEntityCompanion extends UpdateCompanion<ChatsEntityData> {
   final Value<String> countryFlagUri;
   final Value<String> countryName;
   final Value<String> countryCode;
@@ -158,7 +165,8 @@ class ChatsCompanion extends UpdateCompanion<Chat> {
   final Value<String> dateTimes;
   final Value<String> number;
   final Value<String> fullNumber;
-  const ChatsCompanion({
+
+  const ChatsEntityCompanion({
     this.countryFlagUri = const Value.absent(),
     this.countryName = const Value.absent(),
     this.countryCode = const Value.absent(),
@@ -167,7 +175,8 @@ class ChatsCompanion extends UpdateCompanion<Chat> {
     this.number = const Value.absent(),
     this.fullNumber = const Value.absent(),
   });
-  ChatsCompanion.insert({
+
+  ChatsEntityCompanion.insert({
     required String countryFlagUri,
     required String countryName,
     required String countryCode,
@@ -182,7 +191,8 @@ class ChatsCompanion extends UpdateCompanion<Chat> {
         dateTimes = Value(dateTimes),
         number = Value(number),
         fullNumber = Value(fullNumber);
-  static Insertable<Chat> custom({
+
+  static Insertable<ChatsEntityData> custom({
     Expression<String>? countryFlagUri,
     Expression<String>? countryName,
     Expression<String>? countryCode,
@@ -202,7 +212,7 @@ class ChatsCompanion extends UpdateCompanion<Chat> {
     });
   }
 
-  ChatsCompanion copyWith(
+  ChatsEntityCompanion copyWith(
       {Value<String>? countryFlagUri,
       Value<String>? countryName,
       Value<String>? countryCode,
@@ -210,7 +220,7 @@ class ChatsCompanion extends UpdateCompanion<Chat> {
       Value<String>? dateTimes,
       Value<String>? number,
       Value<String>? fullNumber}) {
-    return ChatsCompanion(
+    return ChatsEntityCompanion(
       countryFlagUri: countryFlagUri ?? this.countryFlagUri,
       countryName: countryName ?? this.countryName,
       countryCode: countryCode ?? this.countryCode,
@@ -250,7 +260,7 @@ class ChatsCompanion extends UpdateCompanion<Chat> {
 
   @override
   String toString() {
-    return (StringBuffer('ChatsCompanion(')
+    return (StringBuffer('ChatsEntityCompanion(')
           ..write('countryFlagUri: $countryFlagUri, ')
           ..write('countryName: $countryName, ')
           ..write('countryCode: $countryCode, ')
@@ -263,14 +273,18 @@ class ChatsCompanion extends UpdateCompanion<Chat> {
   }
 }
 
-class $ChatsTable extends Chats with TableInfo<$ChatsTable, Chat> {
+class $ChatsEntityTable extends ChatsEntity
+    with TableInfo<$ChatsEntityTable, ChatsEntityData> {
   final GeneratedDatabase _db;
   final String? _alias;
-  $ChatsTable(this._db, [this._alias]);
+
+  $ChatsEntityTable(this._db, [this._alias]);
+
   final VerificationMeta _countryFlagUriMeta =
       const VerificationMeta('countryFlagUri');
   @override
   late final GeneratedTextColumn countryFlagUri = _constructCountryFlagUri();
+
   GeneratedTextColumn _constructCountryFlagUri() {
     return GeneratedTextColumn(
       'country_flag_uri',
@@ -283,6 +297,7 @@ class $ChatsTable extends Chats with TableInfo<$ChatsTable, Chat> {
       const VerificationMeta('countryName');
   @override
   late final GeneratedTextColumn countryName = _constructCountryName();
+
   GeneratedTextColumn _constructCountryName() {
     return GeneratedTextColumn(
       'country_name',
@@ -295,6 +310,7 @@ class $ChatsTable extends Chats with TableInfo<$ChatsTable, Chat> {
       const VerificationMeta('countryCode');
   @override
   late final GeneratedTextColumn countryCode = _constructCountryCode();
+
   GeneratedTextColumn _constructCountryCode() {
     return GeneratedTextColumn(
       'country_code',
@@ -307,6 +323,7 @@ class $ChatsTable extends Chats with TableInfo<$ChatsTable, Chat> {
       const VerificationMeta('countryDialCode');
   @override
   late final GeneratedTextColumn countryDialCode = _constructCountryDialCode();
+
   GeneratedTextColumn _constructCountryDialCode() {
     return GeneratedTextColumn(
       'country_dial_code',
@@ -318,6 +335,7 @@ class $ChatsTable extends Chats with TableInfo<$ChatsTable, Chat> {
   final VerificationMeta _dateTimesMeta = const VerificationMeta('dateTimes');
   @override
   late final GeneratedTextColumn dateTimes = _constructDateTimes();
+
   GeneratedTextColumn _constructDateTimes() {
     return GeneratedTextColumn(
       'date_times',
@@ -329,6 +347,7 @@ class $ChatsTable extends Chats with TableInfo<$ChatsTable, Chat> {
   final VerificationMeta _numberMeta = const VerificationMeta('number');
   @override
   late final GeneratedTextColumn number = _constructNumber();
+
   GeneratedTextColumn _constructNumber() {
     return GeneratedTextColumn(
       'number',
@@ -340,6 +359,7 @@ class $ChatsTable extends Chats with TableInfo<$ChatsTable, Chat> {
   final VerificationMeta _fullNumberMeta = const VerificationMeta('fullNumber');
   @override
   late final GeneratedTextColumn fullNumber = _constructFullNumber();
+
   GeneratedTextColumn _constructFullNumber() {
     return GeneratedTextColumn(
       'full_number',
@@ -358,14 +378,17 @@ class $ChatsTable extends Chats with TableInfo<$ChatsTable, Chat> {
         number,
         fullNumber
       ];
+
   @override
-  $ChatsTable get asDslTable => this;
+  $ChatsEntityTable get asDslTable => this;
+
   @override
-  String get $tableName => _alias ?? 'chats';
+  String get $tableName => _alias ?? 'chats_entity';
   @override
-  final String actualTableName = 'chats';
+  final String actualTableName = 'chats_entity';
+
   @override
-  VerificationContext validateIntegrity(Insertable<Chat> instance,
+  VerificationContext validateIntegrity(Insertable<ChatsEntityData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -426,32 +449,37 @@ class $ChatsTable extends Chats with TableInfo<$ChatsTable, Chat> {
 
   @override
   Set<GeneratedColumn> get $primaryKey => {fullNumber};
+
   @override
-  Chat map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return Chat.fromData(data, _db,
+  ChatsEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return ChatsEntityData.fromData(data, _db,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $ChatsTable createAlias(String alias) {
-    return $ChatsTable(_db, alias);
+  $ChatsEntityTable createAlias(String alias) {
+    return $ChatsEntityTable(_db, alias);
   }
 }
 
-class Template extends DataClass implements Insertable<Template> {
+class TemplatesEntityData extends DataClass
+    implements Insertable<TemplatesEntityData> {
   final int id;
   final String message;
   final String dateTimes;
   final bool isNewTemplate;
-  Template(
+
+  TemplatesEntityData(
       {required this.id,
       required this.message,
       required this.dateTimes,
       required this.isNewTemplate});
-  factory Template.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+
+  factory TemplatesEntityData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return Template(
+    return TemplatesEntityData(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       message: const StringType()
@@ -462,6 +490,7 @@ class Template extends DataClass implements Insertable<Template> {
           .mapFromDatabaseResponse(data['${effectivePrefix}is_new_template'])!,
     );
   }
+
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -472,8 +501,8 @@ class Template extends DataClass implements Insertable<Template> {
     return map;
   }
 
-  TemplatesCompanion toCompanion(bool nullToAbsent) {
-    return TemplatesCompanion(
+  TemplatesEntityCompanion toCompanion(bool nullToAbsent) {
+    return TemplatesEntityCompanion(
       id: Value(id),
       message: Value(message),
       dateTimes: Value(dateTimes),
@@ -481,16 +510,17 @@ class Template extends DataClass implements Insertable<Template> {
     );
   }
 
-  factory Template.fromJson(Map<String, dynamic> json,
+  factory TemplatesEntityData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return Template(
+    return TemplatesEntityData(
       id: serializer.fromJson<int>(json['id']),
       message: serializer.fromJson<String>(json['message']),
       dateTimes: serializer.fromJson<String>(json['dateTimes']),
       isNewTemplate: serializer.fromJson<bool>(json['isNewTemplate']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -502,17 +532,18 @@ class Template extends DataClass implements Insertable<Template> {
     };
   }
 
-  Template copyWith(
+  TemplatesEntityData copyWith(
           {int? id, String? message, String? dateTimes, bool? isNewTemplate}) =>
-      Template(
+      TemplatesEntityData(
         id: id ?? this.id,
         message: message ?? this.message,
         dateTimes: dateTimes ?? this.dateTimes,
         isNewTemplate: isNewTemplate ?? this.isNewTemplate,
       );
+
   @override
   String toString() {
-    return (StringBuffer('Template(')
+    return (StringBuffer('TemplatesEntityData(')
           ..write('id: $id, ')
           ..write('message: $message, ')
           ..write('dateTimes: $dateTimes, ')
@@ -526,28 +557,31 @@ class Template extends DataClass implements Insertable<Template> {
       id.hashCode,
       $mrjc(message.hashCode,
           $mrjc(dateTimes.hashCode, isNewTemplate.hashCode))));
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Template &&
+      (other is TemplatesEntityData &&
           other.id == this.id &&
           other.message == this.message &&
           other.dateTimes == this.dateTimes &&
           other.isNewTemplate == this.isNewTemplate);
 }
 
-class TemplatesCompanion extends UpdateCompanion<Template> {
+class TemplatesEntityCompanion extends UpdateCompanion<TemplatesEntityData> {
   final Value<int> id;
   final Value<String> message;
   final Value<String> dateTimes;
   final Value<bool> isNewTemplate;
-  const TemplatesCompanion({
+
+  const TemplatesEntityCompanion({
     this.id = const Value.absent(),
     this.message = const Value.absent(),
     this.dateTimes = const Value.absent(),
     this.isNewTemplate = const Value.absent(),
   });
-  TemplatesCompanion.insert({
+
+  TemplatesEntityCompanion.insert({
     this.id = const Value.absent(),
     required String message,
     required String dateTimes,
@@ -555,7 +589,8 @@ class TemplatesCompanion extends UpdateCompanion<Template> {
   })  : message = Value(message),
         dateTimes = Value(dateTimes),
         isNewTemplate = Value(isNewTemplate);
-  static Insertable<Template> custom({
+
+  static Insertable<TemplatesEntityData> custom({
     Expression<int>? id,
     Expression<String>? message,
     Expression<String>? dateTimes,
@@ -569,12 +604,12 @@ class TemplatesCompanion extends UpdateCompanion<Template> {
     });
   }
 
-  TemplatesCompanion copyWith(
+  TemplatesEntityCompanion copyWith(
       {Value<int>? id,
       Value<String>? message,
       Value<String>? dateTimes,
       Value<bool>? isNewTemplate}) {
-    return TemplatesCompanion(
+    return TemplatesEntityCompanion(
       id: id ?? this.id,
       message: message ?? this.message,
       dateTimes: dateTimes ?? this.dateTimes,
@@ -602,7 +637,7 @@ class TemplatesCompanion extends UpdateCompanion<Template> {
 
   @override
   String toString() {
-    return (StringBuffer('TemplatesCompanion(')
+    return (StringBuffer('TemplatesEntityCompanion(')
           ..write('id: $id, ')
           ..write('message: $message, ')
           ..write('dateTimes: $dateTimes, ')
@@ -612,14 +647,17 @@ class TemplatesCompanion extends UpdateCompanion<Template> {
   }
 }
 
-class $TemplatesTable extends Templates
-    with TableInfo<$TemplatesTable, Template> {
+class $TemplatesEntityTable extends TemplatesEntity
+    with TableInfo<$TemplatesEntityTable, TemplatesEntityData> {
   final GeneratedDatabase _db;
   final String? _alias;
-  $TemplatesTable(this._db, [this._alias]);
+
+  $TemplatesEntityTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedIntColumn id = _constructId();
+
   GeneratedIntColumn _constructId() {
     return GeneratedIntColumn('id', $tableName, false,
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
@@ -628,6 +666,7 @@ class $TemplatesTable extends Templates
   final VerificationMeta _messageMeta = const VerificationMeta('message');
   @override
   late final GeneratedTextColumn message = _constructMessage();
+
   GeneratedTextColumn _constructMessage() {
     return GeneratedTextColumn(
       'message',
@@ -639,6 +678,7 @@ class $TemplatesTable extends Templates
   final VerificationMeta _dateTimesMeta = const VerificationMeta('dateTimes');
   @override
   late final GeneratedTextColumn dateTimes = _constructDateTimes();
+
   GeneratedTextColumn _constructDateTimes() {
     return GeneratedTextColumn(
       'date_times',
@@ -651,6 +691,7 @@ class $TemplatesTable extends Templates
       const VerificationMeta('isNewTemplate');
   @override
   late final GeneratedBoolColumn isNewTemplate = _constructIsNewTemplate();
+
   GeneratedBoolColumn _constructIsNewTemplate() {
     return GeneratedBoolColumn(
       'is_new_template',
@@ -661,14 +702,18 @@ class $TemplatesTable extends Templates
 
   @override
   List<GeneratedColumn> get $columns => [id, message, dateTimes, isNewTemplate];
+
   @override
-  $TemplatesTable get asDslTable => this;
+  $TemplatesEntityTable get asDslTable => this;
+
   @override
-  String get $tableName => _alias ?? 'templates';
+  String get $tableName => _alias ?? 'templates_entity';
   @override
-  final String actualTableName = 'templates';
+  final String actualTableName = 'templates_entity';
+
   @override
-  VerificationContext validateIntegrity(Insertable<Template> instance,
+  VerificationContext validateIntegrity(
+      Insertable<TemplatesEntityData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -700,19 +745,20 @@ class $TemplatesTable extends Templates
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
-  Template map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return Template.fromData(data, _db,
+  TemplatesEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return TemplatesEntityData.fromData(data, _db,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $TemplatesTable createAlias(String alias) {
-    return $TemplatesTable(_db, alias);
+  $TemplatesEntityTable createAlias(String alias) {
+    return $TemplatesEntityTable(_db, alias);
   }
 }
 
-class Link extends DataClass implements Insertable<Link> {
+class LinksEntityData extends DataClass implements Insertable<LinksEntityData> {
   final String countryFlagUri;
   final String countryName;
   final String countryCode;
@@ -720,7 +766,8 @@ class Link extends DataClass implements Insertable<Link> {
   final String dateTimes;
   final String number;
   final String fullNumber;
-  Link(
+
+  LinksEntityData(
       {required this.countryFlagUri,
       required this.countryName,
       required this.countryCode,
@@ -728,10 +775,12 @@ class Link extends DataClass implements Insertable<Link> {
       required this.dateTimes,
       required this.number,
       required this.fullNumber});
-  factory Link.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+
+  factory LinksEntityData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return Link(
+    return LinksEntityData(
       countryFlagUri: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}country_flag_uri'])!,
       countryName: const StringType()
@@ -748,6 +797,7 @@ class Link extends DataClass implements Insertable<Link> {
           .mapFromDatabaseResponse(data['${effectivePrefix}full_number'])!,
     );
   }
+
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -761,8 +811,8 @@ class Link extends DataClass implements Insertable<Link> {
     return map;
   }
 
-  LinksCompanion toCompanion(bool nullToAbsent) {
-    return LinksCompanion(
+  LinksEntityCompanion toCompanion(bool nullToAbsent) {
+    return LinksEntityCompanion(
       countryFlagUri: Value(countryFlagUri),
       countryName: Value(countryName),
       countryCode: Value(countryCode),
@@ -773,10 +823,10 @@ class Link extends DataClass implements Insertable<Link> {
     );
   }
 
-  factory Link.fromJson(Map<String, dynamic> json,
+  factory LinksEntityData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return Link(
+    return LinksEntityData(
       countryFlagUri: serializer.fromJson<String>(json['countryFlagUri']),
       countryName: serializer.fromJson<String>(json['countryName']),
       countryCode: serializer.fromJson<String>(json['countryCode']),
@@ -786,6 +836,7 @@ class Link extends DataClass implements Insertable<Link> {
       fullNumber: serializer.fromJson<String>(json['fullNumber']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -800,7 +851,7 @@ class Link extends DataClass implements Insertable<Link> {
     };
   }
 
-  Link copyWith(
+  LinksEntityData copyWith(
           {String? countryFlagUri,
           String? countryName,
           String? countryCode,
@@ -808,7 +859,7 @@ class Link extends DataClass implements Insertable<Link> {
           String? dateTimes,
           String? number,
           String? fullNumber}) =>
-      Link(
+      LinksEntityData(
         countryFlagUri: countryFlagUri ?? this.countryFlagUri,
         countryName: countryName ?? this.countryName,
         countryCode: countryCode ?? this.countryCode,
@@ -817,9 +868,10 @@ class Link extends DataClass implements Insertable<Link> {
         number: number ?? this.number,
         fullNumber: fullNumber ?? this.fullNumber,
       );
+
   @override
   String toString() {
-    return (StringBuffer('Link(')
+    return (StringBuffer('LinksEntityData(')
           ..write('countryFlagUri: $countryFlagUri, ')
           ..write('countryName: $countryName, ')
           ..write('countryCode: $countryCode, ')
@@ -842,10 +894,11 @@ class Link extends DataClass implements Insertable<Link> {
                   countryDialCode.hashCode,
                   $mrjc(dateTimes.hashCode,
                       $mrjc(number.hashCode, fullNumber.hashCode)))))));
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Link &&
+      (other is LinksEntityData &&
           other.countryFlagUri == this.countryFlagUri &&
           other.countryName == this.countryName &&
           other.countryCode == this.countryCode &&
@@ -855,7 +908,7 @@ class Link extends DataClass implements Insertable<Link> {
           other.fullNumber == this.fullNumber);
 }
 
-class LinksCompanion extends UpdateCompanion<Link> {
+class LinksEntityCompanion extends UpdateCompanion<LinksEntityData> {
   final Value<String> countryFlagUri;
   final Value<String> countryName;
   final Value<String> countryCode;
@@ -863,7 +916,8 @@ class LinksCompanion extends UpdateCompanion<Link> {
   final Value<String> dateTimes;
   final Value<String> number;
   final Value<String> fullNumber;
-  const LinksCompanion({
+
+  const LinksEntityCompanion({
     this.countryFlagUri = const Value.absent(),
     this.countryName = const Value.absent(),
     this.countryCode = const Value.absent(),
@@ -872,7 +926,8 @@ class LinksCompanion extends UpdateCompanion<Link> {
     this.number = const Value.absent(),
     this.fullNumber = const Value.absent(),
   });
-  LinksCompanion.insert({
+
+  LinksEntityCompanion.insert({
     required String countryFlagUri,
     required String countryName,
     required String countryCode,
@@ -887,7 +942,8 @@ class LinksCompanion extends UpdateCompanion<Link> {
         dateTimes = Value(dateTimes),
         number = Value(number),
         fullNumber = Value(fullNumber);
-  static Insertable<Link> custom({
+
+  static Insertable<LinksEntityData> custom({
     Expression<String>? countryFlagUri,
     Expression<String>? countryName,
     Expression<String>? countryCode,
@@ -907,7 +963,7 @@ class LinksCompanion extends UpdateCompanion<Link> {
     });
   }
 
-  LinksCompanion copyWith(
+  LinksEntityCompanion copyWith(
       {Value<String>? countryFlagUri,
       Value<String>? countryName,
       Value<String>? countryCode,
@@ -915,7 +971,7 @@ class LinksCompanion extends UpdateCompanion<Link> {
       Value<String>? dateTimes,
       Value<String>? number,
       Value<String>? fullNumber}) {
-    return LinksCompanion(
+    return LinksEntityCompanion(
       countryFlagUri: countryFlagUri ?? this.countryFlagUri,
       countryName: countryName ?? this.countryName,
       countryCode: countryCode ?? this.countryCode,
@@ -955,7 +1011,7 @@ class LinksCompanion extends UpdateCompanion<Link> {
 
   @override
   String toString() {
-    return (StringBuffer('LinksCompanion(')
+    return (StringBuffer('LinksEntityCompanion(')
           ..write('countryFlagUri: $countryFlagUri, ')
           ..write('countryName: $countryName, ')
           ..write('countryCode: $countryCode, ')
@@ -968,14 +1024,18 @@ class LinksCompanion extends UpdateCompanion<Link> {
   }
 }
 
-class $LinksTable extends Links with TableInfo<$LinksTable, Link> {
+class $LinksEntityTable extends LinksEntity
+    with TableInfo<$LinksEntityTable, LinksEntityData> {
   final GeneratedDatabase _db;
   final String? _alias;
-  $LinksTable(this._db, [this._alias]);
+
+  $LinksEntityTable(this._db, [this._alias]);
+
   final VerificationMeta _countryFlagUriMeta =
       const VerificationMeta('countryFlagUri');
   @override
   late final GeneratedTextColumn countryFlagUri = _constructCountryFlagUri();
+
   GeneratedTextColumn _constructCountryFlagUri() {
     return GeneratedTextColumn(
       'country_flag_uri',
@@ -988,6 +1048,7 @@ class $LinksTable extends Links with TableInfo<$LinksTable, Link> {
       const VerificationMeta('countryName');
   @override
   late final GeneratedTextColumn countryName = _constructCountryName();
+
   GeneratedTextColumn _constructCountryName() {
     return GeneratedTextColumn(
       'country_name',
@@ -1000,6 +1061,7 @@ class $LinksTable extends Links with TableInfo<$LinksTable, Link> {
       const VerificationMeta('countryCode');
   @override
   late final GeneratedTextColumn countryCode = _constructCountryCode();
+
   GeneratedTextColumn _constructCountryCode() {
     return GeneratedTextColumn(
       'country_code',
@@ -1012,6 +1074,7 @@ class $LinksTable extends Links with TableInfo<$LinksTable, Link> {
       const VerificationMeta('countryDialCode');
   @override
   late final GeneratedTextColumn countryDialCode = _constructCountryDialCode();
+
   GeneratedTextColumn _constructCountryDialCode() {
     return GeneratedTextColumn(
       'country_dial_code',
@@ -1023,6 +1086,7 @@ class $LinksTable extends Links with TableInfo<$LinksTable, Link> {
   final VerificationMeta _dateTimesMeta = const VerificationMeta('dateTimes');
   @override
   late final GeneratedTextColumn dateTimes = _constructDateTimes();
+
   GeneratedTextColumn _constructDateTimes() {
     return GeneratedTextColumn(
       'date_times',
@@ -1034,6 +1098,7 @@ class $LinksTable extends Links with TableInfo<$LinksTable, Link> {
   final VerificationMeta _numberMeta = const VerificationMeta('number');
   @override
   late final GeneratedTextColumn number = _constructNumber();
+
   GeneratedTextColumn _constructNumber() {
     return GeneratedTextColumn(
       'number',
@@ -1045,6 +1110,7 @@ class $LinksTable extends Links with TableInfo<$LinksTable, Link> {
   final VerificationMeta _fullNumberMeta = const VerificationMeta('fullNumber');
   @override
   late final GeneratedTextColumn fullNumber = _constructFullNumber();
+
   GeneratedTextColumn _constructFullNumber() {
     return GeneratedTextColumn(
       'full_number',
@@ -1063,14 +1129,17 @@ class $LinksTable extends Links with TableInfo<$LinksTable, Link> {
         number,
         fullNumber
       ];
+
   @override
-  $LinksTable get asDslTable => this;
+  $LinksEntityTable get asDslTable => this;
+
   @override
-  String get $tableName => _alias ?? 'links';
+  String get $tableName => _alias ?? 'links_entity';
   @override
-  final String actualTableName = 'links';
+  final String actualTableName = 'links_entity';
+
   @override
-  VerificationContext validateIntegrity(Insertable<Link> instance,
+  VerificationContext validateIntegrity(Insertable<LinksEntityData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -1131,25 +1200,30 @@ class $LinksTable extends Links with TableInfo<$LinksTable, Link> {
 
   @override
   Set<GeneratedColumn> get $primaryKey => {fullNumber};
+
   @override
-  Link map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return Link.fromData(data, _db,
+  LinksEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return LinksEntityData.fromData(data, _db,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $LinksTable createAlias(String alias) {
-    return $LinksTable(_db, alias);
+  $LinksEntityTable createAlias(String alias) {
+    return $LinksEntityTable(_db, alias);
   }
 }
 
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
-  late final $ChatsTable chats = $ChatsTable(this);
-  late final $TemplatesTable templates = $TemplatesTable(this);
-  late final $LinksTable links = $LinksTable(this);
+  late final $ChatsEntityTable chatsEntity = $ChatsEntityTable(this);
+  late final $TemplatesEntityTable templatesEntity =
+      $TemplatesEntityTable(this);
+  late final $LinksEntityTable linksEntity = $LinksEntityTable(this);
+
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
+
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [chats, templates, links];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [chatsEntity, templatesEntity, linksEntity];
 }

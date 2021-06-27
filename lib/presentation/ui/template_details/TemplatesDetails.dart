@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 import 'package:whatsappy/presentation/ui/template_details/TemplateDetailsController.dart';
-import 'package:whatsappy/presentation/utils/helper/helper.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 import 'package:whatsappy/presentation/utils/widgets/ActionBarsHelper.dart';
 import 'package:whatsappy/presentation/utils/widgets/ContainersHelper.dart';
 import 'package:whatsappy/presentation/utils/widgets/TextFieldsHelper.dart';
 
+// ignore: must_be_immutable
 class TemplatesDetailsActivity extends StatelessWidget {
   final TemplateDetailsController controller = Get.find();
-  TemplatesHistory item;
+  NumberObject item;
 
   final _messageText = TextEditingController();
 
@@ -31,37 +31,34 @@ class TemplatesDetailsActivity extends StatelessWidget {
         backgroundColor: colorPrimary,
       ),
       appBar: backActionBar(
-        title: item.isNewTemplate ? "New Template" : "Edit Template",
+        title: item.isNewTemplate ? 'newTemplate'.tr : 'editTemplate'.tr,
       ),
       body: Container(
         padding: EdgeInsets.all(generalPadding),
-        child: ListView(
+        child: Column(
           children: [
             Text(
-              "Message",
+              'message'.tr,
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: h4,
+                  fontSize: h5,
                   fontWeight: FontWeight.w600),
             ),
             SizedBox(
               height: generalPadding,
             ),
-            Container(
-              decoration: boxDecoration(shapeColor: colorGrey),
-              child: TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Message Required!';
-                  }
-                  return null;
-                },
-                controller: _messageText,
-                minLines: 14,
-                maxLines: null,
-                style: TextStyle(color: colorPrimary, fontSize: h3),
-                keyboardType: TextInputType.multiline,
-                decoration: inputDecorationWithoutAnimation(),
+            Expanded(
+              child: Container(
+                decoration: boxDecoration(shapeColor: colorGrey),
+                child: TextFormField(
+                  onChanged: controller.onValueChanged,
+                  controller: _messageText,
+                  minLines: 14,
+                  maxLines: null,
+                  style: TextStyle(color: colorPrimary, fontSize: h4),
+                  keyboardType: TextInputType.multiline,
+                  decoration: inputDecorationWithoutAnimation(),
+                ),
               ),
             ),
           ],
@@ -71,11 +68,6 @@ class TemplatesDetailsActivity extends StatelessWidget {
   }
 
   void _onSubmitClicked() {
-    if (_messageText.value.text.isEmpty) {
-      showSnackBar(title: "Error", content: "Required");
-      return;
-    }
-
-    controller.validateForm(_messageText.value.text);
+    controller.validateForm();
   }
 }

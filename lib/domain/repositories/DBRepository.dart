@@ -1,26 +1,23 @@
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
-import 'package:whatsappy/domain/models/LinksHistory.dart';
-import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 
 abstract class DBRepository {
-  Future<int> insertChatHistoryToDB(ChatsHistory item);
+  Future<int> insertChatHistoryToDB(NumberObject item);
 
-  Future<int> insertTemplateHistoryToDB(TemplatesHistory item);
+  Future<int> insertTemplateHistoryToDB(NumberObject item);
 
-  Future<int> insertLinksHistoryToDB(LinksHistory item);
+  Future<int> insertLinksHistoryToDB(NumberObject item);
 
-  Future updateTemplateHistory(TemplatesHistory item);
+  Future updateTemplateHistory(NumberObject item);
 
-  Stream<List<ChatsHistory>> watchChatHistory();
+  Stream<List<NumberObject>> watchChatHistory();
 
-  Stream<List<TemplatesHistory>> watchTemplatesHistory();
+  Stream<List<NumberObject>> watchTemplatesHistory();
 
-  Stream<List<LinksHistory>> watchLinksHistory();
+  Stream<List<NumberObject>> watchLinksHistory();
 
   Future clearChatHistoryFromDB();
 
   Future clearTemplateHistoryFromDB();
 
   Future clearLinksHistoryFromDB();
-
 }

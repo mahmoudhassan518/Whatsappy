@@ -40,3 +40,23 @@ AppBar backActionBar({String title = "", List<Widget>? actions}) {
     ),
   );
 }
+
+AppBar closeActionBar({String title = "", List<Widget>? actions}) {
+  return AppBar(
+    actions: actions,
+    automaticallyImplyLeading: true,
+    leading: IconButton(
+        icon: Icon(Icons.close, color: onPrimary),
+        onPressed: () => Get.back()),
+    title: Text(
+      title = title,
+      style: TextStyle(color: onPrimary, fontSize: h4),
+    ),
+    centerTitle: false,
+    brightness: Brightness.dark,
+    elevation: appBarElevation,
+    iconTheme: IconThemeData(
+      color: onPrimary,
+    ),
+  );
+}

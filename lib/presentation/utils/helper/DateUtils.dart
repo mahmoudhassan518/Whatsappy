@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 
-
 class DateUtils {
   /// Formats the date in `yMMMd` format.
   static String shortMonthDayYear(DateTime date) {

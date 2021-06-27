@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:whatsappy/data/datasource/locale/MySharedPreferences.dart';
-import 'package:whatsappy/data/datasource/locale/db/MyDatabase.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 
@@ -10,7 +9,6 @@ import 'SplashController.dart';
 class SplashActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    MySharedPreferences.initializeApp();
 
     final SplashController controller = Get.find();
 

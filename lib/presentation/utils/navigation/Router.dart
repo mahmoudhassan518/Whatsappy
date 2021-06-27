@@ -4,16 +4,14 @@ import 'package:whatsappy/presentation/ui/intro/IntroActivity.dart';
 import 'package:whatsappy/presentation/ui/main/MainActivity.dart';
 import 'package:whatsappy/presentation/ui/splash/SplashActivity.dart';
 
-
 class RouterHelper {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-
-        case startRoute:
+      case startRoute:
         return MaterialPageRoute(builder: (_) => SplashActivity());
-        case mainRoute:
+      case mainRoute:
         return MaterialPageRoute(builder: (_) => MainActivity());
-        case introRoute:
+      case introRoute:
         return MaterialPageRoute(builder: (_) => IntroActivity());
       default:
         return MaterialPageRoute(

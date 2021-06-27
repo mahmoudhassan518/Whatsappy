@@ -1,7 +1,6 @@
 import 'package:moor/moor.dart';
 
-
-class Chats extends Table {
+class ChatsEntity extends Table {
   TextColumn get countryFlagUri => text()();
 
   TextColumn get countryName => text()();

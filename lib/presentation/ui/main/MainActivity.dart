@@ -1,14 +1,18 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:share/share.dart';
 import 'package:whatsappy/domain/models/NavBarData.dart';
 import 'package:whatsappy/presentation/ui/main/screens/chats/ChatsScreen.dart';
 import 'package:whatsappy/presentation/ui/main/screens/links/LinksScreen.dart';
 import 'package:whatsappy/presentation/ui/main/screens/settings/SettingsScreen.dart';
 import 'package:whatsappy/presentation/ui/main/screens/templates/TemplatesScreen.dart';
 import 'package:whatsappy/presentation/utils/widgets/ActionBarsHelper.dart';
+import 'package:get/get.dart';
 
+
+
+// ignore: must_be_immutable
 class MainActivity extends StatelessWidget {
   late PersistentTabController _controller;
 
@@ -18,16 +22,13 @@ class MainActivity extends StatelessWidget {
 
     return Scaffold(
         // resizeToAvoidBottomInset:  true,
-        appBar: titleActionBar(title: "Whatsappy", actions: [
+        appBar: titleActionBar(title: 'appName'.tr, actions: [
           IconButton(
             icon: const Icon(Icons.share),
-            tooltip: 'share app',
-            onPressed: () {
-
-            },
+            tooltip: 'shareApp'.tr,
+            onPressed: () { _shareLink('shareAppMessage'.tr);},
           ),
         ]),
-
         body: PersistentTabView(
           context,
           controller: _controller,
@@ -70,8 +71,7 @@ class MainActivity extends StatelessWidget {
     return [ChatsScreen(), TemplatesScreen(), LinksScreen(), SettingsScreen()];
   }
 
-
-
+  _shareLink(String msg) async {
+    await Share.share(msg);
+  }
 }
-
-

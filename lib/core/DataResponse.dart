@@ -2,7 +2,7 @@ class DataResponse<T> {
   Status status = Status.Init;
   T? res; //dynamic
   String? loadingMessage;
-  Exception? error;
+  String? error;
 
   DataResponse(
       {this.status = Status.Init, this.res, this.loadingMessage, this.error});
@@ -12,7 +12,7 @@ class DataResponse<T> {
   static DataResponse onLoading(String? message) =>
       DataResponse(status: Status.Loading, loadingMessage: message);
 
-  static DataResponse onError(Exception message) =>
+  static DataResponse onError(String message) =>
       DataResponse(status: Status.Error, error: message);
 
   static DataResponse onSuccess<T>(T data) =>

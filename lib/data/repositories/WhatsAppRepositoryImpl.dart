@@ -1,26 +1,27 @@
 import 'package:url_launcher/url_launcher.dart';
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
-import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 import 'package:whatsappy/domain/repositories/WhatsAppRepository.dart';
+import 'package:get/get.dart';
+
 
 class WhatsAppRepositoryImpl extends WhatsAppRepository {
   Exception throwValidationException(String msg) => Exception(msg);
 
   @override
-  Future<bool> openWhatsAppWithSingleMessage(ChatsHistory item) async {
+  Future<bool> openWhatsAppWithSingleMessage(NumberObject item) async {
     try {
       return await launch("https://wa.me/${item.fullNumber}?text=");
-    } on Exception catch (e) {
-      throw throwValidationException("Error during opening whatsapp!");
+    } on Exception {
+      throw throwValidationException('openWhatsappErrorMessage'.tr);
     }
   }
 
   @override
-  Future<bool> openWhatsAppWithOnlyMessageUseCase(TemplatesHistory item) async {
+  Future<bool> openWhatsAppWithOnlyMessageUseCase(NumberObject item) async {
     try {
       return await launch("https://wa.me/?text=${item.message}");
-    } on Exception catch (e) {
-      throw throwValidationException("Error during opening whatsapp!");
+    } on Exception {
+      throw throwValidationException('openWhatsappErrorMessage'.tr);
     }
   }
 }

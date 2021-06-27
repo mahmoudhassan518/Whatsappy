@@ -8,16 +8,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:whatsappy/data/mapper/ChatsEntityMapper.dart';
 import 'package:whatsappy/data/mapper/LinksEntityMapper.dart';
 import 'package:whatsappy/data/mapper/TemplatesEntityMapper.dart';
-import 'package:whatsappy/data/model/entites/ChatsHistoryEntity.dart';
-import 'package:whatsappy/data/model/entites/LinksHistoryEntity.dart';
-import 'package:whatsappy/data/model/entites/TemplatesHistoryEntity.dart';
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
-import 'package:whatsappy/domain/models/LinksHistory.dart';
-import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
+import 'package:whatsappy/data/model/entites/ChatsEntity.dart';
+import 'package:whatsappy/data/model/entites/LinksEntity.dart';
+import 'package:whatsappy/data/model/entites/TemplatesEntity.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 
 part 'MyDatabase.g.dart';
 
-@UseMoor(tables: [Chats, Templates, Links])
+@UseMoor(tables: [ChatsEntity, TemplatesEntity, LinksEntity])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 
@@ -25,12 +23,12 @@ class MyDatabase extends _$MyDatabase {
   int get schemaVersion => 1;
 
   // loads all numbers entries
-  Future<List<Chat>> get allChats => select(chats).get();
+  Future<List<ChatsEntityData>> get allChats => select(chatsEntity).get();
 
   // watches all numbers entries. The stream will automatically
   // emit new items whenever the underlying data changes.
-  Stream<List<ChatsHistory>> watchChatHistory(ChatsEntityMapper entityMapper) {
-    final query = select(chats);
+  Stream<List<NumberObject>> watchChatHistory(ChatsEntityMapper entityMapper) {
+    final query = select(chatsEntity);
 
     return query.watch().map((event) {
       return event.map((e) => entityMapper.mapToDomainModel(e)).toList();
@@ -38,18 +36,18 @@ class MyDatabase extends _$MyDatabase {
   }
 
   // returns the generated id
-  Future<int> addChat(Chat entry) {
-    return into(chats).insertOnConflictUpdate(entry);
+  Future<int> addChat(ChatsEntityData entry) {
+    return into(chatsEntity).insertOnConflictUpdate(entry);
   }
 
   Future clearChatsData() {
     // delete the oldest nine tasks
-    return (delete(chats)).go();
+    return (delete(chatsEntity)).go();
   }
 
-  Stream<List<TemplatesHistory>> watchTemplatesHistory(
+  Stream<List<NumberObject>> watchTemplatesHistory(
       TemplatesEntityMapper entityMapper) {
-    final query = select(templates);
+    final query = select(templatesEntity);
 
     return query.watch().map((event) {
       return event.map((e) => entityMapper.mapToDomainModel(e)).toList();
@@ -57,23 +55,24 @@ class MyDatabase extends _$MyDatabase {
   }
 
   // returns the generated id
-  Future<int> addTemplate(Template entry) {
-    return into(templates).insert(TemplatesCompanion(
+  Future<int> addTemplate(TemplatesEntityData entry) {
+    return into(templatesEntity).insert(TemplatesEntityCompanion(
         message: Value(entry.message),
         dateTimes: Value(entry.dateTimes),
         // id:  Value(entry.id),
         isNewTemplate: Value(entry.isNewTemplate)));
   }
 
-  Future updateTemplate(Template entry) => update(templates).replace(entry);
+  Future updateTemplate(TemplatesEntityData entry) =>
+      update(templatesEntity).replace(entry);
 
   Future clearTemplatesData() {
     // delete the oldest nine tasks
-    return (delete(templates)).go();
+    return (delete(templatesEntity)).go();
   }
 
-  Stream<List<LinksHistory>> watchLinksHistory(LinksEntityMapper entityMapper) {
-    final query = select(links);
+  Stream<List<NumberObject>> watchLinksHistory(LinksEntityMapper entityMapper) {
+    final query = select(linksEntity);
 
     return query.watch().map((event) {
       return event.map((e) => entityMapper.mapToDomainModel(e)).toList();
@@ -81,13 +80,13 @@ class MyDatabase extends _$MyDatabase {
   }
 
   // returns the generated id
-  Future<int> addLink(Link entry) {
-    return into(links).insertOnConflictUpdate(entry);
+  Future<int> addLink(LinksEntityData entry) {
+    return into(linksEntity).insertOnConflictUpdate(entry);
   }
 
   Future clearLinksData() {
     // delete the oldest nine tasks
-    return (delete(links)).go();
+    return (delete(linksEntity)).go();
   }
 }
 

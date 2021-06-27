@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intro_slider/slide_object.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
+import 'package:get/get.dart';
+
+
 
 Slide customSlider(
     {String? title,
@@ -30,12 +33,9 @@ Slide customSlider(
   );
 }
 
-
 Widget optionsText({String title = ""}) {
-
   return Text(title, style: TextStyle(color: Colors.white, fontSize: h4));
 }
-
 
 Widget renderNextBtn() {
   // return Icon(
@@ -44,8 +44,7 @@ Widget renderNextBtn() {
   //   size: 24.0,
   // );
 
-  return optionsText(title: "Next".toUpperCase());
-
+  return optionsText(title: 'next'.tr);
 }
 
 Widget renderDoneBtn() {
@@ -54,8 +53,7 @@ Widget renderDoneBtn() {
   //   color: Color(0xffD02090),
   // );
 
-  return optionsText(title: "Done".toUpperCase());
-
+  return optionsText(title: 'done'.tr);
 }
 
 Widget renderSkipBtn() {
@@ -64,5 +62,5 @@ Widget renderSkipBtn() {
   //   color: Color(0xffD02090),
   // );
 
-  return optionsText(title: "Skip".toUpperCase());
+  return optionsText(title: 'skip'.tr);
 }

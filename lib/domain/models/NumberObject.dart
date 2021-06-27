@@ -1,15 +1,17 @@
 import 'package:intl/intl.dart';
 
-class ChatsHistory {
-  ChatsHistory(
-      {
-      this.countryFlagUri = "flags/eg.png",
+class NumberObject {
+  NumberObject(
+      {this.countryFlagUri = "flags/eg.png",
       this.countryName = "مصر",
       this.countryCode = "EG",
       this.countryDialCode = "+20",
       this.dateTime = "",
       this.number = "",
-      this.fullNumber=""});
+      this.fullNumber = "",
+      this.message = "",
+      this.id = 0,
+      this.isNewTemplate = true});
 
   String countryFlagUri;
   String countryName;
@@ -21,6 +23,9 @@ class ChatsHistory {
 
   String fullNumber;
 
+  String message = "";
+  int id;
+  bool isNewTemplate;
 
   Map<String, dynamic> toJson() {
     return {
@@ -31,8 +36,12 @@ class ChatsHistory {
       "dateTime": this.dateTime,
       "number": this.number,
       "fullNumber": this.fullNumber,
+      "message": this.message,
+      "id": this.id,
+      "isNewTemplate": this.isNewTemplate,
     };
   }
 
-  String? getCurrentTime() => DateFormat('dd/MM/yyyy hh:mm:a').format(DateTime.now());
+  String getCurrentTime() =>
+      DateFormat('dd/MM/yyyy hh:mm:a').format(DateTime.now());
 }

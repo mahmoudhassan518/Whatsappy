@@ -15,3 +15,9 @@ InputDecoration inputDecorationWithoutAnimation(
       hintStyle: TextStyle(color: onPrimary, fontSize: h3),
       suffixIcon: suffixIcon);
 }
+
+
+
+InputBorder getSearchInputBorder() {
+  return InputBorder.none;
+}

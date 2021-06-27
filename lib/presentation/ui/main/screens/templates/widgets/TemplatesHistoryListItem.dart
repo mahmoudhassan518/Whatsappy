@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 import 'package:whatsappy/presentation/ui/main/screens/templates/TemplatesController.dart';
 import 'package:whatsappy/presentation/utils/navigation/NavigationHelper.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 
+// ignore: must_be_immutable
 class TemplatesHistoryListItem extends StatelessWidget {
-  TemplatesHistory item;
+  NumberObject item;
   TemplatesController controller;
 
   TemplatesHistoryListItem(this.item, this.controller);

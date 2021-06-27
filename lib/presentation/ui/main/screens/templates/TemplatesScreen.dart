@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 import 'package:whatsappy/presentation/ui/main/screens/templates/widgets/Bottom.dart';
 import 'package:whatsappy/presentation/ui/main/screens/templates/widgets/top.dart';
 import 'package:whatsappy/presentation/utils/navigation/NavigationHelper.dart';
@@ -14,15 +14,14 @@ class TemplatesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         elevation: 0,
         onPressed: () {
-          startTemplatesDetails(TemplatesHistory());
+          startTemplatesDetails(NumberObject());
         },
-        label: const Text('Add'),
-        icon: const Icon(Icons.add),
+        label: Text('add'.tr),
+        icon: Icon(Icons.add),
         backgroundColor: colorPrimary,
       ),
       body: Container(

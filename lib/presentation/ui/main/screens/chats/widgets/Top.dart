@@ -1,30 +1,26 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:whatsappy/presentation/ui/main/screens/chats/ChatsController.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 import 'package:whatsappy/presentation/utils/widgets/ButtonsHelper.dart';
-import 'package:whatsappy/presentation/utils/widgets/ContainersHelper.dart';
-import 'package:whatsappy/presentation/utils/widgets/TextFieldsHelper.dart';
+import 'package:whatsappy/presentation/utils/widgets/others.dart';
 
-import '../ChatsController.dart';
 
+
+// ignore: must_be_immutable
 class Top extends StatelessWidget {
-  final _numberText = TextEditingController();
+  ChatsController _controller;
 
-  ChatsController controller;
-
-  Top(this.controller);
+  Top(this._controller);
 
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
       padding: EdgeInsets.all(generalPadding),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        Text(
-          "Enter Mobile Number",
+        Text('enterMobileNumber'.tr
+          ,
           style: TextStyle(color: colorGreyLight, fontSize: headLine),
           textAlign: TextAlign.left,
         ),
@@ -32,65 +28,18 @@ class Top extends StatelessWidget {
           height: smallPadding,
         ),
         Text(
-          "To start a WhatsApp conversation without saving the number to contacts",
+          'chatsMessage'.tr,
           style: TextStyle(color: onPrimary, fontSize: h3),
           textAlign: TextAlign.center,
         ),
         SizedBox(
           height: smallPadding,
         ),
-        Row(
-          children: [
-            Container(
-              height: 48,
-              decoration: boxDecoration(shapeColor: colorPrimaryDark),
-              child: CountryCodePicker(
-                onChanged: controller.onCodeChange,
-
-                textStyle: TextStyle(color: onPrimary, fontSize: h3),
-                // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                initialSelection: 'EG',
-                favorite: ['+20', 'EG'],
-                // optional. Shows only country name and flag
-                showCountryOnly: false,
-                // optional. Shows only country name and flag when popup is closed.
-                showOnlyCountryWhenClosed: false,
-                // optional. aligns the flag and the Text left
-                alignLeft: false,
-              ),
-            ),
-            SizedBox(
-              width: smallPadding,
-            ),
-            Expanded(
-              child: Container(
-                height: 48,
-                decoration: boxDecoration(shapeColor: colorPrimaryDark),
-                child: GestureDetector(
-                  onTap: () {
-                  },
-                  child: TextField(
-                    keyboardType: TextInputType.phone,
-                    controller: _numberText,
-                    // autofocus: true,
-                    style: TextStyle(color: onPrimary, fontSize: h3),
-                    maxLines: 1,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(15),
-                    ],
-                    textInputAction: TextInputAction.send,
-                    onSubmitted: (value) {
-                      _onSubmitClicked(context);
-                    },
-                    decoration: inputDecorationWithoutAnimation(
-                      label: "",
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+        buildSearchNumberRow(
+            onCodeChange: _controller.onCodeChange,
+            onTextChanged: _controller.onTextChanged,
+        initialCountryCode: _controller.item.countryCode,
+        initialDialCode: _controller.item.countryDialCode),
         SizedBox(
           height: smallPadding,
         ),
@@ -99,7 +48,7 @@ class Top extends StatelessWidget {
           child: ElevatedButton(
             style: buttonStyle(),
             child: Text(
-              'Open in WhatsApp',
+              'openInWhatsApp'.tr,
               // style: buttonTextStyle(),
             ),
             onPressed: () {
@@ -112,8 +61,7 @@ class Top extends StatelessWidget {
     );
   }
 
-  void _onSubmitClicked(BuildContext context) async{
-    controller.validateForm(_numberText.value.text);
-
+  void _onSubmitClicked(BuildContext context) async {
+    _controller.validateForm();
   }
 }

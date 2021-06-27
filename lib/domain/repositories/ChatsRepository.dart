@@ -1,8 +1,5 @@
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
-import 'package:whatsappy/domain/models/LinksHistory.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 
 abstract class ChatsRepository {
-  Future<bool> validateChatIsRealNumber(ChatsHistory item);
-  Future<bool> validateLinksIsRealNumber(LinksHistory item);
-
+  Future<bool> validateIsRealNumber(NumberObject item);
 }

@@ -1,25 +1,26 @@
 import 'package:whatsappy/core/Mapper.dart';
 import 'package:whatsappy/data/datasource/locale/db/MyDatabase.dart';
-import 'package:whatsappy/domain/models/TemplatesHistoryItem.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 
-class TemplatesEntityMapper extends Mapper<Template, TemplatesHistory> {
+class TemplatesEntityMapper extends Mapper<TemplatesEntityData, NumberObject> {
   @override
-  Template mapFromDomainModel(TemplatesHistory domain) => Template(
-      dateTimes: domain.dateTime,
-      message: domain.message,
-      id: domain.id,
-      isNewTemplate: domain.isNewTemplate);
+  TemplatesEntityData mapFromDomainModel(NumberObject domain) =>
+      TemplatesEntityData(
+          dateTimes: domain.dateTime,
+          message: domain.message,
+          id: domain.id,
+          isNewTemplate: domain.isNewTemplate);
 
   @override
-  TemplatesHistory mapToDomainModel(Template template) => TemplatesHistory(
+  NumberObject mapToDomainModel(TemplatesEntityData template) => NumberObject(
       dateTime: template.dateTimes,
       message: template.message,
       id: template.id,
       isNewTemplate: template.isNewTemplate);
 
-  List<TemplatesHistory> mapToDomainList(List<Template> list) =>
+  List<NumberObject> mapToDomainList(List<TemplatesEntityData> list) =>
       list.map((e) => mapToDomainModel(e)).toList();
 
-  List<Template> mapFromDomainList(List<TemplatesHistory> list) =>
+  List<TemplatesEntityData> mapFromDomainList(List<NumberObject> list) =>
       list.map((e) => mapFromDomainModel(e)).toList();
 }

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:whatsappy/presentation/ui/main/screens/templates/TemplatesController.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
+import 'package:get/get.dart';
 
+
+// ignore: must_be_immutable
 class Top extends StatelessWidget {
-
   TemplatesController controller;
-
 
   Top(this.controller);
 
@@ -16,7 +17,7 @@ class Top extends StatelessWidget {
       padding: EdgeInsets.all(generalPadding),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Text(
-          "Templates",
+          'templates'.tr,
           style: TextStyle(color: colorGreyLight, fontSize: headLine),
           textAlign: TextAlign.left,
         ),
@@ -24,7 +25,7 @@ class Top extends StatelessWidget {
           height: smallPadding,
         ),
         Text(
-          "Create messages which you send frequently on whatsapp, add more by clicking on Add",
+          'templatesMessage'.tr,
           style: TextStyle(color: onPrimary, fontSize: h3),
           textAlign: TextAlign.center,
         ),

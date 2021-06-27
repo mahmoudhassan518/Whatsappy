@@ -26,9 +26,7 @@ class IntroScreen extends StatefulWidget {
 }
 
 class IntroScreenState extends State<IntroScreen> {
-
   final IntroController controller = Get.find();
-
 
   @override
   void initState() {
@@ -36,46 +34,46 @@ class IntroScreenState extends State<IntroScreen> {
   }
 
   void onDonePress() {
-
     controller.onDonePress();
-    // Do what you want
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => HomeScreen()),
-    // );
   }
 
   @override
   Widget build(BuildContext context) {
-    return new IntroSlider(
-      // List slides
-      slides: SliderHolder.getSliderList(),
+    return Directionality(
+      textDirection: controller.getTextDirection(),
+      child: new IntroSlider(
+        // List slides
+        slides: SliderHolder.getSliderList(),
 
-      // Skip button
-      renderSkipBtn: renderSkipBtn(),
-      // colorSkipBtn: Color(0x33000000),
-      // highlightColorSkipBtn: Color(0xff000000),
+        // Skip button
+        renderSkipBtn: renderSkipBtn(),
+        // colorSkipBtn: Color(0x33000000),
+        // highlightColorSkipBtn: Color(0xff000000),
 
-      // Next button
-      renderNextBtn: renderNextBtn(),
+        // Next button
+        renderNextBtn: renderNextBtn(),
 
-      // Done button
-      renderDoneBtn: renderDoneBtn(),
-      onDonePress: this.onDonePress,
-      // colorDoneBtn: Color(0x33000000),
-      // highlightColorDoneBtn: Color(0xff000000),
+        // Done button
+        renderDoneBtn: renderDoneBtn(),
+        onDonePress: this.onDonePress,
+        // colorDoneBtn: Color(0x33000000),
+        // highlightColorDoneBtn: Color(0xff000000),
 
-      // Dot indicator
-      colorDot: CupertinoColors.systemGrey,
-      colorActiveDot: Colors.white,
-      sizeDot: 12.0,
+        // Dot indicator
+        colorDot: Colors.grey[300],
+        colorActiveDot: Colors.white,
+        sizeDot: 12.0,
 
-      // Show or hide status bar
-      hideStatusBar: true,
-      backgroundColorAllSlides: Colors.grey,
+        // Show or hide status bar
+        hideStatusBar: false,
 
-      // Scrollbar
-      // verticalScrollbarBehavior: scrollbarBehavior.SHOW_ALWAYS,
+
+
+        backgroundColorAllSlides: Colors.grey[300],
+
+        // Scrollbar
+        // verticalScrollbarBehavior: scrollbarBehavior.SHOW_ALWAYS,
+      ),
     );
   }
 }

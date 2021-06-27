@@ -3,18 +3,18 @@ import 'package:get/get.dart';
 import 'package:whatsappy/core/BaseController.dart';
 import 'package:whatsappy/data/model/others/NoParams.dart';
 import 'package:whatsappy/di/Injector.dart';
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 import 'package:whatsappy/domain/usecases/ClearChatHistoryFromDBUseCase.dart';
 import 'package:whatsappy/domain/usecases/InsertChatHistoryToDBUseCase.dart';
 import 'package:whatsappy/domain/usecases/OpenWhatsAppWithSingleNumberUseCase.dart';
-import 'package:whatsappy/domain/usecases/ValidateChatsIsRealNumberUseCase.dart';
+import 'package:whatsappy/domain/usecases/ValidateIsRealNumberUseCase.dart';
 import 'package:whatsappy/domain/usecases/WatchChatHistoryUseCase.dart';
 
 class ChatsController extends GetxController {
   final BaseController controller = Get.find();
 
-  ValidateChatsIsRealNumberUseCase validateIsRealNumberUseCase =
-      getIt<ValidateChatsIsRealNumberUseCase>();
+  ValidateIsRealNumberUseCase validateIsRealNumberUseCase =
+      getIt<ValidateIsRealNumberUseCase>();
 
   OpenWhatsAppWithSingleNumberUseCase
       openWhatsAppWithSingleNumberNumberUseCase =
@@ -29,7 +29,15 @@ class ChatsController extends GetxController {
   ClearChatHistoryFromDBUseCase clearChatHistoryFromDBUseCase =
       getIt<ClearChatHistoryFromDBUseCase>();
 
-  ChatsHistory item = ChatsHistory();
+  NumberObject item = NumberObject();
+
+
+
+  onTextChanged(String text) {
+
+    print("number changed $text");
+    item.number = text;
+  }
 
   void onCodeChange(CountryCode value) {
     print(value);
@@ -42,14 +50,16 @@ class ChatsController extends GetxController {
     print("data item is  ${item.toJson()}");
   }
 
-  validateForm(String number) {
-    item.number = number;
-    item.fullNumber = item.countryDialCode + number;
-    item.dateTime = item.getCurrentTime() ?? "";
+  validateForm() {
+    // item.number = number;
+
+    print('number is ${item.number}');
+    item.fullNumber = item.countryDialCode + item.number;
+    item.dateTime = item.getCurrentTime();
     validateIsRealNumber(item);
   }
 
-  validateIsRealNumber<bool>(ChatsHistory item) => controller.runBlocking(
+  validateIsRealNumber<bool>(NumberObject item) => controller.runBlocking(
       validateIsRealNumberUseCase(item), _validateAndOpen);
 
   _validateAndOpen(bool value) {
@@ -59,26 +69,22 @@ class ChatsController extends GetxController {
     }
   }
 
-  launchWhatsApp(ChatsHistory item ) =>
-    controller.runBlocking<bool>(
-        openWhatsAppWithSingleNumberNumberUseCase(item),
-        (data) => _insertDataToDB(data));
+  launchWhatsApp(NumberObject item) => controller.runBlocking<bool>(
+      openWhatsAppWithSingleNumberNumberUseCase(item),
+      (data) => _insertDataToDB(data));
 
-
-  launchWhatsAppThenSaveNumber(ChatsHistory item ) =>
-      controller.runBlocking<bool>(
-          openWhatsAppWithSingleNumberNumberUseCase(item),
-              (data) {});
-
+  launchWhatsAppOnly(NumberObject item) => controller.runBlocking<bool>(
+      openWhatsAppWithSingleNumberNumberUseCase(item), (data) {});
 
   _insertDataToDB(bool data) {
     controller.runBlocking<int>(insertChatHistoryToDBUseCase(item), (data) {});
   }
 
-  Stream<List<ChatsHistory>> watchChatList() =>
+  Stream<List<NumberObject>> watchChatList() =>
       watchChatHistoryUseCase(NoParams());
 
   clearData() => controller.runBlocking(
       clearChatHistoryFromDBUseCase(NoParams()),
       (data) => print("data deleted"));
+
 }

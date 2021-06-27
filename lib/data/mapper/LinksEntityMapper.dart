@@ -1,10 +1,10 @@
 import 'package:whatsappy/core/Mapper.dart';
 import 'package:whatsappy/data/datasource/locale/db/MyDatabase.dart';
-import 'package:whatsappy/domain/models/LinksHistory.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
 
-class LinksEntityMapper extends Mapper<Link, LinksHistory> {
+class LinksEntityMapper extends Mapper<LinksEntityData, NumberObject> {
   @override
-  Link mapFromDomainModel(LinksHistory domain) => Link(
+  LinksEntityData mapFromDomainModel(NumberObject domain) => LinksEntityData(
       countryFlagUri: domain.countryFlagUri,
       countryName: domain.countryName,
       countryCode: domain.countryCode,
@@ -14,7 +14,7 @@ class LinksEntityMapper extends Mapper<Link, LinksHistory> {
       fullNumber: domain.fullNumber);
 
   @override
-  LinksHistory mapToDomainModel(Link chat) => LinksHistory(
+  NumberObject mapToDomainModel(LinksEntityData chat) => NumberObject(
       countryFlagUri: chat.countryFlagUri,
       countryName: chat.countryName,
       countryCode: chat.countryCode,
@@ -23,9 +23,9 @@ class LinksEntityMapper extends Mapper<Link, LinksHistory> {
       number: chat.number,
       fullNumber: chat.fullNumber);
 
-  List<LinksHistory> mapToDomainList(List<Link> list) =>
+  List<NumberObject> mapToDomainList(List<LinksEntityData> list) =>
       list.map((e) => mapToDomainModel(e)).toList();
 
-  List<Link> mapFromDomainList(List<LinksHistory> list) =>
+  List<LinksEntityData> mapFromDomainList(List<NumberObject> list) =>
       list.map((e) => mapFromDomainModel(e)).toList();
 }

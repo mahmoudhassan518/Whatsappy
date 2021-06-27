@@ -1,6 +1,6 @@
 import 'package:moor/moor.dart';
 
-class Links extends Table {
+class LinksEntity extends Table {
   TextColumn get countryFlagUri => text()();
 
   TextColumn get countryName => text()();

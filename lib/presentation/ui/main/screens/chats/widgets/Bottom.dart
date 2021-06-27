@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:whatsappy/domain/models/ChatsHistory.dart';
+import 'package:whatsappy/domain/models/NumberObject.dart';
+import 'package:whatsappy/presentation/ui/main/screens/chats/ChatsController.dart';
 import 'package:whatsappy/presentation/utils/helper/helper.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 import 'package:whatsappy/presentation/utils/widgets/ContainersHelper.dart';
 import 'package:whatsappy/presentation/utils/widgets/others.dart';
+import 'package:get/get.dart';
 
-import '../ChatsController.dart';
+
 import 'ChatsHistoryListItem.dart';
 
+// ignore: must_be_immutable
 class Bottom extends StatelessWidget {
   ChatsController _controller;
 
@@ -23,16 +26,16 @@ class Bottom extends StatelessWidget {
         children: [
           bottomAreaOptions(() => showMyDialog(context,
               onPositiveClicked: () => _controller.clearData(),
-              title: "Delete recent chats",
-              content: "Are you sure you want to delete?")),
+              title: 'deleteChatsTitle'.tr,
+              content: 'deleteChatsContent'.tr)),
           SizedBox(
             height: generalPadding,
           ),
-          StreamBuilder<List<ChatsHistory>>(
+          StreamBuilder<List<NumberObject>>(
               stream: _controller.watchChatList(),
               builder: (context, snapshot) {
                 if (snapshot.data != null) {
-                  List<ChatsHistory> data = snapshot.data!;
+                  List<NumberObject> data = snapshot.data!;
 
                   return ListView.separated(
                     shrinkWrap: true,
@@ -43,21 +46,17 @@ class Bottom extends StatelessWidget {
                     itemBuilder: (context, index) {
                       // print("data changed ${data[index].toJson()}\n");
 
-                      return ChatsHistoryListItem(
-                          data[index], _controller);
+                      return ChatsHistoryListItem(data[index], _controller);
                     },
                     separatorBuilder: (context, index) {
                       return Divider();
                     },
                   );
                 } else
-                  return Text("Loading...");
+                  return Text('loading'.tr);
               }),
         ],
       ),
     );
   }
-
-
-
 }

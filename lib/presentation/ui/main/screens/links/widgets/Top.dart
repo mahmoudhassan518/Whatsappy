@@ -1,7 +1,8 @@
+import 'package:country_pickers/country.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:whatsappy/data/model/others/Constants.dart';
 import 'package:whatsappy/presentation/ui/main/screens/links/LinksController.dart';
+import 'package:whatsappy/presentation/utils/helper/helper.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 import 'package:whatsappy/presentation/utils/widgets/ButtonsHelper.dart';
@@ -58,12 +59,18 @@ class _TopState extends State<Top> {
         SizedBox(
           height: smallPadding,
         ),
-        Obx(() => buildSearchNumberRow(
-              onCodeChange: widget._controller.onCodeChange,
-              onTextChanged: widget._controller.onTextChanged,
-              initialCountryCode: widget._controller.codes[isoCode].toString(),
-              initialDialCode: widget._controller.codes[dialCode].toString(),
-              controller: _textController,
+        Obx(() => InkWell(
+              onTap: () {
+                openCountryPickerDialog(
+                    context: context,
+                    onValuePicked: (Country country) {
+                      widget._controller.setCountry(country:  country);
+                    });
+              },
+              child: buildSearchNumberRow(
+                  onTextChanged: widget._controller.onTextChanged,
+                  controller: _textController,
+                  country: widget._controller.country.value),
             )),
         SizedBox(
           height: smallPadding,
@@ -81,7 +88,7 @@ class _TopState extends State<Top> {
               style: TextStyle(color: onPrimary, fontSize: h3),
             ),
             onPressed: () {
-              _onSubmitClicked();
+              _onSubmitClicked(widget._controller);
             },
           ),
         ),
@@ -140,7 +147,7 @@ class _TopState extends State<Top> {
         : SizedBox.shrink();
   }
 
-  _onSubmitClicked() async {
-    widget._controller.validateForm();
+  _onSubmitClicked(LinksController controller) async {
+    controller.validateForm();
   }
 }

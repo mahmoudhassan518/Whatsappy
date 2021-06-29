@@ -1,14 +1,12 @@
-import 'package:country_code_picker/country_code.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/utils/utils.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:get/get.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:share/share.dart';
 import 'package:whatsappy/core/BaseController.dart';
-import 'package:whatsappy/data/model/others/Constants.dart';
 import 'package:whatsappy/data/model/others/NoParams.dart';
 import 'package:whatsappy/di/Injector.dart';
 import 'package:whatsappy/domain/models/NumberObject.dart';
@@ -40,17 +38,20 @@ class LinksController extends GetxController {
 
   late TextEditingController _textController;
   var item = NumberObject();
-  var codes = {isoCode: "", dialCode: "", phoneTxt: ""}.obs;
 
   var generatedLink = "".obs;
+
+  var country =
+      Country(isoCode: 'us', name: '', iso3Code: '', phoneCode: '+1').obs;
 
   initCountryCodes({bool fromLocale = true}) async {
     await CountryCodes.init();
     final CountryDetails details = CountryCodes.detailsForLocale();
-    codes.value = {
-      isoCode: details.alpha2Code ?? "",
-      dialCode: details.dialCode ?? ""
-    };
+    country.value = Country(
+        isoCode: details.alpha2Code ?? "",
+        name: details.name ?? "",
+        iso3Code: details.alpha3Code ?? "",
+        phoneCode: details.dialCode ?? "");
   }
 
   onTextChanged(String text) {
@@ -62,17 +63,10 @@ class LinksController extends GetxController {
 
   void _onCheckIfRealNumber(PhoneNumber? value) {
     if (value != null) {
-      Country result =
-      CountryPickerUtils.getCountryByPhoneCode(value.countryCode);
-
-      item.isoCode = result.isoCode;
-      item.number = value.e164;
-      item.dateTime = item.getCurrentTime();
-      item.dialCode = '+' + value.countryCode;
-      codes.value = {isoCode: result.isoCode, dialCode: result.phoneCode};
-      _textController.text = value.nationalNumber;
+      setCountry(country: CountryPickerUtils.getCountryByPhoneCode(value.countryCode), phone: value);
     }
   }
+
   validateForm() => _validateNumber(item.dialCode + _textController.text);
 
   _validateNumber<bool>(String number) => controller.runBlocking(
@@ -80,16 +74,16 @@ class LinksController extends GetxController {
       _validateAndOpen);
 
   _validateAndOpen(PhoneNumber? value) {
-      _onCheckIfRealNumber(value);
+    _onCheckIfRealNumber(value);
 
-    if (value!= null) {
+    if (value != null) {
       generatedLink.value = 'https://wa.me/' + item.number;
       _insertDataToDB(item);
     }
   }
 
-  _insertDataToDB(NumberObject item) => controller.runBlocking(
-      insertLinkHistoryToDBUseCase(item), (data) {});
+  _insertDataToDB(NumberObject item) =>
+      controller.runBlocking(insertLinkHistoryToDBUseCase(item), (data) {});
 
   Stream<List<NumberObject>> watchLinkList() =>
       watchLinksHistoryUseCase(NoParams());
@@ -99,8 +93,7 @@ class LinksController extends GetxController {
       (data) => print("data deleted"));
 
   copySharedLink() {
-    showSnackBar(
-        title: "Copied!", content: generatedLink.value);
+    showSnackBar(title: "Copied!", content: generatedLink.value);
     Clipboard.setData(ClipboardData(text: generatedLink.value));
   }
 
@@ -108,10 +101,23 @@ class LinksController extends GetxController {
     await Share.share(generatedLink.value);
   }
 
-  void onCodeChange(CountryCode value) {
-    print(value);
-    item.isoCode = value.code.toString();
-    item.dialCode = value.dialCode.toString();
+  setCountry({required Country country, PhoneNumber? phone}) {
+    Country newFormatCountry = Country(
+        isoCode: country.isoCode,
+        name: country.name,
+        iso3Code: country.iso3Code,
+        phoneCode: '+' + country.phoneCode);
+
+    this.country.value = newFormatCountry;
+
+    item.isoCode = newFormatCountry.isoCode;
+    item.dialCode = newFormatCountry.phoneCode;
+    item.dateTime = item.getCurrentTime();
+
+    if (phone != null) {
+      item.number = phone.e164;
+      _textController.text = phone.nationalNumber;
+    }
   }
 
   setTextEditingController(TextEditingController textController) {

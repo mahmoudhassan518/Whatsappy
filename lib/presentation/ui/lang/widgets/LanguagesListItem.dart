@@ -1,4 +1,5 @@
-import 'package:circle_flags/circle_flags.dart';
+import 'package:country_pickers/country.dart';
+import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsappy/domain/models/LanguageData.dart';
 import 'package:whatsappy/presentation/ui/lang/LanguageController.dart';
@@ -23,10 +24,12 @@ class LanguagesListItem extends StatelessWidget {
         child: Row(
           children: [
 
-            CircleFlag(
-              item.countryCode,
-              size: 32,
-            ),
+            CountryPickerUtils.getDefaultFlagImage(Country(
+                isoCode: item.countryCode,
+                name: '',
+                iso3Code: '',
+                phoneCode: '')),
+
             SizedBox(
               width: generalPadding,
             ),

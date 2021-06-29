@@ -22,8 +22,6 @@ dependencies:
   get_it:
   intro_slider:
   persistent_bottom_nav_bar:
-  country_code_picker:
-  circle_flags:
   intl:
   settings_ui:
   phone_number:

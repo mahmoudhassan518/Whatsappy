@@ -23,6 +23,7 @@ class TemplatesHistoryListItem extends StatelessWidget {
             },
             child: Text(
               "${item.message}",
+              textDirection: TextDirection.ltr,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(

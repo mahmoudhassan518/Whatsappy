@@ -1,3 +1,6 @@
+import 'package:country_pickers/country.dart';
+import 'package:country_pickers/country_picker_dialog.dart';
+import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -56,11 +59,13 @@ Future<void> showLanguageDialog(
         content: Text('$content'),
         actions: <Widget>[
           SimpleDialogOption(
-            onPressed: () => {onLanguageOneClicked.call(), Navigator.of(context).pop()},
+            onPressed: () =>
+                {onLanguageOneClicked.call(), Navigator.of(context).pop()},
             child: Text('$languageOne'),
           ),
           SimpleDialogOption(
-            onPressed: () => {onLanguageTwoClicked.call(), Navigator.of(context).pop()},
+            onPressed: () =>
+                {onLanguageTwoClicked.call(), Navigator.of(context).pop()},
             child: Text('$languageTwo'),
           ),
         ],
@@ -68,3 +73,37 @@ Future<void> showLanguageDialog(
     },
   );
 }
+
+void openCountryPickerDialog({required BuildContext context,
+    required Function(Country country) onValuePicked}) =>
+    showDialog(
+      context: context,
+      builder: (context) => Theme(
+          data: Theme.of(context).copyWith(primaryColor: Colors.pink),
+          child: CountryPickerDialog(
+              titlePadding: EdgeInsets.all(8.0),
+              searchCursorColor: Colors.black,
+              searchInputDecoration: InputDecoration(hintText: 'Search...'),
+              isSearchable: true,
+              title: Text('Select your phone code'),
+              onValuePicked: (Country country) =>
+                  onValuePicked.call(country),
+              priorityList: [
+                CountryPickerUtils.getCountryByIsoCode('TR'),
+                CountryPickerUtils.getCountryByIsoCode('US'),
+              ],
+              itemBuilder: _buildDialogItem)),
+    );
+
+Widget _buildDialogItem(Country country) => Row(
+      children: <Widget>[
+        CountryPickerUtils.getDefaultFlagImage(country),
+        SizedBox(width: 8.0),
+        Text("+${country.phoneCode}"),
+        SizedBox(width: 8.0),
+        Flexible(
+          child: Text(country.name),
+          flex: 1,
+        )
+      ],
+    );

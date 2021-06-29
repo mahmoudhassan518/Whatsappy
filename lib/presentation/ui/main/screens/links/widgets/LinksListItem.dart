@@ -1,4 +1,5 @@
-import 'package:circle_flags/circle_flags.dart';
+import 'package:country_pickers/country.dart';
+import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsappy/domain/models/NumberObject.dart';
@@ -19,10 +20,12 @@ class LinksListItem extends StatelessWidget {
       onTap: () => controller.shareLink('https://wa.me/' + item.number),
       child: Row(
         children: [
-          CircleFlag(
-            item.isoCode,
-            size: 32,
-          ),
+          CountryPickerUtils.getDefaultFlagImage(Country(
+              isoCode: item.isoCode,
+              name: '',
+              iso3Code: '',
+              phoneCode: '')),
+
           SizedBox(
             width: generalPadding,
           ),
@@ -32,6 +35,7 @@ class LinksListItem extends StatelessWidget {
               children: [
                 Text(
                   "${item.number}",
+                  textDirection: TextDirection.ltr,
                   style: TextStyle(
                       fontSize: h4,
                       color: Colors.black,
@@ -39,6 +43,7 @@ class LinksListItem extends StatelessWidget {
                 ),
                 Text(
                   "${item.dateTime}",
+                  textDirection: TextDirection.ltr,
                   style: TextStyle(
                     fontSize: h2,
                     color: CupertinoColors.systemGrey,

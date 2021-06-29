@@ -1,4 +1,5 @@
-import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_pickers/country.dart';
+import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -36,27 +37,73 @@ Widget loadingWidget(BuildContext context) {
   );
 }
 
+// Widget buildSearchNumberRow({
+//   Function(CountryCode value)? onCodeChange,
+//   Function(String text)? onTextChanged,
+//   required String initialCountryCode,
+//   required String initialDialCode,
+//   required TextEditingController controller,
+// }) {
+//   return Row(
+//     children: [
+//       Container(
+//         height: 48,
+//         decoration: boxDecoration(shapeColor: colorPrimaryDark),
+//         child: CountryCodePicker(
+//           // onChanged: _controller.onCodeChange,
+//           onChanged: (value) => onCodeChange!.call(value),
+//           textStyle: TextStyle(color: onPrimary, fontSize: h3),
+//           // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+//           initialSelection: initialCountryCode,
+//           favorite: [initialDialCode, initialCountryCode],
+//           // optional. Shows only country name and flag
+//         ),
+//       ),
+//       SizedBox(
+//         width: smallPadding,
+//       ),
+//       Expanded(
+//         child: Container(
+//           height: 48,
+//           decoration: boxDecoration(shapeColor: colorPrimaryDark),
+//           child: TextFormField(
+//             controller: controller,
+//             keyboardType: TextInputType.phone,
+//             autofocus: false,
+//             style: TextStyle(color: onPrimary, fontSize: h3),
+//             maxLines: 1,
+//             inputFormatters: <TextInputFormatter>[
+//               LengthLimitingTextInputFormatter(15),
+//               // FilteringTextInputFormatter.digitsOnly,
+//             ],
+//             // textInputAction: TextInputAction.send,
+//             onChanged: (value) => onTextChanged!.call(value),
+//             decoration: inputDecorationWithoutAnimation(
+//               label: "",
+//             ),
+//           ),
+//         ),
+//       ),
+//     ],
+//   );
+// }
+
 Widget buildSearchNumberRow({
-  Function(CountryCode value)? onCodeChange,
   Function(String text)? onTextChanged,
-  required String initialCountryCode,
-  required String initialDialCode,
+  required Country country,
   required TextEditingController controller,
 }) {
   return Row(
     children: [
       Container(
         height: 48,
+        padding: EdgeInsets.all(smallPadding),
         decoration: boxDecoration(shapeColor: colorPrimaryDark),
-        child: CountryCodePicker(
-          // onChanged: _controller.onCodeChange,
-          onChanged: (value) => onCodeChange!.call(value),
-          textStyle: TextStyle(color: onPrimary, fontSize: h3),
-          // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-          initialSelection: initialCountryCode,
-          favorite: [initialDialCode, initialCountryCode],
-          // optional. Shows only country name and flag
-        ),
+        child: Row(children: [
+          CountryPickerUtils.getDefaultFlagImage(country),
+          SizedBox(width: 8.0),
+          Text("${country.phoneCode}", style: TextStyle(color: Colors.white),),
+        ],),
       ),
       SizedBox(
         width: smallPadding,

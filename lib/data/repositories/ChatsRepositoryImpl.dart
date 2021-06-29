@@ -1,9 +1,8 @@
+import 'package:get/get.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:whatsappy/data/mapper/ChatsEntityMapper.dart';
 import 'package:whatsappy/domain/models/NumberObject.dart';
 import 'package:whatsappy/domain/repositories/ChatsRepository.dart';
-import 'package:get/get.dart';
-
 
 class ChatsRepositoryImpl extends ChatsRepository {
   ChatsEntityMapper entityMapper = ChatsEntityMapper();
@@ -11,13 +10,16 @@ class ChatsRepositoryImpl extends ChatsRepository {
   Exception throwValidationException(String msg) => Exception(msg);
 
   @override
-  Future<bool> validateIsRealNumber(NumberObject item) async {
+  Future<PhoneNumber?> validateIsRealNumber(String number,
+      {bool isValidation = false}) async {
     try {
       PhoneNumberUtil plugin = PhoneNumberUtil();
-      PhoneNumber phoneNumber = await PhoneNumberUtil().parse(item.fullNumber);
-      return await plugin.validate(phoneNumber.international, item.countryCode);
+      return await plugin.parse(number);
     } catch (e) {
-      throw throwValidationException('validNumberErrorMessage'.tr);
+      if (isValidation)
+        throw throwValidationException('validNumberErrorMessage'.tr);
+      else
+        return null;
     }
   }
 }

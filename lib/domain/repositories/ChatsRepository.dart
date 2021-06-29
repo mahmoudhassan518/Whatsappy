@@ -1,5 +1,8 @@
+import 'package:phone_number/phone_number.dart';
 import 'package:whatsappy/domain/models/NumberObject.dart';
 
 abstract class ChatsRepository {
-  Future<bool> validateIsRealNumber(NumberObject item);
+  Future<PhoneNumber?> validateIsRealNumber(
+      String number, {bool isValidation = false});
+
 }

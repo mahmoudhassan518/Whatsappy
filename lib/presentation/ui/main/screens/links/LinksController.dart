@@ -1,8 +1,14 @@
-import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_code_picker/country_code.dart';
+import 'package:country_codes/country_codes.dart';
+import 'package:country_pickers/country.dart';
+import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:get/get.dart';
+import 'package:phone_number/phone_number.dart';
 import 'package:share/share.dart';
 import 'package:whatsappy/core/BaseController.dart';
+import 'package:whatsappy/data/model/others/Constants.dart';
 import 'package:whatsappy/data/model/others/NoParams.dart';
 import 'package:whatsappy/di/Injector.dart';
 import 'package:whatsappy/domain/models/NumberObject.dart';
@@ -14,8 +20,6 @@ import 'package:whatsappy/domain/usecases/WatchLinksHistoryUseCase.dart';
 import 'package:whatsappy/presentation/utils/helper/helper.dart';
 
 class LinksController extends GetxController {
-  var number = "".obs;
-
   final BaseController controller = Get.find();
 
   ValidateIsRealNumberUseCase validateIsRealNumberUseCase =
@@ -34,47 +38,58 @@ class LinksController extends GetxController {
   ClearLinksHistoryFromDBUseCase clearLinksHistoryFromDBUseCase =
       getIt<ClearLinksHistoryFromDBUseCase>();
 
-  late NumberObject item = NumberObject();
+  late TextEditingController _textController;
+  var item = NumberObject();
+  var codes = {isoCode: "", dialCode: "", phoneTxt: ""}.obs;
 
+  var generatedLink = "".obs;
+
+  initCountryCodes({bool fromLocale = true}) async {
+    await CountryCodes.init();
+    final CountryDetails details = CountryCodes.detailsForLocale();
+    codes.value = {
+      isoCode: details.alpha2Code ?? "",
+      dialCode: details.dialCode ?? ""
+    };
+  }
 
   onTextChanged(String text) {
-    item.number = text;
+    checkIfRealNumber(text);
   }
 
-  void onCodeChange(CountryCode value) {
-    print(value);
+  void checkIfRealNumber(String text) => controller.runBlocking(
+      validateIsRealNumberUseCase(text), _onCheckIfRealNumber);
 
-    item.countryCode = value.code ?? item.countryCode;
-    item.countryName = value.name ?? item.countryName;
-    item.countryFlagUri = value.flagUri ?? item.countryFlagUri;
-    item.countryDialCode = value.dialCode ?? item.countryDialCode;
+  void _onCheckIfRealNumber(PhoneNumber? value) {
+    if (value != null) {
+      Country result =
+      CountryPickerUtils.getCountryByPhoneCode(value.countryCode);
 
-    print("data item is  ${item.toJson()}");
+      item.isoCode = result.isoCode;
+      item.number = value.e164;
+      item.dateTime = item.getCurrentTime();
+      item.dialCode = '+' + value.countryCode;
+      codes.value = {isoCode: result.isoCode, dialCode: result.phoneCode};
+      _textController.text = value.nationalNumber;
+    }
   }
+  validateForm() => _validateNumber(item.dialCode + _textController.text);
 
-  validateForm() {
-    print('number is ${item.number}');
-    item.fullNumber = item.countryDialCode + item.number;
-    item.dateTime = item.getCurrentTime();
-    validateIsRealNumber(item);
-  }
+  _validateNumber<bool>(String number) => controller.runBlocking(
+      validateIsRealNumberUseCase(number, isValidation: true),
+      _validateAndOpen);
 
-  validateIsRealNumber<bool>(NumberObject item) => controller.runBlocking(
-      validateIsRealNumberUseCase(item), _validateAndOpen);
+  _validateAndOpen(PhoneNumber? value) {
+      _onCheckIfRealNumber(value);
 
-  _validateAndOpen(bool value) {
-    if (value) {
-      //navigate to whatsapp
-
-      number.value = 'https://wa.me/' + item.fullNumber;
-      _insertDataToDB(value);
+    if (value!= null) {
+      generatedLink.value = 'https://wa.me/' + item.number;
+      _insertDataToDB(item);
     }
   }
 
-  _insertDataToDB(bool data) =>
-      controller.runBlocking<int>(insertLinkHistoryToDBUseCase(item), (data) {
-        //todo
-      });
+  _insertDataToDB(NumberObject item) => controller.runBlocking(
+      insertLinkHistoryToDBUseCase(item), (data) {});
 
   Stream<List<NumberObject>> watchLinkList() =>
       watchLinksHistoryUseCase(NoParams());
@@ -84,11 +99,22 @@ class LinksController extends GetxController {
       (data) => print("data deleted"));
 
   copySharedLink() {
-    showSnackBar(title: "Copied!", content: "Link is $number");
-    Clipboard.setData(ClipboardData(text: number.value));
+    showSnackBar(
+        title: "Copied!", content: generatedLink.value);
+    Clipboard.setData(ClipboardData(text: generatedLink.value));
   }
 
   shareLink(String number) async {
-    await Share.share(number);
+    await Share.share(generatedLink.value);
+  }
+
+  void onCodeChange(CountryCode value) {
+    print(value);
+    item.isoCode = value.code.toString();
+    item.dialCode = value.dialCode.toString();
+  }
+
+  setTextEditingController(TextEditingController textController) {
+    this._textController = textController;
   }
 }

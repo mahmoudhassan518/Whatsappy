@@ -31,10 +31,15 @@ class MySharedPreferences {
 
   LanguageData get locale {
     String? cashedData = _prefs.getString(lang);
-    if (cashedData != null)
-      return LanguageData.fromJson(jsonDecode(cashedData));
-    else
+    try{
+      if (cashedData != null)
+        return LanguageData.fromJson(jsonDecode(cashedData));
+      else
+        return LanguageData(
+            code: 'en', value: 'English', isChecked: false, countryCode: 'US');
+    }catch(e) {
       return LanguageData(
           code: 'en', value: 'English', isChecked: false, countryCode: 'US');
+    }
   }
 }

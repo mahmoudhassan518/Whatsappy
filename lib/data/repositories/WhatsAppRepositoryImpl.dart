@@ -10,7 +10,7 @@ class WhatsAppRepositoryImpl extends WhatsAppRepository {
   @override
   Future<bool> openWhatsAppWithSingleMessage(NumberObject item) async {
     try {
-      return await launch("https://wa.me/${item.fullNumber}?text=");
+      return await launch("https://wa.me/${item.number}?text=");
     } on Exception {
       throw throwValidationException('openWhatsappErrorMessage'.tr);
     }

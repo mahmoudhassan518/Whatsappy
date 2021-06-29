@@ -34,6 +34,9 @@ class Bottom extends StatelessWidget {
           StreamBuilder<List<NumberObject>>(
               stream: _controller.watchChatList(),
               builder: (context, snapshot) {
+
+                print("data watched!! ${snapshot.data}");
+
                 if (snapshot.data != null) {
                   List<NumberObject> data = snapshot.data!;
 

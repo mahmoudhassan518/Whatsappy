@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:whatsappy/data/model/others/Constants.dart';
 import 'package:whatsappy/presentation/ui/main/screens/links/LinksController.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
@@ -7,17 +8,38 @@ import 'package:whatsappy/presentation/utils/widgets/ButtonsHelper.dart';
 import 'package:whatsappy/presentation/utils/widgets/ContainersHelper.dart';
 import 'package:whatsappy/presentation/utils/widgets/others.dart';
 
-
 // ignore: must_be_immutable
-class Top extends StatelessWidget {
+class Top extends StatefulWidget {
   LinksController _controller;
 
   Top(this._controller);
 
   @override
+  _TopState createState() => _TopState();
+}
+
+class _TopState extends State<Top> {
+  final _textController = TextEditingController();
+
+  @override
+  void initState() {
+    widget._controller.initCountryCodes();
+    widget._controller.setTextEditingController(_textController);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Obx(
-            () => Container(
+    // _textController = TextEditingController(text: widget._controller.codes[phoneTxt].toString());
+
+    return Container(
       padding: EdgeInsets.all(generalPadding),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Text(
@@ -36,15 +58,17 @@ class Top extends StatelessWidget {
         SizedBox(
           height: smallPadding,
         ),
-        buildSearchNumberRow(
-            onCodeChange: _controller.onCodeChange,
-            onTextChanged: _controller.onTextChanged,
-            initialCountryCode: _controller.item.countryCode,
-            initialDialCode: _controller.item.countryDialCode),
+        Obx(() => buildSearchNumberRow(
+              onCodeChange: widget._controller.onCodeChange,
+              onTextChanged: widget._controller.onTextChanged,
+              initialCountryCode: widget._controller.codes[isoCode].toString(),
+              initialDialCode: widget._controller.codes[dialCode].toString(),
+              controller: _textController,
+            )),
         SizedBox(
           height: smallPadding,
         ),
-        checkLinkVisibility(_controller),
+        Obx(() => checkLinkVisibility(widget._controller)),
         SizedBox(
           height: smallPadding,
         ),
@@ -64,19 +88,20 @@ class Top extends StatelessWidget {
         SizedBox(
           height: smallPadding,
         ),
-        checkLinkOptions(_controller),
+        Obx(() => checkLinkOptions(widget._controller)),
       ]),
-    ));
+    );
   }
 
   Widget checkLinkOptions(LinksController controller) {
-    return controller.number.isNotEmpty
+    return controller.generatedLink.value.isNotEmpty
         ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(
                   onPressed: () {
-                    _controller.shareLink(controller.number.value);
+                    widget._controller
+                        .shareLink(controller.generatedLink.value);
                   },
                   child: Text(
                     'shareLink'.tr,
@@ -87,7 +112,7 @@ class Top extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {
-                    _controller.copySharedLink();
+                    widget._controller.copySharedLink();
                   },
                   child: Text(
                     'copyLink'.tr,
@@ -99,14 +124,14 @@ class Top extends StatelessWidget {
   }
 
   SizedBox checkLinkVisibility(LinksController controller) {
-    return controller.number.isNotEmpty
+    return controller.generatedLink.value.isNotEmpty
         ? SizedBox(
             width: double.infinity,
             child: Container(
               decoration: boxDecoration(shapeColor: colorPrimaryDark),
               padding: EdgeInsets.all(generalPadding),
               child: Text(
-                controller.number.value,
+                controller.generatedLink.value,
                 style: TextStyle(color: onPrimary, fontSize: h3),
                 textAlign: TextAlign.center,
               ),
@@ -116,6 +141,6 @@ class Top extends StatelessWidget {
   }
 
   _onSubmitClicked() async {
-    _controller.validateForm();
+    widget._controller.validateForm();
   }
 }

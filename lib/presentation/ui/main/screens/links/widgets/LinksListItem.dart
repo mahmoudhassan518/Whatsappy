@@ -20,7 +20,7 @@ class LinksListItem extends StatelessWidget {
       child: Row(
         children: [
           CircleFlag(
-            item.countryCode,
+            item.isoCode,
             size: 32,
           ),
           SizedBox(
@@ -31,7 +31,7 @@ class LinksListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${item.fullNumber}",
+                  "${item.number}",
                   style: TextStyle(
                       fontSize: h4,
                       color: Colors.black,

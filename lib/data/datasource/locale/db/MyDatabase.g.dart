@@ -8,67 +8,46 @@ part of 'MyDatabase.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class ChatsEntityData extends DataClass implements Insertable<ChatsEntityData> {
-  final String countryFlagUri;
-  final String countryName;
-  final String countryCode;
-  final String countryDialCode;
   final String dateTimes;
   final String number;
-  final String fullNumber;
-
+  final String isoCode;
+  final String dialCode;
   ChatsEntityData(
-      {required this.countryFlagUri,
-      required this.countryName,
-      required this.countryCode,
-      required this.countryDialCode,
-      required this.dateTimes,
+      {required this.dateTimes,
       required this.number,
-      required this.fullNumber});
-
+      required this.isoCode,
+      required this.dialCode});
   factory ChatsEntityData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return ChatsEntityData(
-      countryFlagUri: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}country_flag_uri'])!,
-      countryName: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}country_name'])!,
-      countryCode: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}country_code'])!,
-      countryDialCode: const StringType().mapFromDatabaseResponse(
-          data['${effectivePrefix}country_dial_code'])!,
       dateTimes: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}date_times'])!,
       number: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}number'])!,
-      fullNumber: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}full_number'])!,
+      isoCode: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}iso_code'])!,
+      dialCode: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}dial_code'])!,
     );
   }
-
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['country_flag_uri'] = Variable<String>(countryFlagUri);
-    map['country_name'] = Variable<String>(countryName);
-    map['country_code'] = Variable<String>(countryCode);
-    map['country_dial_code'] = Variable<String>(countryDialCode);
     map['date_times'] = Variable<String>(dateTimes);
     map['number'] = Variable<String>(number);
-    map['full_number'] = Variable<String>(fullNumber);
+    map['iso_code'] = Variable<String>(isoCode);
+    map['dial_code'] = Variable<String>(dialCode);
     return map;
   }
 
   ChatsEntityCompanion toCompanion(bool nullToAbsent) {
     return ChatsEntityCompanion(
-      countryFlagUri: Value(countryFlagUri),
-      countryName: Value(countryName),
-      countryCode: Value(countryCode),
-      countryDialCode: Value(countryDialCode),
       dateTimes: Value(dateTimes),
       number: Value(number),
-      fullNumber: Value(fullNumber),
+      isoCode: Value(isoCode),
+      dialCode: Value(dialCode),
     );
   }
 
@@ -76,184 +55,119 @@ class ChatsEntityData extends DataClass implements Insertable<ChatsEntityData> {
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ChatsEntityData(
-      countryFlagUri: serializer.fromJson<String>(json['countryFlagUri']),
-      countryName: serializer.fromJson<String>(json['countryName']),
-      countryCode: serializer.fromJson<String>(json['countryCode']),
-      countryDialCode: serializer.fromJson<String>(json['countryDialCode']),
       dateTimes: serializer.fromJson<String>(json['dateTimes']),
       number: serializer.fromJson<String>(json['number']),
-      fullNumber: serializer.fromJson<String>(json['fullNumber']),
+      isoCode: serializer.fromJson<String>(json['isoCode']),
+      dialCode: serializer.fromJson<String>(json['dialCode']),
     );
   }
-
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'countryFlagUri': serializer.toJson<String>(countryFlagUri),
-      'countryName': serializer.toJson<String>(countryName),
-      'countryCode': serializer.toJson<String>(countryCode),
-      'countryDialCode': serializer.toJson<String>(countryDialCode),
       'dateTimes': serializer.toJson<String>(dateTimes),
       'number': serializer.toJson<String>(number),
-      'fullNumber': serializer.toJson<String>(fullNumber),
+      'isoCode': serializer.toJson<String>(isoCode),
+      'dialCode': serializer.toJson<String>(dialCode),
     };
   }
 
   ChatsEntityData copyWith(
-          {String? countryFlagUri,
-          String? countryName,
-          String? countryCode,
-          String? countryDialCode,
-          String? dateTimes,
+          {String? dateTimes,
           String? number,
-          String? fullNumber}) =>
+          String? isoCode,
+          String? dialCode}) =>
       ChatsEntityData(
-        countryFlagUri: countryFlagUri ?? this.countryFlagUri,
-        countryName: countryName ?? this.countryName,
-        countryCode: countryCode ?? this.countryCode,
-        countryDialCode: countryDialCode ?? this.countryDialCode,
         dateTimes: dateTimes ?? this.dateTimes,
         number: number ?? this.number,
-        fullNumber: fullNumber ?? this.fullNumber,
+        isoCode: isoCode ?? this.isoCode,
+        dialCode: dialCode ?? this.dialCode,
       );
-
   @override
   String toString() {
     return (StringBuffer('ChatsEntityData(')
-          ..write('countryFlagUri: $countryFlagUri, ')
-          ..write('countryName: $countryName, ')
-          ..write('countryCode: $countryCode, ')
-          ..write('countryDialCode: $countryDialCode, ')
           ..write('dateTimes: $dateTimes, ')
           ..write('number: $number, ')
-          ..write('fullNumber: $fullNumber')
+          ..write('isoCode: $isoCode, ')
+          ..write('dialCode: $dialCode')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      countryFlagUri.hashCode,
-      $mrjc(
-          countryName.hashCode,
-          $mrjc(
-              countryCode.hashCode,
-              $mrjc(
-                  countryDialCode.hashCode,
-                  $mrjc(dateTimes.hashCode,
-                      $mrjc(number.hashCode, fullNumber.hashCode)))))));
-
+  int get hashCode => $mrjf($mrjc(dateTimes.hashCode,
+      $mrjc(number.hashCode, $mrjc(isoCode.hashCode, dialCode.hashCode))));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ChatsEntityData &&
-          other.countryFlagUri == this.countryFlagUri &&
-          other.countryName == this.countryName &&
-          other.countryCode == this.countryCode &&
-          other.countryDialCode == this.countryDialCode &&
           other.dateTimes == this.dateTimes &&
           other.number == this.number &&
-          other.fullNumber == this.fullNumber);
+          other.isoCode == this.isoCode &&
+          other.dialCode == this.dialCode);
 }
 
 class ChatsEntityCompanion extends UpdateCompanion<ChatsEntityData> {
-  final Value<String> countryFlagUri;
-  final Value<String> countryName;
-  final Value<String> countryCode;
-  final Value<String> countryDialCode;
   final Value<String> dateTimes;
   final Value<String> number;
-  final Value<String> fullNumber;
-
+  final Value<String> isoCode;
+  final Value<String> dialCode;
   const ChatsEntityCompanion({
-    this.countryFlagUri = const Value.absent(),
-    this.countryName = const Value.absent(),
-    this.countryCode = const Value.absent(),
-    this.countryDialCode = const Value.absent(),
     this.dateTimes = const Value.absent(),
     this.number = const Value.absent(),
-    this.fullNumber = const Value.absent(),
+    this.isoCode = const Value.absent(),
+    this.dialCode = const Value.absent(),
   });
-
   ChatsEntityCompanion.insert({
-    required String countryFlagUri,
-    required String countryName,
-    required String countryCode,
-    required String countryDialCode,
     required String dateTimes,
     required String number,
-    required String fullNumber,
-  })  : countryFlagUri = Value(countryFlagUri),
-        countryName = Value(countryName),
-        countryCode = Value(countryCode),
-        countryDialCode = Value(countryDialCode),
-        dateTimes = Value(dateTimes),
+    required String isoCode,
+    required String dialCode,
+  })  : dateTimes = Value(dateTimes),
         number = Value(number),
-        fullNumber = Value(fullNumber);
-
+        isoCode = Value(isoCode),
+        dialCode = Value(dialCode);
   static Insertable<ChatsEntityData> custom({
-    Expression<String>? countryFlagUri,
-    Expression<String>? countryName,
-    Expression<String>? countryCode,
-    Expression<String>? countryDialCode,
     Expression<String>? dateTimes,
     Expression<String>? number,
-    Expression<String>? fullNumber,
+    Expression<String>? isoCode,
+    Expression<String>? dialCode,
   }) {
     return RawValuesInsertable({
-      if (countryFlagUri != null) 'country_flag_uri': countryFlagUri,
-      if (countryName != null) 'country_name': countryName,
-      if (countryCode != null) 'country_code': countryCode,
-      if (countryDialCode != null) 'country_dial_code': countryDialCode,
       if (dateTimes != null) 'date_times': dateTimes,
       if (number != null) 'number': number,
-      if (fullNumber != null) 'full_number': fullNumber,
+      if (isoCode != null) 'iso_code': isoCode,
+      if (dialCode != null) 'dial_code': dialCode,
     });
   }
 
   ChatsEntityCompanion copyWith(
-      {Value<String>? countryFlagUri,
-      Value<String>? countryName,
-      Value<String>? countryCode,
-      Value<String>? countryDialCode,
-      Value<String>? dateTimes,
+      {Value<String>? dateTimes,
       Value<String>? number,
-      Value<String>? fullNumber}) {
+      Value<String>? isoCode,
+      Value<String>? dialCode}) {
     return ChatsEntityCompanion(
-      countryFlagUri: countryFlagUri ?? this.countryFlagUri,
-      countryName: countryName ?? this.countryName,
-      countryCode: countryCode ?? this.countryCode,
-      countryDialCode: countryDialCode ?? this.countryDialCode,
       dateTimes: dateTimes ?? this.dateTimes,
       number: number ?? this.number,
-      fullNumber: fullNumber ?? this.fullNumber,
+      isoCode: isoCode ?? this.isoCode,
+      dialCode: dialCode ?? this.dialCode,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (countryFlagUri.present) {
-      map['country_flag_uri'] = Variable<String>(countryFlagUri.value);
-    }
-    if (countryName.present) {
-      map['country_name'] = Variable<String>(countryName.value);
-    }
-    if (countryCode.present) {
-      map['country_code'] = Variable<String>(countryCode.value);
-    }
-    if (countryDialCode.present) {
-      map['country_dial_code'] = Variable<String>(countryDialCode.value);
-    }
     if (dateTimes.present) {
       map['date_times'] = Variable<String>(dateTimes.value);
     }
     if (number.present) {
       map['number'] = Variable<String>(number.value);
     }
-    if (fullNumber.present) {
-      map['full_number'] = Variable<String>(fullNumber.value);
+    if (isoCode.present) {
+      map['iso_code'] = Variable<String>(isoCode.value);
+    }
+    if (dialCode.present) {
+      map['dial_code'] = Variable<String>(dialCode.value);
     }
     return map;
   }
@@ -261,13 +175,10 @@ class ChatsEntityCompanion extends UpdateCompanion<ChatsEntityData> {
   @override
   String toString() {
     return (StringBuffer('ChatsEntityCompanion(')
-          ..write('countryFlagUri: $countryFlagUri, ')
-          ..write('countryName: $countryName, ')
-          ..write('countryCode: $countryCode, ')
-          ..write('countryDialCode: $countryDialCode, ')
           ..write('dateTimes: $dateTimes, ')
           ..write('number: $number, ')
-          ..write('fullNumber: $fullNumber')
+          ..write('isoCode: $isoCode, ')
+          ..write('dialCode: $dialCode')
           ..write(')'))
         .toString();
   }
@@ -277,65 +188,10 @@ class $ChatsEntityTable extends ChatsEntity
     with TableInfo<$ChatsEntityTable, ChatsEntityData> {
   final GeneratedDatabase _db;
   final String? _alias;
-
   $ChatsEntityTable(this._db, [this._alias]);
-
-  final VerificationMeta _countryFlagUriMeta =
-      const VerificationMeta('countryFlagUri');
-  @override
-  late final GeneratedTextColumn countryFlagUri = _constructCountryFlagUri();
-
-  GeneratedTextColumn _constructCountryFlagUri() {
-    return GeneratedTextColumn(
-      'country_flag_uri',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _countryNameMeta =
-      const VerificationMeta('countryName');
-  @override
-  late final GeneratedTextColumn countryName = _constructCountryName();
-
-  GeneratedTextColumn _constructCountryName() {
-    return GeneratedTextColumn(
-      'country_name',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _countryCodeMeta =
-      const VerificationMeta('countryCode');
-  @override
-  late final GeneratedTextColumn countryCode = _constructCountryCode();
-
-  GeneratedTextColumn _constructCountryCode() {
-    return GeneratedTextColumn(
-      'country_code',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _countryDialCodeMeta =
-      const VerificationMeta('countryDialCode');
-  @override
-  late final GeneratedTextColumn countryDialCode = _constructCountryDialCode();
-
-  GeneratedTextColumn _constructCountryDialCode() {
-    return GeneratedTextColumn(
-      'country_dial_code',
-      $tableName,
-      false,
-    );
-  }
-
   final VerificationMeta _dateTimesMeta = const VerificationMeta('dateTimes');
   @override
   late final GeneratedTextColumn dateTimes = _constructDateTimes();
-
   GeneratedTextColumn _constructDateTimes() {
     return GeneratedTextColumn(
       'date_times',
@@ -347,7 +203,6 @@ class $ChatsEntityTable extends ChatsEntity
   final VerificationMeta _numberMeta = const VerificationMeta('number');
   @override
   late final GeneratedTextColumn number = _constructNumber();
-
   GeneratedTextColumn _constructNumber() {
     return GeneratedTextColumn(
       'number',
@@ -356,74 +211,41 @@ class $ChatsEntityTable extends ChatsEntity
     );
   }
 
-  final VerificationMeta _fullNumberMeta = const VerificationMeta('fullNumber');
+  final VerificationMeta _isoCodeMeta = const VerificationMeta('isoCode');
   @override
-  late final GeneratedTextColumn fullNumber = _constructFullNumber();
-
-  GeneratedTextColumn _constructFullNumber() {
+  late final GeneratedTextColumn isoCode = _constructIsoCode();
+  GeneratedTextColumn _constructIsoCode() {
     return GeneratedTextColumn(
-      'full_number',
+      'iso_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _dialCodeMeta = const VerificationMeta('dialCode');
+  @override
+  late final GeneratedTextColumn dialCode = _constructDialCode();
+  GeneratedTextColumn _constructDialCode() {
+    return GeneratedTextColumn(
+      'dial_code',
       $tableName,
       false,
     );
   }
 
   @override
-  List<GeneratedColumn> get $columns => [
-        countryFlagUri,
-        countryName,
-        countryCode,
-        countryDialCode,
-        dateTimes,
-        number,
-        fullNumber
-      ];
-
+  List<GeneratedColumn> get $columns => [dateTimes, number, isoCode, dialCode];
   @override
   $ChatsEntityTable get asDslTable => this;
-
   @override
   String get $tableName => _alias ?? 'chats_entity';
   @override
   final String actualTableName = 'chats_entity';
-
   @override
   VerificationContext validateIntegrity(Insertable<ChatsEntityData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('country_flag_uri')) {
-      context.handle(
-          _countryFlagUriMeta,
-          countryFlagUri.isAcceptableOrUnknown(
-              data['country_flag_uri']!, _countryFlagUriMeta));
-    } else if (isInserting) {
-      context.missing(_countryFlagUriMeta);
-    }
-    if (data.containsKey('country_name')) {
-      context.handle(
-          _countryNameMeta,
-          countryName.isAcceptableOrUnknown(
-              data['country_name']!, _countryNameMeta));
-    } else if (isInserting) {
-      context.missing(_countryNameMeta);
-    }
-    if (data.containsKey('country_code')) {
-      context.handle(
-          _countryCodeMeta,
-          countryCode.isAcceptableOrUnknown(
-              data['country_code']!, _countryCodeMeta));
-    } else if (isInserting) {
-      context.missing(_countryCodeMeta);
-    }
-    if (data.containsKey('country_dial_code')) {
-      context.handle(
-          _countryDialCodeMeta,
-          countryDialCode.isAcceptableOrUnknown(
-              data['country_dial_code']!, _countryDialCodeMeta));
-    } else if (isInserting) {
-      context.missing(_countryDialCodeMeta);
-    }
     if (data.containsKey('date_times')) {
       context.handle(_dateTimesMeta,
           dateTimes.isAcceptableOrUnknown(data['date_times']!, _dateTimesMeta));
@@ -436,20 +258,23 @@ class $ChatsEntityTable extends ChatsEntity
     } else if (isInserting) {
       context.missing(_numberMeta);
     }
-    if (data.containsKey('full_number')) {
-      context.handle(
-          _fullNumberMeta,
-          fullNumber.isAcceptableOrUnknown(
-              data['full_number']!, _fullNumberMeta));
+    if (data.containsKey('iso_code')) {
+      context.handle(_isoCodeMeta,
+          isoCode.isAcceptableOrUnknown(data['iso_code']!, _isoCodeMeta));
     } else if (isInserting) {
-      context.missing(_fullNumberMeta);
+      context.missing(_isoCodeMeta);
+    }
+    if (data.containsKey('dial_code')) {
+      context.handle(_dialCodeMeta,
+          dialCode.isAcceptableOrUnknown(data['dial_code']!, _dialCodeMeta));
+    } else if (isInserting) {
+      context.missing(_dialCodeMeta);
     }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {fullNumber};
-
+  Set<GeneratedColumn> get $primaryKey => {number};
   @override
   ChatsEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return ChatsEntityData.fromData(data, _db,
@@ -468,13 +293,11 @@ class TemplatesEntityData extends DataClass
   final String message;
   final String dateTimes;
   final bool isNewTemplate;
-
   TemplatesEntityData(
       {required this.id,
       required this.message,
       required this.dateTimes,
       required this.isNewTemplate});
-
   factory TemplatesEntityData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
@@ -490,7 +313,6 @@ class TemplatesEntityData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}is_new_template'])!,
     );
   }
-
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -520,7 +342,6 @@ class TemplatesEntityData extends DataClass
       isNewTemplate: serializer.fromJson<bool>(json['isNewTemplate']),
     );
   }
-
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -540,7 +361,6 @@ class TemplatesEntityData extends DataClass
         dateTimes: dateTimes ?? this.dateTimes,
         isNewTemplate: isNewTemplate ?? this.isNewTemplate,
       );
-
   @override
   String toString() {
     return (StringBuffer('TemplatesEntityData(')
@@ -557,7 +377,6 @@ class TemplatesEntityData extends DataClass
       id.hashCode,
       $mrjc(message.hashCode,
           $mrjc(dateTimes.hashCode, isNewTemplate.hashCode))));
-
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -573,14 +392,12 @@ class TemplatesEntityCompanion extends UpdateCompanion<TemplatesEntityData> {
   final Value<String> message;
   final Value<String> dateTimes;
   final Value<bool> isNewTemplate;
-
   const TemplatesEntityCompanion({
     this.id = const Value.absent(),
     this.message = const Value.absent(),
     this.dateTimes = const Value.absent(),
     this.isNewTemplate = const Value.absent(),
   });
-
   TemplatesEntityCompanion.insert({
     this.id = const Value.absent(),
     required String message,
@@ -589,7 +406,6 @@ class TemplatesEntityCompanion extends UpdateCompanion<TemplatesEntityData> {
   })  : message = Value(message),
         dateTimes = Value(dateTimes),
         isNewTemplate = Value(isNewTemplate);
-
   static Insertable<TemplatesEntityData> custom({
     Expression<int>? id,
     Expression<String>? message,
@@ -651,13 +467,10 @@ class $TemplatesEntityTable extends TemplatesEntity
     with TableInfo<$TemplatesEntityTable, TemplatesEntityData> {
   final GeneratedDatabase _db;
   final String? _alias;
-
   $TemplatesEntityTable(this._db, [this._alias]);
-
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedIntColumn id = _constructId();
-
   GeneratedIntColumn _constructId() {
     return GeneratedIntColumn('id', $tableName, false,
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
@@ -666,7 +479,6 @@ class $TemplatesEntityTable extends TemplatesEntity
   final VerificationMeta _messageMeta = const VerificationMeta('message');
   @override
   late final GeneratedTextColumn message = _constructMessage();
-
   GeneratedTextColumn _constructMessage() {
     return GeneratedTextColumn(
       'message',
@@ -678,7 +490,6 @@ class $TemplatesEntityTable extends TemplatesEntity
   final VerificationMeta _dateTimesMeta = const VerificationMeta('dateTimes');
   @override
   late final GeneratedTextColumn dateTimes = _constructDateTimes();
-
   GeneratedTextColumn _constructDateTimes() {
     return GeneratedTextColumn(
       'date_times',
@@ -691,7 +502,6 @@ class $TemplatesEntityTable extends TemplatesEntity
       const VerificationMeta('isNewTemplate');
   @override
   late final GeneratedBoolColumn isNewTemplate = _constructIsNewTemplate();
-
   GeneratedBoolColumn _constructIsNewTemplate() {
     return GeneratedBoolColumn(
       'is_new_template',
@@ -702,15 +512,12 @@ class $TemplatesEntityTable extends TemplatesEntity
 
   @override
   List<GeneratedColumn> get $columns => [id, message, dateTimes, isNewTemplate];
-
   @override
   $TemplatesEntityTable get asDslTable => this;
-
   @override
   String get $tableName => _alias ?? 'templates_entity';
   @override
   final String actualTableName = 'templates_entity';
-
   @override
   VerificationContext validateIntegrity(
       Insertable<TemplatesEntityData> instance,
@@ -745,7 +552,6 @@ class $TemplatesEntityTable extends TemplatesEntity
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
-
   @override
   TemplatesEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return TemplatesEntityData.fromData(data, _db,
@@ -759,67 +565,46 @@ class $TemplatesEntityTable extends TemplatesEntity
 }
 
 class LinksEntityData extends DataClass implements Insertable<LinksEntityData> {
-  final String countryFlagUri;
-  final String countryName;
-  final String countryCode;
-  final String countryDialCode;
   final String dateTimes;
   final String number;
-  final String fullNumber;
-
+  final String isoCode;
+  final String dialCode;
   LinksEntityData(
-      {required this.countryFlagUri,
-      required this.countryName,
-      required this.countryCode,
-      required this.countryDialCode,
-      required this.dateTimes,
+      {required this.dateTimes,
       required this.number,
-      required this.fullNumber});
-
+      required this.isoCode,
+      required this.dialCode});
   factory LinksEntityData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return LinksEntityData(
-      countryFlagUri: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}country_flag_uri'])!,
-      countryName: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}country_name'])!,
-      countryCode: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}country_code'])!,
-      countryDialCode: const StringType().mapFromDatabaseResponse(
-          data['${effectivePrefix}country_dial_code'])!,
       dateTimes: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}date_times'])!,
       number: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}number'])!,
-      fullNumber: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}full_number'])!,
+      isoCode: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}iso_code'])!,
+      dialCode: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}dial_code'])!,
     );
   }
-
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['country_flag_uri'] = Variable<String>(countryFlagUri);
-    map['country_name'] = Variable<String>(countryName);
-    map['country_code'] = Variable<String>(countryCode);
-    map['country_dial_code'] = Variable<String>(countryDialCode);
     map['date_times'] = Variable<String>(dateTimes);
     map['number'] = Variable<String>(number);
-    map['full_number'] = Variable<String>(fullNumber);
+    map['iso_code'] = Variable<String>(isoCode);
+    map['dial_code'] = Variable<String>(dialCode);
     return map;
   }
 
   LinksEntityCompanion toCompanion(bool nullToAbsent) {
     return LinksEntityCompanion(
-      countryFlagUri: Value(countryFlagUri),
-      countryName: Value(countryName),
-      countryCode: Value(countryCode),
-      countryDialCode: Value(countryDialCode),
       dateTimes: Value(dateTimes),
       number: Value(number),
-      fullNumber: Value(fullNumber),
+      isoCode: Value(isoCode),
+      dialCode: Value(dialCode),
     );
   }
 
@@ -827,184 +612,119 @@ class LinksEntityData extends DataClass implements Insertable<LinksEntityData> {
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return LinksEntityData(
-      countryFlagUri: serializer.fromJson<String>(json['countryFlagUri']),
-      countryName: serializer.fromJson<String>(json['countryName']),
-      countryCode: serializer.fromJson<String>(json['countryCode']),
-      countryDialCode: serializer.fromJson<String>(json['countryDialCode']),
       dateTimes: serializer.fromJson<String>(json['dateTimes']),
       number: serializer.fromJson<String>(json['number']),
-      fullNumber: serializer.fromJson<String>(json['fullNumber']),
+      isoCode: serializer.fromJson<String>(json['isoCode']),
+      dialCode: serializer.fromJson<String>(json['dialCode']),
     );
   }
-
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'countryFlagUri': serializer.toJson<String>(countryFlagUri),
-      'countryName': serializer.toJson<String>(countryName),
-      'countryCode': serializer.toJson<String>(countryCode),
-      'countryDialCode': serializer.toJson<String>(countryDialCode),
       'dateTimes': serializer.toJson<String>(dateTimes),
       'number': serializer.toJson<String>(number),
-      'fullNumber': serializer.toJson<String>(fullNumber),
+      'isoCode': serializer.toJson<String>(isoCode),
+      'dialCode': serializer.toJson<String>(dialCode),
     };
   }
 
   LinksEntityData copyWith(
-          {String? countryFlagUri,
-          String? countryName,
-          String? countryCode,
-          String? countryDialCode,
-          String? dateTimes,
+          {String? dateTimes,
           String? number,
-          String? fullNumber}) =>
+          String? isoCode,
+          String? dialCode}) =>
       LinksEntityData(
-        countryFlagUri: countryFlagUri ?? this.countryFlagUri,
-        countryName: countryName ?? this.countryName,
-        countryCode: countryCode ?? this.countryCode,
-        countryDialCode: countryDialCode ?? this.countryDialCode,
         dateTimes: dateTimes ?? this.dateTimes,
         number: number ?? this.number,
-        fullNumber: fullNumber ?? this.fullNumber,
+        isoCode: isoCode ?? this.isoCode,
+        dialCode: dialCode ?? this.dialCode,
       );
-
   @override
   String toString() {
     return (StringBuffer('LinksEntityData(')
-          ..write('countryFlagUri: $countryFlagUri, ')
-          ..write('countryName: $countryName, ')
-          ..write('countryCode: $countryCode, ')
-          ..write('countryDialCode: $countryDialCode, ')
           ..write('dateTimes: $dateTimes, ')
           ..write('number: $number, ')
-          ..write('fullNumber: $fullNumber')
+          ..write('isoCode: $isoCode, ')
+          ..write('dialCode: $dialCode')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      countryFlagUri.hashCode,
-      $mrjc(
-          countryName.hashCode,
-          $mrjc(
-              countryCode.hashCode,
-              $mrjc(
-                  countryDialCode.hashCode,
-                  $mrjc(dateTimes.hashCode,
-                      $mrjc(number.hashCode, fullNumber.hashCode)))))));
-
+  int get hashCode => $mrjf($mrjc(dateTimes.hashCode,
+      $mrjc(number.hashCode, $mrjc(isoCode.hashCode, dialCode.hashCode))));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is LinksEntityData &&
-          other.countryFlagUri == this.countryFlagUri &&
-          other.countryName == this.countryName &&
-          other.countryCode == this.countryCode &&
-          other.countryDialCode == this.countryDialCode &&
           other.dateTimes == this.dateTimes &&
           other.number == this.number &&
-          other.fullNumber == this.fullNumber);
+          other.isoCode == this.isoCode &&
+          other.dialCode == this.dialCode);
 }
 
 class LinksEntityCompanion extends UpdateCompanion<LinksEntityData> {
-  final Value<String> countryFlagUri;
-  final Value<String> countryName;
-  final Value<String> countryCode;
-  final Value<String> countryDialCode;
   final Value<String> dateTimes;
   final Value<String> number;
-  final Value<String> fullNumber;
-
+  final Value<String> isoCode;
+  final Value<String> dialCode;
   const LinksEntityCompanion({
-    this.countryFlagUri = const Value.absent(),
-    this.countryName = const Value.absent(),
-    this.countryCode = const Value.absent(),
-    this.countryDialCode = const Value.absent(),
     this.dateTimes = const Value.absent(),
     this.number = const Value.absent(),
-    this.fullNumber = const Value.absent(),
+    this.isoCode = const Value.absent(),
+    this.dialCode = const Value.absent(),
   });
-
   LinksEntityCompanion.insert({
-    required String countryFlagUri,
-    required String countryName,
-    required String countryCode,
-    required String countryDialCode,
     required String dateTimes,
     required String number,
-    required String fullNumber,
-  })  : countryFlagUri = Value(countryFlagUri),
-        countryName = Value(countryName),
-        countryCode = Value(countryCode),
-        countryDialCode = Value(countryDialCode),
-        dateTimes = Value(dateTimes),
+    required String isoCode,
+    required String dialCode,
+  })  : dateTimes = Value(dateTimes),
         number = Value(number),
-        fullNumber = Value(fullNumber);
-
+        isoCode = Value(isoCode),
+        dialCode = Value(dialCode);
   static Insertable<LinksEntityData> custom({
-    Expression<String>? countryFlagUri,
-    Expression<String>? countryName,
-    Expression<String>? countryCode,
-    Expression<String>? countryDialCode,
     Expression<String>? dateTimes,
     Expression<String>? number,
-    Expression<String>? fullNumber,
+    Expression<String>? isoCode,
+    Expression<String>? dialCode,
   }) {
     return RawValuesInsertable({
-      if (countryFlagUri != null) 'country_flag_uri': countryFlagUri,
-      if (countryName != null) 'country_name': countryName,
-      if (countryCode != null) 'country_code': countryCode,
-      if (countryDialCode != null) 'country_dial_code': countryDialCode,
       if (dateTimes != null) 'date_times': dateTimes,
       if (number != null) 'number': number,
-      if (fullNumber != null) 'full_number': fullNumber,
+      if (isoCode != null) 'iso_code': isoCode,
+      if (dialCode != null) 'dial_code': dialCode,
     });
   }
 
   LinksEntityCompanion copyWith(
-      {Value<String>? countryFlagUri,
-      Value<String>? countryName,
-      Value<String>? countryCode,
-      Value<String>? countryDialCode,
-      Value<String>? dateTimes,
+      {Value<String>? dateTimes,
       Value<String>? number,
-      Value<String>? fullNumber}) {
+      Value<String>? isoCode,
+      Value<String>? dialCode}) {
     return LinksEntityCompanion(
-      countryFlagUri: countryFlagUri ?? this.countryFlagUri,
-      countryName: countryName ?? this.countryName,
-      countryCode: countryCode ?? this.countryCode,
-      countryDialCode: countryDialCode ?? this.countryDialCode,
       dateTimes: dateTimes ?? this.dateTimes,
       number: number ?? this.number,
-      fullNumber: fullNumber ?? this.fullNumber,
+      isoCode: isoCode ?? this.isoCode,
+      dialCode: dialCode ?? this.dialCode,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (countryFlagUri.present) {
-      map['country_flag_uri'] = Variable<String>(countryFlagUri.value);
-    }
-    if (countryName.present) {
-      map['country_name'] = Variable<String>(countryName.value);
-    }
-    if (countryCode.present) {
-      map['country_code'] = Variable<String>(countryCode.value);
-    }
-    if (countryDialCode.present) {
-      map['country_dial_code'] = Variable<String>(countryDialCode.value);
-    }
     if (dateTimes.present) {
       map['date_times'] = Variable<String>(dateTimes.value);
     }
     if (number.present) {
       map['number'] = Variable<String>(number.value);
     }
-    if (fullNumber.present) {
-      map['full_number'] = Variable<String>(fullNumber.value);
+    if (isoCode.present) {
+      map['iso_code'] = Variable<String>(isoCode.value);
+    }
+    if (dialCode.present) {
+      map['dial_code'] = Variable<String>(dialCode.value);
     }
     return map;
   }
@@ -1012,13 +732,10 @@ class LinksEntityCompanion extends UpdateCompanion<LinksEntityData> {
   @override
   String toString() {
     return (StringBuffer('LinksEntityCompanion(')
-          ..write('countryFlagUri: $countryFlagUri, ')
-          ..write('countryName: $countryName, ')
-          ..write('countryCode: $countryCode, ')
-          ..write('countryDialCode: $countryDialCode, ')
           ..write('dateTimes: $dateTimes, ')
           ..write('number: $number, ')
-          ..write('fullNumber: $fullNumber')
+          ..write('isoCode: $isoCode, ')
+          ..write('dialCode: $dialCode')
           ..write(')'))
         .toString();
   }
@@ -1028,65 +745,10 @@ class $LinksEntityTable extends LinksEntity
     with TableInfo<$LinksEntityTable, LinksEntityData> {
   final GeneratedDatabase _db;
   final String? _alias;
-
   $LinksEntityTable(this._db, [this._alias]);
-
-  final VerificationMeta _countryFlagUriMeta =
-      const VerificationMeta('countryFlagUri');
-  @override
-  late final GeneratedTextColumn countryFlagUri = _constructCountryFlagUri();
-
-  GeneratedTextColumn _constructCountryFlagUri() {
-    return GeneratedTextColumn(
-      'country_flag_uri',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _countryNameMeta =
-      const VerificationMeta('countryName');
-  @override
-  late final GeneratedTextColumn countryName = _constructCountryName();
-
-  GeneratedTextColumn _constructCountryName() {
-    return GeneratedTextColumn(
-      'country_name',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _countryCodeMeta =
-      const VerificationMeta('countryCode');
-  @override
-  late final GeneratedTextColumn countryCode = _constructCountryCode();
-
-  GeneratedTextColumn _constructCountryCode() {
-    return GeneratedTextColumn(
-      'country_code',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _countryDialCodeMeta =
-      const VerificationMeta('countryDialCode');
-  @override
-  late final GeneratedTextColumn countryDialCode = _constructCountryDialCode();
-
-  GeneratedTextColumn _constructCountryDialCode() {
-    return GeneratedTextColumn(
-      'country_dial_code',
-      $tableName,
-      false,
-    );
-  }
-
   final VerificationMeta _dateTimesMeta = const VerificationMeta('dateTimes');
   @override
   late final GeneratedTextColumn dateTimes = _constructDateTimes();
-
   GeneratedTextColumn _constructDateTimes() {
     return GeneratedTextColumn(
       'date_times',
@@ -1098,7 +760,6 @@ class $LinksEntityTable extends LinksEntity
   final VerificationMeta _numberMeta = const VerificationMeta('number');
   @override
   late final GeneratedTextColumn number = _constructNumber();
-
   GeneratedTextColumn _constructNumber() {
     return GeneratedTextColumn(
       'number',
@@ -1107,74 +768,41 @@ class $LinksEntityTable extends LinksEntity
     );
   }
 
-  final VerificationMeta _fullNumberMeta = const VerificationMeta('fullNumber');
+  final VerificationMeta _isoCodeMeta = const VerificationMeta('isoCode');
   @override
-  late final GeneratedTextColumn fullNumber = _constructFullNumber();
-
-  GeneratedTextColumn _constructFullNumber() {
+  late final GeneratedTextColumn isoCode = _constructIsoCode();
+  GeneratedTextColumn _constructIsoCode() {
     return GeneratedTextColumn(
-      'full_number',
+      'iso_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _dialCodeMeta = const VerificationMeta('dialCode');
+  @override
+  late final GeneratedTextColumn dialCode = _constructDialCode();
+  GeneratedTextColumn _constructDialCode() {
+    return GeneratedTextColumn(
+      'dial_code',
       $tableName,
       false,
     );
   }
 
   @override
-  List<GeneratedColumn> get $columns => [
-        countryFlagUri,
-        countryName,
-        countryCode,
-        countryDialCode,
-        dateTimes,
-        number,
-        fullNumber
-      ];
-
+  List<GeneratedColumn> get $columns => [dateTimes, number, isoCode, dialCode];
   @override
   $LinksEntityTable get asDslTable => this;
-
   @override
   String get $tableName => _alias ?? 'links_entity';
   @override
   final String actualTableName = 'links_entity';
-
   @override
   VerificationContext validateIntegrity(Insertable<LinksEntityData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('country_flag_uri')) {
-      context.handle(
-          _countryFlagUriMeta,
-          countryFlagUri.isAcceptableOrUnknown(
-              data['country_flag_uri']!, _countryFlagUriMeta));
-    } else if (isInserting) {
-      context.missing(_countryFlagUriMeta);
-    }
-    if (data.containsKey('country_name')) {
-      context.handle(
-          _countryNameMeta,
-          countryName.isAcceptableOrUnknown(
-              data['country_name']!, _countryNameMeta));
-    } else if (isInserting) {
-      context.missing(_countryNameMeta);
-    }
-    if (data.containsKey('country_code')) {
-      context.handle(
-          _countryCodeMeta,
-          countryCode.isAcceptableOrUnknown(
-              data['country_code']!, _countryCodeMeta));
-    } else if (isInserting) {
-      context.missing(_countryCodeMeta);
-    }
-    if (data.containsKey('country_dial_code')) {
-      context.handle(
-          _countryDialCodeMeta,
-          countryDialCode.isAcceptableOrUnknown(
-              data['country_dial_code']!, _countryDialCodeMeta));
-    } else if (isInserting) {
-      context.missing(_countryDialCodeMeta);
-    }
     if (data.containsKey('date_times')) {
       context.handle(_dateTimesMeta,
           dateTimes.isAcceptableOrUnknown(data['date_times']!, _dateTimesMeta));
@@ -1187,20 +815,23 @@ class $LinksEntityTable extends LinksEntity
     } else if (isInserting) {
       context.missing(_numberMeta);
     }
-    if (data.containsKey('full_number')) {
-      context.handle(
-          _fullNumberMeta,
-          fullNumber.isAcceptableOrUnknown(
-              data['full_number']!, _fullNumberMeta));
+    if (data.containsKey('iso_code')) {
+      context.handle(_isoCodeMeta,
+          isoCode.isAcceptableOrUnknown(data['iso_code']!, _isoCodeMeta));
     } else if (isInserting) {
-      context.missing(_fullNumberMeta);
+      context.missing(_isoCodeMeta);
+    }
+    if (data.containsKey('dial_code')) {
+      context.handle(_dialCodeMeta,
+          dialCode.isAcceptableOrUnknown(data['dial_code']!, _dialCodeMeta));
+    } else if (isInserting) {
+      context.missing(_dialCodeMeta);
     }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {fullNumber};
-
+  Set<GeneratedColumn> get $primaryKey => {number};
   @override
   LinksEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return LinksEntityData.fromData(data, _db,
@@ -1219,10 +850,8 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   late final $TemplatesEntityTable templatesEntity =
       $TemplatesEntityTable(this);
   late final $LinksEntityTable linksEntity = $LinksEntityTable(this);
-
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
-
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
       [chatsEntity, templatesEntity, linksEntity];

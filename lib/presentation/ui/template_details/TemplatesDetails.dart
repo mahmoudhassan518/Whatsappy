@@ -9,21 +9,30 @@ import 'package:whatsappy/presentation/utils/widgets/ContainersHelper.dart';
 import 'package:whatsappy/presentation/utils/widgets/TextFieldsHelper.dart';
 
 // ignore: must_be_immutable
-class TemplatesDetailsActivity extends StatelessWidget {
-  final TemplateDetailsController controller = Get.find();
-  NumberObject item;
-
-  final _messageText = TextEditingController();
+class TemplatesDetailsActivity extends StatefulWidget {
+  final TemplateDetailsController _controller = Get.find();
+  late NumberObject item;
 
   TemplatesDetailsActivity(this.item);
 
   @override
+  _TemplatesDetailsActivityState createState() =>
+      _TemplatesDetailsActivityState();
+}
+
+class _TemplatesDetailsActivityState extends State<TemplatesDetailsActivity> {
+  final _textController = TextEditingController();
+
+  @override
+  void initState() {
+    widget._controller.setTemplate(widget.item);
+    if (!widget._controller.item.isNewTemplate)
+      _textController.text = widget._controller.item.message;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    controller.setTemplate(item);
-
-    if (!controller.item.isNewTemplate)
-      _messageText.text = controller.item.message;
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: _onSubmitClicked,
@@ -31,7 +40,7 @@ class TemplatesDetailsActivity extends StatelessWidget {
         backgroundColor: colorPrimary,
       ),
       appBar: backActionBar(
-        title: item.isNewTemplate ? 'newTemplate'.tr : 'editTemplate'.tr,
+        title: widget.item.isNewTemplate ? 'newTemplate'.tr : 'editTemplate'.tr,
       ),
       body: Container(
         padding: EdgeInsets.all(generalPadding),
@@ -41,7 +50,7 @@ class TemplatesDetailsActivity extends StatelessWidget {
               'message'.tr,
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: h5,
+                  fontSize: h6,
                   fontWeight: FontWeight.w600),
             ),
             SizedBox(
@@ -51,11 +60,11 @@ class TemplatesDetailsActivity extends StatelessWidget {
               child: Container(
                 decoration: boxDecoration(shapeColor: colorGrey),
                 child: TextFormField(
-                  onChanged: controller.onValueChanged,
-                  controller: _messageText,
+                  onChanged: widget._controller.onValueChanged,
+                  controller: _textController,
                   minLines: 14,
                   maxLines: null,
-                  style: TextStyle(color: colorPrimary, fontSize: h4),
+                  style: TextStyle(color: colorPrimary, fontSize: h5),
                   keyboardType: TextInputType.multiline,
                   decoration: inputDecorationWithoutAnimation(),
                 ),
@@ -68,6 +77,6 @@ class TemplatesDetailsActivity extends StatelessWidget {
   }
 
   void _onSubmitClicked() {
-    controller.validateForm();
+    widget._controller.validateForm();
   }
 }

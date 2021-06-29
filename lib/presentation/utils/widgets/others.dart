@@ -1,10 +1,9 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
-import 'package:get/get.dart';
-
 
 import 'ContainersHelper.dart';
 import 'TextFieldsHelper.dart';
@@ -37,13 +36,13 @@ Widget loadingWidget(BuildContext context) {
   );
 }
 
-
-
-Widget buildSearchNumberRow(
-    {Function(CountryCode value)? onCodeChange,
-    Function(String text)? onTextChanged,
-    String? initialCountryCode,
-    String? initialDialCode,}) {
+Widget buildSearchNumberRow({
+  Function(CountryCode value)? onCodeChange,
+  Function(String text)? onTextChanged,
+  required String initialCountryCode,
+  required String initialDialCode,
+  required TextEditingController controller,
+}) {
   return Row(
     children: [
       Container(
@@ -51,11 +50,11 @@ Widget buildSearchNumberRow(
         decoration: boxDecoration(shapeColor: colorPrimaryDark),
         child: CountryCodePicker(
           // onChanged: _controller.onCodeChange,
-          onChanged: (value)=> onCodeChange!.call(value),
+          onChanged: (value) => onCodeChange!.call(value),
           textStyle: TextStyle(color: onPrimary, fontSize: h3),
           // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-          initialSelection: initialCountryCode??"EG",
-          favorite: [initialDialCode??"+20", initialCountryCode??"EG"],
+          initialSelection: initialCountryCode,
+          favorite: [initialDialCode, initialCountryCode],
           // optional. Shows only country name and flag
         ),
       ),
@@ -67,16 +66,17 @@ Widget buildSearchNumberRow(
           height: 48,
           decoration: boxDecoration(shapeColor: colorPrimaryDark),
           child: TextFormField(
+            controller: controller,
             keyboardType: TextInputType.phone,
             autofocus: false,
             style: TextStyle(color: onPrimary, fontSize: h3),
             maxLines: 1,
             inputFormatters: <TextInputFormatter>[
               LengthLimitingTextInputFormatter(15),
-              FilteringTextInputFormatter.digitsOnly,
+              // FilteringTextInputFormatter.digitsOnly,
             ],
             // textInputAction: TextInputAction.send,
-            onChanged: (value)=> onTextChanged!.call(value),
+            onChanged: (value) => onTextChanged!.call(value),
             decoration: inputDecorationWithoutAnimation(
               label: "",
             ),

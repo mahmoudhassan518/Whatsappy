@@ -1,26 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:whatsappy/data/model/others/Constants.dart';
 import 'package:whatsappy/presentation/ui/main/screens/chats/ChatsController.dart';
 import 'package:whatsappy/presentation/utils/resources/Colors.dart';
 import 'package:whatsappy/presentation/utils/resources/Sizes.dart';
 import 'package:whatsappy/presentation/utils/widgets/ButtonsHelper.dart';
 import 'package:whatsappy/presentation/utils/widgets/others.dart';
 
-
-
 // ignore: must_be_immutable
-class Top extends StatelessWidget {
+
+class Top extends StatefulWidget {
   ChatsController _controller;
 
   Top(this._controller);
 
   @override
+  _TopState createState() => _TopState();
+}
+
+class _TopState extends State<Top> {
+  final _textController = TextEditingController();
+
+  @override
+  void initState() {
+    widget._controller.initCountryCodes();
+    widget._controller.setTextEditingController(_textController);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
+
+
+
     return Container(
       padding: EdgeInsets.all(generalPadding),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        Text('enterMobileNumber'.tr
-          ,
+        Text(
+          'enterMobileNumber'.tr,
           style: TextStyle(color: colorGreyLight, fontSize: headLine),
           textAlign: TextAlign.left,
         ),
@@ -35,11 +58,12 @@ class Top extends StatelessWidget {
         SizedBox(
           height: smallPadding,
         ),
-        buildSearchNumberRow(
-            onCodeChange: _controller.onCodeChange,
-            onTextChanged: _controller.onTextChanged,
-        initialCountryCode: _controller.item.countryCode,
-        initialDialCode: _controller.item.countryDialCode),
+        Obx(() => buildSearchNumberRow(
+            onCodeChange: widget._controller.onCodeChange,
+            onTextChanged: widget._controller.onTextChanged,
+            initialCountryCode: widget._controller.codes[isoCode].toString(),
+            initialDialCode: widget._controller.codes[dialCode].toString(),
+            controller: _textController)),
         SizedBox(
           height: smallPadding,
         ),
@@ -53,7 +77,7 @@ class Top extends StatelessWidget {
             ),
             onPressed: () {
               // controller.validateForm(_formKey);
-              _onSubmitClicked(context);
+              _onSubmitClicked(widget._controller);
             },
           ),
         ),
@@ -61,7 +85,7 @@ class Top extends StatelessWidget {
     );
   }
 
-  void _onSubmitClicked(BuildContext context) async {
-    _controller.validateForm();
+  void _onSubmitClicked(ChatsController controller) async {
+    controller.validateForm();
   }
 }

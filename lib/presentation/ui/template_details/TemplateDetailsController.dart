@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:whatsappy/core/BaseController.dart';
 import 'package:whatsappy/di/Injector.dart';
@@ -8,6 +9,8 @@ import 'package:whatsappy/presentation/utils/helper/helper.dart';
 
 class TemplateDetailsController extends GetxController {
   final BaseController controller = Get.find();
+
+
 
   NumberObject item = NumberObject();
 
@@ -22,7 +25,7 @@ class TemplateDetailsController extends GetxController {
       getIt<UpdateTemplateHistoryToDBUseCase>();
 
   void validateForm() {
-    if (item.message .isEmpty) {
+    if (item.message.isEmpty) {
       showSnackBar(title: 'error'.tr, content: 'required'.tr);
       return;
     }
@@ -58,6 +61,7 @@ class TemplateDetailsController extends GetxController {
 
   void onValueChanged(String value) {
     item.message = value;
-
   }
+
+
 }

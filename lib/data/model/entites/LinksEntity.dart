@@ -1,20 +1,14 @@
 import 'package:moor/moor.dart';
 
 class LinksEntity extends Table {
-  TextColumn get countryFlagUri => text()();
-
-  TextColumn get countryName => text()();
-
-  TextColumn get countryCode => text()();
-
-  TextColumn get countryDialCode => text()();
-
   TextColumn get dateTimes => text()();
 
   TextColumn get number => text()();
 
-  TextColumn get fullNumber => text()();
+  TextColumn get isoCode => text()();
+
+  TextColumn get dialCode => text()();
 
   @override
-  Set<Column> get primaryKey => {fullNumber};
+  Set<Column> get primaryKey => {number};
 }

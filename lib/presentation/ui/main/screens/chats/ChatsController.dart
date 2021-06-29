@@ -1,6 +1,12 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_codes/country_codes.dart';
+import 'package:country_pickers/country.dart';
+import 'package:country_pickers/country_pickers.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:phone_number/phone_number.dart';
 import 'package:whatsappy/core/BaseController.dart';
+import 'package:whatsappy/data/model/others/Constants.dart';
 import 'package:whatsappy/data/model/others/NoParams.dart';
 import 'package:whatsappy/di/Injector.dart';
 import 'package:whatsappy/domain/models/NumberObject.dart';
@@ -29,54 +35,64 @@ class ChatsController extends GetxController {
   ClearChatHistoryFromDBUseCase clearChatHistoryFromDBUseCase =
       getIt<ClearChatHistoryFromDBUseCase>();
 
-  NumberObject item = NumberObject();
+  late TextEditingController _textController;
+  var item = NumberObject();
+  var codes = {isoCode: "", dialCode: ""}.obs;
 
-
+  initCountryCodes({bool fromLocale = true}) async {
+    await CountryCodes.init();
+    final CountryDetails details = CountryCodes.detailsForLocale();
+    codes.value = {
+      isoCode: details.alpha2Code ?? "",
+      dialCode: details.dialCode ?? ""
+    };
+  }
 
   onTextChanged(String text) {
-
-    print("number changed $text");
-    item.number = text;
+    _checkIfRealNumber(text);
   }
 
-  void onCodeChange(CountryCode value) {
-    print(value);
+  _checkIfRealNumber(String text) => controller.runBlocking(
+      validateIsRealNumberUseCase(text), _onCheckIfRealNumber);
 
-    item.countryCode = value.code ?? item.countryCode;
-    item.countryName = value.name ?? item.countryName;
-    item.countryFlagUri = value.flagUri ?? item.countryFlagUri;
-    item.countryDialCode = value.dialCode ?? item.countryDialCode;
+  void _onCheckIfRealNumber(PhoneNumber? value) {
+    if (value != null) {
+      Country result =
+          CountryPickerUtils.getCountryByPhoneCode(value.countryCode);
 
-    print("data item is  ${item.toJson()}");
-  }
-
-  validateForm() {
-    // item.number = number;
-
-    print('number is ${item.number}');
-    item.fullNumber = item.countryDialCode + item.number;
-    item.dateTime = item.getCurrentTime();
-    validateIsRealNumber(item);
-  }
-
-  validateIsRealNumber<bool>(NumberObject item) => controller.runBlocking(
-      validateIsRealNumberUseCase(item), _validateAndOpen);
-
-  _validateAndOpen(bool value) {
-    if (value) {
-      //navigate to whatsapp
-      launchWhatsApp(item);
+      item.isoCode = result.isoCode;
+      item.number = value.e164;
+      item.dateTime = item.getCurrentTime();
+      item.dialCode = '+' + value.countryCode;
+      codes.value = {isoCode: result.isoCode, dialCode: result.phoneCode};
+      _textController.text = value.nationalNumber;
     }
   }
 
-  launchWhatsApp(NumberObject item) => controller.runBlocking<bool>(
-      openWhatsAppWithSingleNumberNumberUseCase(item),
-      (data) => _insertDataToDB(data));
+  validateForm() => _validateNumber(item.dialCode + _textController.text);
 
-  launchWhatsAppOnly(NumberObject item) => controller.runBlocking<bool>(
+  _validateNumber<bool>(String number) => controller.runBlocking(
+      validateIsRealNumberUseCase(number, isValidation: true),
+      _validateAndOpen);
+
+  _validateAndOpen(PhoneNumber? value) {
+    _onCheckIfRealNumber(value);
+
+    if (value != null) _launchWhatsApp(item);
+  }
+
+  void onCodeChange(CountryCode value) {
+    item.isoCode = value.code.toString();
+    item.dialCode = value.dialCode.toString();
+  }
+
+  _launchWhatsApp(NumberObject item) => controller.runBlocking(
+      openWhatsAppWithSingleNumberNumberUseCase(item), _insertDataToDB(item));
+
+  launchWhatsAppOnly(NumberObject item) => controller.runBlocking(
       openWhatsAppWithSingleNumberNumberUseCase(item), (data) {});
 
-  _insertDataToDB(bool data) {
+  _insertDataToDB(NumberObject item) {
     controller.runBlocking<int>(insertChatHistoryToDBUseCase(item), (data) {});
   }
 
@@ -87,4 +103,7 @@ class ChatsController extends GetxController {
       clearChatHistoryFromDBUseCase(NoParams()),
       (data) => print("data deleted"));
 
+  setTextEditingController(TextEditingController textController) {
+    this._textController = textController;
+  }
 }
